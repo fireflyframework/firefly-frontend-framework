@@ -1,0 +1,50 @@
+.ff-link {
+  display: inline;
+
+  &__anchor {
+    color: var(--ff-color-primary-600);
+    font-family: var(--ff-font-family);
+    font-size: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s;
+
+    &:hover {
+      color: var(--ff-color-primary-700);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus);
+      outline-offset: 2px;
+      border-radius: var(--ff-radius-sm);
+    }
+  }
+
+  // --- Underline ---
+
+  &--underline .ff-link__anchor {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  // --- Standalone variant ---
+
+  &--standalone {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &--standalone .ff-link__anchor {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ff-spacing-xs);
+    font-weight: var(--ff-font-weight-medium);
+  }
+
+  // --- Disabled ---
+
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
