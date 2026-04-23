@@ -1,1 +1,6 @@
-// @firefly/schema-types — component spec types (populated in STEP-1.3-007)
+export type {
+  A11yRequirements,
+  ComponentInput,
+  ComponentOutput,
+  ComponentSpec,
+} from './component-spec';
