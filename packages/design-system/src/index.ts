@@ -1,3 +1,3 @@
 // @firefly/design-system — Public API
-// Components will be exported here as they are built (STEP-1.6-002+)
-export {};
+export { FfButtonComponent } from './lib/components/ff-button';
+export type { FfButtonVariant, FfButtonSize } from './lib/components/ff-button';

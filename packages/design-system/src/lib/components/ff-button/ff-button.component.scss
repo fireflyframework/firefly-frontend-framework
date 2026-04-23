@@ -1,0 +1,139 @@
+.ff-button {
+  display: inline-block;
+
+  &__native {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ff-spacing-sm);
+    border: 1px solid transparent;
+    border-radius: var(--ff-radius-md);
+    font-family: var(--ff-font-family);
+    font-weight: var(--ff-font-weight-medium);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    line-height: var(--ff-line-height-normal);
+    width: 100%;
+  }
+
+  // Sizes
+  &--sm .ff-button__native {
+    padding: var(--ff-spacing-xs) var(--ff-spacing-sm);
+    font-size: var(--ff-font-size-sm);
+  }
+
+  &--md .ff-button__native {
+    padding: var(--ff-spacing-sm) var(--ff-spacing-md);
+    font-size: var(--ff-font-size-md);
+  }
+
+  &--lg .ff-button__native {
+    padding: var(--ff-spacing-sm) var(--ff-spacing-lg);
+    font-size: var(--ff-font-size-lg);
+  }
+
+  // Primary
+  &--primary .ff-button__native {
+    background-color: var(--ff-color-primary-500);
+    color: var(--ff-color-on-primary);
+    border-color: var(--ff-color-primary-500);
+
+    &:hover:not(:disabled) {
+      background-color: var(--ff-color-primary-600);
+      border-color: var(--ff-color-primary-600);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--ff-color-primary-700);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  // Secondary
+  &--secondary .ff-button__native {
+    background-color: var(--ff-color-secondary-500);
+    color: var(--ff-color-on-primary);
+    border-color: var(--ff-color-secondary-500);
+
+    &:hover:not(:disabled) {
+      background-color: var(--ff-color-secondary-600);
+      border-color: var(--ff-color-secondary-600);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  // Outline
+  &--outline .ff-button__native {
+    background-color: transparent;
+    color: var(--ff-color-primary-500);
+    border-color: var(--ff-color-primary-500);
+
+    &:hover:not(:disabled) {
+      background-color: var(--ff-color-primary-50);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  // Ghost
+  &--ghost .ff-button__native {
+    background-color: transparent;
+    color: var(--ff-color-primary-500);
+    border-color: transparent;
+
+    &:hover:not(:disabled) {
+      background-color: var(--ff-color-neutral-100);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  // Disabled
+  &--disabled .ff-button__native {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Loading
+  &--loading .ff-button__native {
+    cursor: wait;
+  }
+
+  // Spinner
+  &__spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: var(--ff-radius-full);
+    animation: ff-button-spin 0.6s linear infinite;
+  }
+
+  // Content hidden during loading
+  &__content--hidden {
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+  }
+}
+
+@keyframes ff-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
