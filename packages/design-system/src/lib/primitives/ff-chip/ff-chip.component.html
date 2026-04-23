@@ -1,0 +1,20 @@
+<button
+  class="ff-chip__body"
+  type="button"
+  [disabled]="disabled()"
+  (click)="onClick()"
+>
+  <ng-content />
+</button>
+
+@if (variant() === 'removable') {
+  <button
+    class="ff-chip__remove"
+    type="button"
+    aria-label="Remove"
+    [disabled]="disabled()"
+    (click)="onRemove($event)"
+  >
+    &#x2715;
+  </button>
+}

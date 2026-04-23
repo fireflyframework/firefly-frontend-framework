@@ -1,0 +1,108 @@
+.ff-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--ff-radius-full);
+  font-family: var(--ff-font-family);
+  transition: background-color 0.15s, border-color 0.15s;
+
+  &__body {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--ff-color-border);
+    border-radius: var(--ff-radius-full);
+    background: var(--ff-color-surface);
+    color: var(--ff-color-neutral-700);
+    font-family: inherit;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus);
+      outline-offset: 1px;
+    }
+  }
+
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    color: var(--ff-color-neutral-500);
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.75em;
+    line-height: 1;
+    margin-left: var(--ff-spacing-xs);
+    margin-right: var(--ff-spacing-xs);
+    border-radius: var(--ff-radius-full);
+
+    &:hover:not(:disabled) {
+      color: var(--ff-color-neutral-900);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus);
+      outline-offset: 1px;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  // --- Sizes ---
+
+  &--sm .ff-chip__body {
+    padding: 2px var(--ff-spacing-sm);
+    font-size: var(--ff-font-size-xs);
+  }
+
+  &--md .ff-chip__body {
+    padding: var(--ff-spacing-xs) var(--ff-spacing-md);
+    font-size: var(--ff-font-size-sm);
+  }
+
+  // --- Removable: body loses right border-radius ---
+
+  &--removable .ff-chip__body {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-right: 0;
+  }
+
+  &--removable .ff-chip__remove {
+    border: 1px solid var(--ff-color-border);
+    border-left: none;
+    border-top-right-radius: var(--ff-radius-full);
+    border-bottom-right-radius: var(--ff-radius-full);
+    background: var(--ff-color-surface);
+  }
+
+  &--removable.ff-chip--sm .ff-chip__remove {
+    width: 20px;
+    height: 20px;
+  }
+
+  &--removable.ff-chip--md .ff-chip__remove {
+    width: 26px;
+    height: 26px;
+  }
+
+  // --- Filter variant: selected state ---
+
+  &--filter.ff-chip--selected .ff-chip__body {
+    background-color: var(--ff-color-primary-100);
+    border-color: var(--ff-color-primary-500);
+    color: var(--ff-color-primary-700);
+  }
+
+  // --- Disabled ---
+
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
