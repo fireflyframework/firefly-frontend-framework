@@ -6,8 +6,8 @@ import {
   output,
 } from '@angular/core';
 
-/** Allowed native input types. */
-export type FfInputType = 'text' | 'number' | 'password';
+/** Allowed input types. Includes `'textarea'` for multiline input. */
+export type FfInputType = 'text' | 'number' | 'password' | 'textarea';
 
 /**
  * Firefly input atom.
@@ -25,6 +25,8 @@ export type FfInputType = 'text' | 'number' | 'password';
  * />
  *
  * <ff-input label="Password" type="password" error="Required" />
+ *
+ * <ff-input label="Notes" type="textarea" [rows]="5" />
  * ```
  */
 @Component({
@@ -61,6 +63,9 @@ export class FfInputComponent {
 
   /** Label text displayed above the input. */
   readonly label = input('');
+
+  /** Number of visible text rows. Only applies when `type` is `'textarea'`. Defaults to `3`. */
+  readonly rows = input(3);
 
   /** Emits the new value on every input event. */
   readonly valueChange = output<string>();

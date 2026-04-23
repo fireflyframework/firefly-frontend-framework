@@ -2,17 +2,31 @@
   <label class="ff-input__label" [for]="inputId">{{ label() }}</label>
 }
 
-<input
-  class="ff-input__native"
-  [id]="inputId"
-  [type]="type()"
-  [placeholder]="placeholder()"
-  [value]="value()"
-  [disabled]="disabled()"
-  [attr.aria-invalid]="!!error()"
-  [attr.aria-describedby]="error() ? inputId + '-error' : hint() ? inputId + '-hint' : null"
-  (input)="onInput($event)"
-/>
+@if (type() === 'textarea') {
+  <textarea
+    class="ff-input__native"
+    [id]="inputId"
+    [placeholder]="placeholder()"
+    [value]="value()"
+    [disabled]="disabled()"
+    [rows]="rows()"
+    [attr.aria-invalid]="!!error()"
+    [attr.aria-describedby]="error() ? inputId + '-error' : hint() ? inputId + '-hint' : null"
+    (input)="onInput($event)"
+  ></textarea>
+} @else {
+  <input
+    class="ff-input__native"
+    [id]="inputId"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [value]="value()"
+    [disabled]="disabled()"
+    [attr.aria-invalid]="!!error()"
+    [attr.aria-describedby]="error() ? inputId + '-error' : hint() ? inputId + '-hint' : null"
+    (input)="onInput($event)"
+  />
+}
 
 @if (error()) {
   <span class="ff-input__error" [id]="inputId + '-error'" role="alert">{{ error() }}</span>

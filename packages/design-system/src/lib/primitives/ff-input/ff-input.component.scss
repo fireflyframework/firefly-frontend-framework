@@ -51,6 +51,11 @@
     color: var(--ff-color-error-600);
   }
 
+  // Textarea
+  textarea.ff-input__native {
+    resize: vertical;
+  }
+
   // Error state
   &--error .ff-input__native {
     border-color: var(--ff-color-error-500);
