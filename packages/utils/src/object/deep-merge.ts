@@ -1,3 +1,7 @@
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
 /**
  * Recursively merge `source` into `target`, producing a new object.
  * Nested plain objects are merged; arrays and primitives are overwritten.
@@ -6,7 +10,7 @@
  * deepMerge({ a: { x: 1 } }, { a: { y: 2 } })
  * // => { a: { x: 1, y: 2 } }
  */
-export function deepMerge<T>(target: T, source: Partial<T>): T {
+export function deepMerge<T>(target: T, source: DeepPartial<T>): T {
   const result = { ...target } as Record<string, unknown>;
 
   for (const key of Object.keys(source as Record<string, unknown>)) {
