@@ -19,3 +19,4 @@ export { FfCardComponent } from './lib/components/ff-card';
 export type { FfCardShadow } from './lib/components/ff-card';
 export { FfSelectComponent } from './lib/components/ff-select';
 export type { FfSelectOption } from './lib/components/ff-select';
+export { FfDialogComponent } from './lib/components/ff-dialog';

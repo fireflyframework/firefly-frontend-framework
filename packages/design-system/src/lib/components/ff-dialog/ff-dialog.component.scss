@@ -1,0 +1,58 @@
+.ff-dialog {
+  display: contents;
+
+  &__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 360px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    background-color: var(--ff-color-surface);
+    border-radius: var(--ff-radius-lg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    font-family: var(--ff-font-family);
+  }
+
+  &__header {
+    padding: var(--ff-spacing-lg);
+    border-bottom: 1px solid var(--ff-color-neutral-200);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--ff-font-size-lg);
+    font-weight: var(--ff-font-weight-semibold);
+    color: var(--ff-color-neutral-900);
+  }
+
+  &__body {
+    padding: var(--ff-spacing-lg);
+    font-size: var(--ff-font-size-md);
+    color: var(--ff-color-neutral-700);
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    padding: var(--ff-spacing-md) var(--ff-spacing-lg);
+    border-top: 1px solid var(--ff-color-neutral-200);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--ff-spacing-sm);
+
+    &:empty {
+      display: none;
+    }
+  }
+}
