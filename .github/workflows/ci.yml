@@ -32,3 +32,7 @@ jobs:
       - run: pnpm nx affected -t lint
       - run: pnpm nx affected -t test
       - run: pnpm nx affected -t build
+
+      # TODO: Cuando se configuren tests e2e, añadir:
+      # - run: npx playwright install --with-deps
+      # - run: pnpm nx affected -t e2e
