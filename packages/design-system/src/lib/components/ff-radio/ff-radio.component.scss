@@ -1,0 +1,87 @@
+.ff-radio {
+  display: inline-flex;
+  gap: var(--ff-spacing-md);
+
+  // Orientation
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &--vertical {
+    flex-direction: column;
+  }
+
+  // Single item
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ff-spacing-sm);
+    cursor: pointer;
+  }
+
+  &__item--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  // Hidden native input
+  &__native {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  // Custom dot
+  &__dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--ff-color-neutral-400);
+    border-radius: 50%;
+    background-color: var(--ff-color-surface);
+    transition: border-color 0.15s, background-color 0.15s;
+    flex-shrink: 0;
+
+    &::after {
+      content: '';
+      display: none;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--ff-color-on-primary);
+    }
+  }
+
+  // Selected state
+  &__item--selected .ff-radio__dot {
+    background-color: var(--ff-color-primary-500);
+    border-color: var(--ff-color-primary-500);
+
+    &::after {
+      display: block;
+    }
+  }
+
+  // Label text
+  &__label {
+    font-family: var(--ff-font-family);
+    font-size: var(--ff-font-size-md);
+    color: var(--ff-color-neutral-900);
+    user-select: none;
+  }
+
+  // Focus ring
+  &__native:focus-visible ~ .ff-radio__dot {
+    outline: 2px solid var(--ff-color-border-focus);
+    outline-offset: 2px;
+  }
+
+  // Group disabled
+  &--disabled .ff-radio__item {
+    cursor: not-allowed;
+  }
+}

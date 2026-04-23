@@ -10,3 +10,8 @@ export type { FfLoaderVariant, FfLoaderSize } from './lib/components/ff-loader';
 export { FfInputComponent } from './lib/components/ff-input';
 export type { FfInputType } from './lib/components/ff-input';
 export { FfCheckboxComponent } from './lib/components/ff-checkbox';
+export { FfRadioGroupComponent } from './lib/components/ff-radio';
+export type {
+  FfRadioOption,
+  FfRadioOrientation,
+} from './lib/components/ff-radio';
