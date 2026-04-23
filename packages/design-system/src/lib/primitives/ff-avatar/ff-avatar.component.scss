@@ -1,0 +1,53 @@
+.ff-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ff-radius-full);
+  background-color: var(--ff-color-primary-100);
+  color: var(--ff-color-primary-700);
+  overflow: hidden;
+  flex-shrink: 0;
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  &__initials {
+    font-family: var(--ff-font-family);
+    font-weight: var(--ff-font-weight-medium);
+    line-height: 1;
+    user-select: none;
+  }
+
+  // --- Sizes ---
+
+  &--sm {
+    width: 32px;
+    height: 32px;
+  }
+
+  &--sm .ff-avatar__initials {
+    font-size: var(--ff-font-size-xs);
+  }
+
+  &--md {
+    width: 40px;
+    height: 40px;
+  }
+
+  &--md .ff-avatar__initials {
+    font-size: var(--ff-font-size-sm);
+  }
+
+  &--lg {
+    width: 56px;
+    height: 56px;
+  }
+
+  &--lg .ff-avatar__initials {
+    font-size: var(--ff-font-size-md);
+  }
+}

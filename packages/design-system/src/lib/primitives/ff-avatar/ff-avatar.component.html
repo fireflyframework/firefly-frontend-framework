@@ -1,0 +1,10 @@
+@if (showImage) {
+  <img
+    class="ff-avatar__img"
+    [src]="src()"
+    [alt]="alt()"
+    (error)="onImgError()"
+  />
+} @else {
+  <span class="ff-avatar__initials">{{ displayInitials }}</span>
+}
