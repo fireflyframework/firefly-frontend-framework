@@ -7,3 +7,5 @@ export { FfBadgeComponent } from './lib/components/ff-badge';
 export type { FfBadgeVariant, FfBadgeSize } from './lib/components/ff-badge';
 export { FfLoaderComponent } from './lib/components/ff-loader';
 export type { FfLoaderVariant, FfLoaderSize } from './lib/components/ff-loader';
+export { FfInputComponent } from './lib/components/ff-input';
+export type { FfInputType } from './lib/components/ff-input';
