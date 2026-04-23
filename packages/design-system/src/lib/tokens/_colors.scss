@@ -1,0 +1,58 @@
+// ============================================================
+// Firefly Design System — Color Tokens (minimal set)
+// PASO 1.7 will expand with 60+ tokens extracted from Flutter
+// ============================================================
+
+:root {
+  // Primary palette
+  --ff-color-primary-50: #e3f2fd;
+  --ff-color-primary-100: #bbdefb;
+  --ff-color-primary-200: #90caf9;
+  --ff-color-primary-300: #64b5f6;
+  --ff-color-primary-400: #42a5f5;
+  --ff-color-primary-500: #1e88e5;
+  --ff-color-primary-600: #1976d2;
+  --ff-color-primary-700: #1565c0;
+  --ff-color-primary-800: #0d47a1;
+  --ff-color-primary-900: #0a3d91;
+
+  // Secondary
+  --ff-color-secondary-500: #7c4dff;
+  --ff-color-secondary-600: #651fff;
+
+  // Semantic colors
+  --ff-color-success: #4caf50;
+  --ff-color-success-light: #e8f5e9;
+  --ff-color-warning: #ff9800;
+  --ff-color-warning-light: #fff3e0;
+  --ff-color-error: #f44336;
+  --ff-color-error-light: #ffebee;
+  --ff-color-info: #2196f3;
+  --ff-color-info-light: #e3f2fd;
+
+  // Neutral palette
+  --ff-color-neutral-50: #fafafa;
+  --ff-color-neutral-100: #f5f5f5;
+  --ff-color-neutral-200: #eeeeee;
+  --ff-color-neutral-300: #e0e0e0;
+  --ff-color-neutral-400: #bdbdbd;
+  --ff-color-neutral-500: #9e9e9e;
+  --ff-color-neutral-600: #757575;
+  --ff-color-neutral-700: #616161;
+  --ff-color-neutral-800: #424242;
+  --ff-color-neutral-900: #212121;
+
+  // Surface & background
+  --ff-color-surface: #ffffff;
+  --ff-color-background: #fafafa;
+  --ff-color-on-primary: #ffffff;
+  --ff-color-on-surface: #212121;
+  --ff-color-on-surface-variant: #757575;
+
+  // Border
+  --ff-color-border: #e0e0e0;
+  --ff-color-border-focus: #1e88e5;
+
+  // Overlay
+  --ff-color-overlay: rgba(0, 0, 0, 0.5);
+}
