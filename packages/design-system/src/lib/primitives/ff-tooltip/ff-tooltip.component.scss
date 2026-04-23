@@ -1,0 +1,56 @@
+.ff-tooltip {
+  position: relative;
+  display: inline-block;
+
+  &__panel {
+    position: absolute;
+    z-index: 1000;
+    padding: var(--ff-spacing-xs);
+    background-color: var(--ff-color-neutral-900);
+    color: var(--ff-color-surface);
+    border-radius: var(--ff-radius-sm);
+    font-family: var(--ff-font-family);
+    font-size: var(--ff-font-size-xs);
+    line-height: 1.4;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
+
+    &--visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    // --- Positions ---
+
+    &--top {
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: var(--ff-spacing-xs);
+    }
+
+    &--bottom {
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: var(--ff-spacing-xs);
+    }
+
+    &--left {
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-right: var(--ff-spacing-xs);
+    }
+
+    &--right {
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: var(--ff-spacing-xs);
+    }
+  }
+}

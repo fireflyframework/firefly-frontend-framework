@@ -1,0 +1,11 @@
+<ng-content />
+
+@if (text()) {
+  <span
+    [class]="'ff-tooltip__panel ff-tooltip__panel--' + position() + (visible() ? ' ff-tooltip__panel--visible' : '')"
+    role="tooltip"
+    [id]="tooltipId"
+  >
+    {{ text() }}
+  </span>
+}
