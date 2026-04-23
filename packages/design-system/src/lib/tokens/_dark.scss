@@ -1,0 +1,281 @@
+// ============================================================
+// Firefly Design System — Dark Mode Token Overrides
+// Mapped from Flutter theme_system color_config dark values (PASO 1.8)
+// Activates via [data-theme="dark"] attribute on <html>
+// Falls back to OS preference via @media (prefers-color-scheme: dark)
+//
+// Strategy: palette scales are INVERTED in dark mode (Flutter convention).
+// primary-50 light = lightest → primary-50 dark = darkest, etc.
+// ============================================================
+
+// ---- Dark mode overrides (attribute-based) ----
+:root[data-theme="dark"] {
+  // ---- Primary palette (Flutter soonPrimary dark — inverted scale) ----
+  --ff-color-primary-50: #374151;
+  --ff-color-primary-100: #4b5563;
+  --ff-color-primary-200: #5d6374;
+  --ff-color-primary-300: #6b7280;
+  --ff-color-primary-400: #7c8394;
+  --ff-color-primary-500: #9ca3af;
+  --ff-color-primary-600: #e5e7eb;
+  --ff-color-primary-700: #f3f4f6;
+  --ff-color-primary-800: #f9fafb;
+  --ff-color-primary-900: #ffffff;
+
+  // ---- Secondary palette (Flutter soonSecondary dark — inverted scale) ----
+  --ff-color-secondary-50: #1a2e05;
+  --ff-color-secondary-100: #365314;
+  --ff-color-secondary-200: #3f5a0f;
+  --ff-color-secondary-300: #4d7c0f;
+  --ff-color-secondary-400: #65a30d;
+  --ff-color-secondary-500: #7cb518;
+  --ff-color-secondary-600: #84cc16;
+  --ff-color-secondary-700: #9acd32;
+  --ff-color-secondary-800: #a3e635;
+  --ff-color-secondary-900: #bee532;
+
+  // ---- Tertiary palette (Flutter soonTertiary dark — inverted scale) ----
+  --ff-color-tertiary-50: #0f0a40;
+  --ff-color-tertiary-100: #1e1770;
+  --ff-color-tertiary-200: #2d23a0;
+  --ff-color-tertiary-300: #3b2ecf;
+  --ff-color-tertiary-400: #4a3aff;
+  --ff-color-tertiary-500: #5f82ff;
+  --ff-color-tertiary-600: #93aafd;
+  --ff-color-tertiary-700: #c6d2fd;
+  --ff-color-tertiary-800: #e5eafc;
+  --ff-color-tertiary-900: #f0f3fe;
+
+  // ---- Neutral palette (Flutter soonNeutral dark — inverted scale) ----
+  --ff-color-neutral-50: #000000;
+  --ff-color-neutral-100: #111827;
+  --ff-color-neutral-200: #374151;
+  --ff-color-neutral-300: #4b5563;
+  --ff-color-neutral-400: #6b7280;
+  --ff-color-neutral-500: #9ca3af;
+  --ff-color-neutral-600: #d1d5db;
+  --ff-color-neutral-700: #e5e7eb;
+  --ff-color-neutral-800: #f3f4f6;
+  --ff-color-neutral-900: #f9fafb;
+
+  // ---- Error palette (inverted scale for dark backgrounds) ----
+  --ff-color-error-100: #7f1d1d;
+  --ff-color-error-200: #991b1b;
+  --ff-color-error-300: #b91c1c;
+  --ff-color-error-400: #dc2626;
+  --ff-color-error-500: #ef4444;
+  --ff-color-error-600: #f87171;
+  --ff-color-error-700: #fecaca;
+  --ff-color-error-800: #fee2e2;
+  --ff-color-error-900: #fef2f2;
+
+  // ---- Success palette (inverted scale for dark backgrounds) ----
+  --ff-color-success-100: #064e3b;
+  --ff-color-success-200: #065f46;
+  --ff-color-success-300: #047857;
+  --ff-color-success-400: #059669;
+  --ff-color-success-500: #10b981;
+  --ff-color-success-600: #6ee7b7;
+  --ff-color-success-700: #a7f3d0;
+  --ff-color-success-800: #d1fae5;
+  --ff-color-success-900: #ecfdf5;
+
+  // ---- Warning palette (inverted scale for dark backgrounds) ----
+  --ff-color-warning-100: #78350f;
+  --ff-color-warning-200: #92400e;
+  --ff-color-warning-300: #b45309;
+  --ff-color-warning-400: #d97706;
+  --ff-color-warning-500: #f59e0b;
+  --ff-color-warning-600: #fb923c;
+  --ff-color-warning-700: #fdba74;
+  --ff-color-warning-800: #fed7aa;
+  --ff-color-warning-900: #fef3c7;
+
+  // ---- Info palette (inverted scale for dark backgrounds) ----
+  --ff-color-info-100: #1e3a8a;
+  --ff-color-info-200: #1e40af;
+  --ff-color-info-300: #1d4ed8;
+  --ff-color-info-400: #2563eb;
+  --ff-color-info-500: #3b82f6;
+  --ff-color-info-600: #93c5fd;
+  --ff-color-info-700: #bfdbfe;
+  --ff-color-info-800: #dbeafe;
+  --ff-color-info-900: #eff6ff;
+
+  // ---- Surface & background ----
+  --ff-color-surface: #1f2937;
+  --ff-color-background: #111827;
+  --ff-color-on-primary: #111827;
+  --ff-color-on-surface: #f9fafb;
+  --ff-color-on-surface-variant: #d1d5db;
+
+  // ---- Semantic text colors (Flutter soonText dark) ----
+  --ff-text-primary: #f9fafb;
+  --ff-text-secondary: #e5e7eb;
+  --ff-text-muted: #d1d5db;
+  --ff-text-disabled: #6b7280;
+
+  // ---- Semantic background colors ----
+  --ff-bg-primary: #1f2937;
+  --ff-bg-secondary: #111827;
+  --ff-bg-tertiary: #0a0a0f;
+
+  // ---- Border ----
+  --ff-color-border: #374151;
+  --ff-color-border-focus: #e5e7eb;
+
+  // ---- Overlay ----
+  --ff-color-overlay: rgba(0, 0, 0, 0.7);
+
+  // ---- Semantic base aliases (lightened for WCAG AA on dark backgrounds) ----
+  --ff-color-success: #10b981;
+  --ff-color-success-light: #065f46;
+  --ff-color-warning: #f59e0b;
+  --ff-color-warning-light: #92400e;
+  --ff-color-info: #60a5fa;
+  --ff-color-info-light: #1e40af;
+  --ff-color-error: #f87171;
+  --ff-color-error-light: #991b1b;
+
+  // ---- Shadows (higher opacity on dark backgrounds) ----
+  --ff-elevation-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --ff-elevation-md: 0 4px 6px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --ff-elevation-lg: 0 10px 15px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+// ---- OS preference fallback (when no [data-theme] attribute is set) ----
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    // ---- Primary palette (inverted) ----
+    --ff-color-primary-50: #374151;
+    --ff-color-primary-100: #4b5563;
+    --ff-color-primary-200: #5d6374;
+    --ff-color-primary-300: #6b7280;
+    --ff-color-primary-400: #7c8394;
+    --ff-color-primary-500: #9ca3af;
+    --ff-color-primary-600: #e5e7eb;
+    --ff-color-primary-700: #f3f4f6;
+    --ff-color-primary-800: #f9fafb;
+    --ff-color-primary-900: #ffffff;
+
+    // ---- Secondary palette (inverted) ----
+    --ff-color-secondary-50: #1a2e05;
+    --ff-color-secondary-100: #365314;
+    --ff-color-secondary-200: #3f5a0f;
+    --ff-color-secondary-300: #4d7c0f;
+    --ff-color-secondary-400: #65a30d;
+    --ff-color-secondary-500: #7cb518;
+    --ff-color-secondary-600: #84cc16;
+    --ff-color-secondary-700: #9acd32;
+    --ff-color-secondary-800: #a3e635;
+    --ff-color-secondary-900: #bee532;
+
+    // ---- Tertiary palette (inverted) ----
+    --ff-color-tertiary-50: #0f0a40;
+    --ff-color-tertiary-100: #1e1770;
+    --ff-color-tertiary-200: #2d23a0;
+    --ff-color-tertiary-300: #3b2ecf;
+    --ff-color-tertiary-400: #4a3aff;
+    --ff-color-tertiary-500: #5f82ff;
+    --ff-color-tertiary-600: #93aafd;
+    --ff-color-tertiary-700: #c6d2fd;
+    --ff-color-tertiary-800: #e5eafc;
+    --ff-color-tertiary-900: #f0f3fe;
+
+    // ---- Neutral palette (inverted) ----
+    --ff-color-neutral-50: #000000;
+    --ff-color-neutral-100: #111827;
+    --ff-color-neutral-200: #374151;
+    --ff-color-neutral-300: #4b5563;
+    --ff-color-neutral-400: #6b7280;
+    --ff-color-neutral-500: #9ca3af;
+    --ff-color-neutral-600: #d1d5db;
+    --ff-color-neutral-700: #e5e7eb;
+    --ff-color-neutral-800: #f3f4f6;
+    --ff-color-neutral-900: #f9fafb;
+
+    // ---- Error palette (inverted) ----
+    --ff-color-error-100: #7f1d1d;
+    --ff-color-error-200: #991b1b;
+    --ff-color-error-300: #b91c1c;
+    --ff-color-error-400: #dc2626;
+    --ff-color-error-500: #ef4444;
+    --ff-color-error-600: #f87171;
+    --ff-color-error-700: #fecaca;
+    --ff-color-error-800: #fee2e2;
+    --ff-color-error-900: #fef2f2;
+
+    // ---- Success palette (inverted) ----
+    --ff-color-success-100: #064e3b;
+    --ff-color-success-200: #065f46;
+    --ff-color-success-300: #047857;
+    --ff-color-success-400: #059669;
+    --ff-color-success-500: #10b981;
+    --ff-color-success-600: #6ee7b7;
+    --ff-color-success-700: #a7f3d0;
+    --ff-color-success-800: #d1fae5;
+    --ff-color-success-900: #ecfdf5;
+
+    // ---- Warning palette (inverted) ----
+    --ff-color-warning-100: #78350f;
+    --ff-color-warning-200: #92400e;
+    --ff-color-warning-300: #b45309;
+    --ff-color-warning-400: #d97706;
+    --ff-color-warning-500: #f59e0b;
+    --ff-color-warning-600: #fb923c;
+    --ff-color-warning-700: #fdba74;
+    --ff-color-warning-800: #fed7aa;
+    --ff-color-warning-900: #fef3c7;
+
+    // ---- Info palette (inverted) ----
+    --ff-color-info-100: #1e3a8a;
+    --ff-color-info-200: #1e40af;
+    --ff-color-info-300: #1d4ed8;
+    --ff-color-info-400: #2563eb;
+    --ff-color-info-500: #3b82f6;
+    --ff-color-info-600: #93c5fd;
+    --ff-color-info-700: #bfdbfe;
+    --ff-color-info-800: #dbeafe;
+    --ff-color-info-900: #eff6ff;
+
+    // ---- Surface & background ----
+    --ff-color-surface: #1f2937;
+    --ff-color-background: #111827;
+    --ff-color-on-primary: #111827;
+    --ff-color-on-surface: #f9fafb;
+    --ff-color-on-surface-variant: #d1d5db;
+
+    // ---- Semantic text colors ----
+    --ff-text-primary: #f9fafb;
+    --ff-text-secondary: #e5e7eb;
+    --ff-text-muted: #d1d5db;
+    --ff-text-disabled: #6b7280;
+
+    // ---- Semantic background colors ----
+    --ff-bg-primary: #1f2937;
+    --ff-bg-secondary: #111827;
+    --ff-bg-tertiary: #0a0a0f;
+
+    // ---- Border ----
+    --ff-color-border: #374151;
+    --ff-color-border-focus: #e5e7eb;
+
+    // ---- Overlay ----
+    --ff-color-overlay: rgba(0, 0, 0, 0.7);
+
+    // ---- Semantic base aliases ----
+    --ff-color-success: #10b981;
+    --ff-color-success-light: #065f46;
+    --ff-color-warning: #f59e0b;
+    --ff-color-warning-light: #92400e;
+    --ff-color-info: #60a5fa;
+    --ff-color-info-light: #1e40af;
+    --ff-color-error: #f87171;
+    --ff-color-error-light: #991b1b;
+
+    // ---- Shadows ----
+    --ff-elevation-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+    --ff-elevation-md: 0 4px 6px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+    --ff-elevation-lg: 0 10px 15px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+}
