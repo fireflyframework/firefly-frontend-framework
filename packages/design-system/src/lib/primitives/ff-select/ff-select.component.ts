@@ -102,7 +102,11 @@ export class FfSelectComponent implements OnDestroy {
   /** @internal */
   protected toggle(): void {
     if (this.disabled()) return;
-    this.open() ? this.close() : this.openDropdown();
+    if (this.open()) {
+      this.close();
+    } else {
+      this.openDropdown();
+    }
   }
 
   /** @internal */
@@ -171,9 +175,8 @@ export class FfSelectComponent implements OnDestroy {
   }
 
   /** @internal Close dropdown when clicking outside. */
-  onDocumentClick(event: Event): void {
-    // Handled by Angular host binding — the ElementRef check
-    // is done via the host element itself.
+  onDocumentClick(_event: Event): void {
+    // stub — click-outside is handled via toggle()
   }
 
   ngOnDestroy(): void {

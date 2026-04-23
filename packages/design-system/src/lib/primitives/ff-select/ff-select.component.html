@@ -14,7 +14,7 @@
 </button>
 
 @if (open()) {
-  <div class="ff-select__dropdown" role="listbox" (keydown)="onKeydown($event)">
+  <div class="ff-select__dropdown" role="listbox" tabindex="-1" (keydown)="onKeydown($event)">
     @if (searchable()) {
       <input
         #searchInput
@@ -30,12 +30,14 @@
       <div
         class="ff-select__option"
         role="option"
+        tabindex="0"
         [class.ff-select__option--active]="i === activeIndex()"
         [class.ff-select__option--selected]="option.value === value()"
         [class.ff-select__option--disabled]="isOptionDisabled(option)"
         [attr.aria-selected]="option.value === value()"
         [attr.aria-disabled]="isOptionDisabled(option)"
         (click)="selectOption(option)"
+        (keydown.enter)="selectOption(option)"
       >
         {{ option.label }}
       </div>
