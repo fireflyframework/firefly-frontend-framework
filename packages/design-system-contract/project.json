@@ -10,7 +10,7 @@
       "fallbackCurrentVersionResolver": "disk"
     }
   },
-  "tags": [],
+  "tags": ["scope:design-system-contract", "layer:types"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
