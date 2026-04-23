@@ -1,3 +1,10 @@
+/**
+ * Split an array into chunks of the given size.
+ * The last chunk may contain fewer elements. Returns `[]` if `size <= 0`.
+ *
+ * @example
+ * chunk([1, 2, 3, 4, 5], 2) // => [[1, 2], [3, 4], [5]]
+ */
 export function chunk<T>(arr: T[], size: number): T[][] {
   if (size <= 0) return [];
   const result: T[][] = [];
