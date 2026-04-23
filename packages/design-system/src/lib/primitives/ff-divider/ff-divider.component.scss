@@ -1,0 +1,36 @@
+.ff-divider {
+  display: block;
+  flex-shrink: 0;
+  border: 0;
+
+  // Horizontal (default)
+  &--horizontal {
+    width: 100%;
+    border-top-style: solid;
+    border-top-color: var(--ff-color-border);
+  }
+
+  &--horizontal.ff-divider--thin {
+    border-top-width: 1px;
+  }
+
+  &--horizontal.ff-divider--medium {
+    border-top-width: 2px;
+  }
+
+  // Vertical
+  &--vertical {
+    display: inline-block;
+    align-self: stretch;
+    border-left-style: solid;
+    border-left-color: var(--ff-color-border);
+  }
+
+  &--vertical.ff-divider--thin {
+    border-left-width: 1px;
+  }
+
+  &--vertical.ff-divider--medium {
+    border-left-width: 2px;
+  }
+}
