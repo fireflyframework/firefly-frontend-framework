@@ -41,6 +41,7 @@
     "@nx/vitest": "22.6.5",
     "@nx/web": "22.6.5",
     "@nx/workspace": "22.6.5",
+    "@oxc-project/runtime": "^0.115.0",
     "@playwright/test": "^1.36.0",
     "@schematics/angular": "21.2.7",
     "@swc-node/register": "1.11.1",
@@ -53,6 +54,7 @@
     "@vitest/coverage-v8": "4.0.9",
     "@vitest/ui": "4.0.9",
     "angular-eslint": "21.3.1",
+    "autoprefixer": "^10.4.0",
     "esbuild": "^0.27.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
@@ -60,14 +62,20 @@
     "jiti": "2.4.2",
     "jsdom": "~22.1.0",
     "jsonc-eslint-parser": "^2.1.0",
+    "ng-packagr": "~21.2.0",
     "nx": "22.6.5",
+    "postcss": "^8.4.5",
     "prettier": "^3.8.1",
     "supertest": "^7.1.4",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",
+    "verdaccio": "^6.3.2",
     "vite": "^7.3.2",
     "vitest": "4.0.9"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }
