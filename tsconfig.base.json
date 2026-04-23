@@ -15,14 +15,20 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@org/api/products": ["libs/api/products/src/index.ts"],
-      "@org/models": ["libs/shared/models/src/index.ts"],
-      "@org/shop/data": ["libs/shop/data/src/index.ts"],
-      "@org/shop/feature-product-detail": [
-        "libs/shop/feature-product-detail/src/index.ts"
+      "@firefly/design-system-contract": [
+        "packages/design-system-contract/src/index.ts"
       ],
-      "@org/shop/feature-products": ["libs/shop/feature-products/src/index.ts"],
-      "@org/shop/shared-ui": ["libs/shop/shared-ui/src/index.ts"]
+      "@firefly/utils/array": ["packages/utils/src/array/index.ts"],
+      "@firefly/utils/object": ["packages/utils/src/object/index.ts"],
+      "@firefly/utils/string": ["packages/utils/src/string/index.ts"],
+      "@firefly/utils/type-guards": ["packages/utils/src/type-guards/index.ts"],
+      "@firefly/generators": ["packages/generators/src/index.ts"],
+      "@firefly/config": ["packages/config/src/index.ts"],
+      "@firefly/design-system": ["packages/design-system/src/index.ts"],
+      "@firefly/schema-types": ["packages/schema-types/src/index.ts"],
+      "@firefly/framework-core": ["packages/framework-core/src/index.ts"],
+      "@firefly/testing-utils": ["packages/testing-utils/src/index.ts"],
+      "@firefly/elements": ["packages/elements/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
