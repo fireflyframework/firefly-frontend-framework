@@ -33,6 +33,12 @@
         "packageRoot": "dist/{projectRoot}"
       }
     },
+    "test": {
+      "executor": "@analogjs/vitest-angular:test",
+      "options": {
+        "configFile": "vite.config.ts"
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }

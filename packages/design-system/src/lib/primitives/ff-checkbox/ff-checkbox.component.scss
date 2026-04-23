@@ -1,0 +1,92 @@
+.ff-checkbox {
+  display: inline-flex;
+
+  &__wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ff-spacing-sm);
+    cursor: pointer;
+  }
+
+  &__native {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  &__box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--ff-color-neutral-400);
+    border-radius: var(--ff-radius-sm);
+    background-color: var(--ff-color-surface);
+    transition: background-color 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+
+    &::after {
+      content: '';
+      display: none;
+    }
+  }
+
+  &__label {
+    font-family: var(--ff-font-family);
+    font-size: var(--ff-font-size-md);
+    color: var(--ff-color-neutral-900);
+    user-select: none;
+  }
+
+  // Checked state
+  &--checked .ff-checkbox__box {
+    background-color: var(--ff-color-primary-500);
+    border-color: var(--ff-color-primary-500);
+
+    &::after {
+      display: block;
+      width: 5px;
+      height: 9px;
+      border: solid var(--ff-color-on-primary);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+  }
+
+  // Indeterminate state
+  &--indeterminate .ff-checkbox__box {
+    background-color: var(--ff-color-primary-500);
+    border-color: var(--ff-color-primary-500);
+
+    &::after {
+      display: block;
+      width: 8px;
+      height: 2px;
+      background-color: var(--ff-color-on-primary);
+      border: none;
+      transform: none;
+    }
+  }
+
+  // Focus ring
+  &__native:focus-visible ~ .ff-checkbox__box {
+    outline: 2px solid var(--ff-color-border-focus);
+    outline-offset: 2px;
+  }
+
+  // Disabled state
+  &--disabled .ff-checkbox__wrapper {
+    cursor: not-allowed;
+  }
+
+  &--disabled .ff-checkbox__box {
+    opacity: 0.5;
+  }
+
+  &--disabled .ff-checkbox__label {
+    opacity: 0.5;
+  }
+}

@@ -1,0 +1,25 @@
+// ============================================================
+// Firefly Design System — Typography Tokens
+// ============================================================
+
+:root {
+  // Font family
+  --ff-font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  // Font sizes
+  --ff-font-size-xs: 0.75rem;
+  --ff-font-size-sm: 0.875rem;
+  --ff-font-size-md: 1rem;
+  --ff-font-size-lg: 1.25rem;
+  --ff-font-size-xl: 1.5rem;
+
+  // Font weights
+  --ff-font-weight-normal: 400;
+  --ff-font-weight-medium: 500;
+  --ff-font-weight-bold: 700;
+
+  // Line heights
+  --ff-line-height-tight: 1.25;
+  --ff-line-height-normal: 1.5;
+  --ff-line-height-relaxed: 1.75;
+}

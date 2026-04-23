@@ -1,0 +1,63 @@
+.ff-icon-button {
+  display: inline-block;
+
+  &__native {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: var(--ff-radius-md);
+    background-color: transparent;
+    color: var(--ff-color-neutral-700);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    padding: 0;
+
+    &:hover:not(:disabled) {
+      background-color: var(--ff-color-neutral-100);
+      color: var(--ff-color-primary-500);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--ff-color-neutral-200);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  // Sizes — square hit area
+  &--sm .ff-icon-button__native {
+    width: calc(var(--ff-spacing-lg) - var(--ff-spacing-xs));
+    height: calc(var(--ff-spacing-lg) - var(--ff-spacing-xs));
+    font-size: var(--ff-font-size-sm);
+  }
+
+  &--md .ff-icon-button__native {
+    width: var(--ff-spacing-xl);
+    height: var(--ff-spacing-xl);
+    font-size: var(--ff-font-size-md);
+  }
+
+  &--lg .ff-icon-button__native {
+    width: calc(var(--ff-spacing-xl) + var(--ff-spacing-sm));
+    height: calc(var(--ff-spacing-xl) + var(--ff-spacing-sm));
+    font-size: var(--ff-font-size-lg);
+  }
+
+  // Disabled
+  &--disabled .ff-icon-button__native {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Icon container
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+}

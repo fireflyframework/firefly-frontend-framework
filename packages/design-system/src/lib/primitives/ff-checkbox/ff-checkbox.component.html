@@ -1,0 +1,16 @@
+<label class="ff-checkbox__wrapper" [for]="inputId">
+  <input
+    class="ff-checkbox__native"
+    type="checkbox"
+    [id]="inputId"
+    [checked]="checked()"
+    [indeterminate]="indeterminate()"
+    [disabled]="disabled()"
+    [attr.aria-checked]="indeterminate() ? 'mixed' : checked()"
+    (change)="onChange($event)"
+  />
+  <span class="ff-checkbox__box" aria-hidden="true"></span>
+  @if (label()) {
+    <span class="ff-checkbox__label">{{ label() }}</span>
+  }
+</label>

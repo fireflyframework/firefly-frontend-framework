@@ -1,0 +1,14 @@
+<button
+  class="ff-button__native"
+  [disabled]="disabled() || loading()"
+  [attr.aria-disabled]="disabled() || loading()"
+  [attr.aria-busy]="loading()"
+  (click)="onClick()"
+>
+  @if (loading()) {
+    <span class="ff-button__spinner" aria-hidden="true"></span>
+  }
+  <span class="ff-button__content" [class.ff-button__content--hidden]="loading()">
+    <ng-content />
+  </span>
+</button>

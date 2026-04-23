@@ -1,0 +1,49 @@
+<button
+  class="ff-select__trigger"
+  type="button"
+  [disabled]="disabled()"
+  [attr.aria-expanded]="open()"
+  aria-haspopup="listbox"
+  (click)="toggle()"
+  (keydown)="onKeydown($event)"
+>
+  <span class="ff-select__value" [class.ff-select__value--placeholder]="!displayLabel()">
+    {{ displayLabel() || placeholder() }}
+  </span>
+  <span class="ff-select__arrow" aria-hidden="true">&#9662;</span>
+</button>
+
+@if (open()) {
+  <div class="ff-select__dropdown" role="listbox" tabindex="-1" (keydown)="onKeydown($event)">
+    @if (searchable()) {
+      <input
+        #searchInput
+        class="ff-select__search"
+        type="text"
+        placeholder="Search..."
+        [value]="search()"
+        (input)="onSearchInput($event)"
+        (keydown)="onKeydown($event)"
+      />
+    }
+    @for (option of filteredOptions(); track option.value; let i = $index) {
+      <div
+        class="ff-select__option"
+        role="option"
+        tabindex="0"
+        [class.ff-select__option--active]="i === activeIndex()"
+        [class.ff-select__option--selected]="option.value === value()"
+        [class.ff-select__option--disabled]="isOptionDisabled(option)"
+        [attr.aria-selected]="option.value === value()"
+        [attr.aria-disabled]="isOptionDisabled(option)"
+        (click)="selectOption(option)"
+        (keydown.enter)="selectOption(option)"
+      >
+        {{ option.label }}
+      </div>
+    }
+    @if (filteredOptions().length === 0) {
+      <div class="ff-select__empty">No results</div>
+    }
+  </div>
+}

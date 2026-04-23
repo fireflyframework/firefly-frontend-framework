@@ -1,0 +1,21 @@
+@if (label()) {
+  <label class="ff-input__label" [for]="inputId">{{ label() }}</label>
+}
+
+<input
+  class="ff-input__native"
+  [id]="inputId"
+  [type]="type()"
+  [placeholder]="placeholder()"
+  [value]="value()"
+  [disabled]="disabled()"
+  [attr.aria-invalid]="!!error()"
+  [attr.aria-describedby]="error() ? inputId + '-error' : hint() ? inputId + '-hint' : null"
+  (input)="onInput($event)"
+/>
+
+@if (error()) {
+  <span class="ff-input__error" [id]="inputId + '-error'" role="alert">{{ error() }}</span>
+} @else if (hint()) {
+  <span class="ff-input__hint" [id]="inputId + '-hint'">{{ hint() }}</span>
+}
