@@ -1,0 +1,92 @@
+// ============================================================
+// Firefly Design System — Breakpoint Tokens
+// Mapped from Flutter theme_system responsive config (PASO 1.8)
+// ============================================================
+
+// ---- SCSS variables (for use in @media queries) ----
+$ff-breakpoint-mobile: 770px;
+$ff-breakpoint-tablet: 1024px;
+$ff-breakpoint-desktop: 1200px;
+
+:root {
+  // ---- CSS custom properties (for JS/runtime access) ----
+  --ff-breakpoint-mobile: 770px;
+  --ff-breakpoint-tablet: 1024px;
+  --ff-breakpoint-desktop: 1200px;
+}
+
+// ---- Responsive mixins ----
+
+// Mobile only: < 770px
+@mixin ff-mobile {
+  @media (max-width: #{$ff-breakpoint-mobile - 1}) {
+    @content;
+  }
+}
+
+// Tablet: 770px – 1023px
+@mixin ff-tablet {
+  @media (min-width: #{$ff-breakpoint-mobile}) and (max-width: #{$ff-breakpoint-tablet - 1}) {
+    @content;
+  }
+}
+
+// Desktop: 1024px – 1199px
+@mixin ff-desktop {
+  @media (min-width: #{$ff-breakpoint-tablet}) and (max-width: #{$ff-breakpoint-desktop - 1}) {
+    @content;
+  }
+}
+
+// Large: >= 1200px
+@mixin ff-large {
+  @media (min-width: #{$ff-breakpoint-desktop}) {
+    @content;
+  }
+}
+
+// ---- "Up" mixins (min-width) ----
+
+// Tablet and up: >= 770px
+@mixin ff-tablet-up {
+  @media (min-width: #{$ff-breakpoint-mobile}) {
+    @content;
+  }
+}
+
+// Desktop and up: >= 1024px
+@mixin ff-desktop-up {
+  @media (min-width: #{$ff-breakpoint-tablet}) {
+    @content;
+  }
+}
+
+// Large and up: >= 1200px
+@mixin ff-large-up {
+  @media (min-width: #{$ff-breakpoint-desktop}) {
+    @content;
+  }
+}
+
+// ---- "Down" mixins (max-width) ----
+
+// Mobile and down: < 770px
+@mixin ff-mobile-down {
+  @media (max-width: #{$ff-breakpoint-mobile - 1}) {
+    @content;
+  }
+}
+
+// Tablet and down: < 1024px
+@mixin ff-tablet-down {
+  @media (max-width: #{$ff-breakpoint-tablet - 1}) {
+    @content;
+  }
+}
+
+// Desktop and down: < 1200px
+@mixin ff-desktop-down {
+  @media (max-width: #{$ff-breakpoint-desktop - 1}) {
+    @content;
+  }
+}
