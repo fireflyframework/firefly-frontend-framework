@@ -19,6 +19,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fetch develop branch for nx affected
+        run: git fetch origin develop --no-tags
+
       - uses: pnpm/action-setup@v4
         with:
           version: 10
