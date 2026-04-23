@@ -18,7 +18,10 @@
       "@firefly/design-system-contract": [
         "packages/design-system-contract/src/index.ts"
       ],
-      "@firefly/utils": ["packages/utils/src/index.ts"],
+      "@firefly/utils/array": ["packages/utils/src/array/index.ts"],
+      "@firefly/utils/object": ["packages/utils/src/object/index.ts"],
+      "@firefly/utils/string": ["packages/utils/src/string/index.ts"],
+      "@firefly/utils/type-guards": ["packages/utils/src/type-guards/index.ts"],
       "@firefly/generators": ["packages/generators/src/index.ts"],
       "@firefly/config": ["packages/config/src/index.ts"],
       "@firefly/design-system": ["packages/design-system/src/index.ts"],

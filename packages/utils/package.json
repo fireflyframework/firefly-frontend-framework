@@ -2,8 +2,25 @@
   "name": "@firefly/utils",
   "version": "0.0.1",
   "type": "commonjs",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    "./array": {
+      "types": "./src/array/index.d.ts",
+      "default": "./src/array/index.js"
+    },
+    "./object": {
+      "types": "./src/object/index.d.ts",
+      "default": "./src/object/index.js"
+    },
+    "./string": {
+      "types": "./src/string/index.d.ts",
+      "default": "./src/string/index.js"
+    },
+    "./type-guards": {
+      "types": "./src/type-guards/index.d.ts",
+      "default": "./src/type-guards/index.js"
+    }
+  },
   "dependencies": {
     "tslib": "^2.3.0"
   }
