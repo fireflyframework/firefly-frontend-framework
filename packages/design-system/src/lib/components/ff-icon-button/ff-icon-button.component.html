@@ -1,0 +1,12 @@
+<button
+  class="ff-icon-button__native"
+  [disabled]="disabled()"
+  [attr.aria-disabled]="disabled()"
+  [attr.aria-label]="tooltip()"
+  [title]="tooltip()"
+  (click)="onClick()"
+>
+  <span class="ff-icon-button__icon">
+    <ng-content />
+  </span>
+</button>
