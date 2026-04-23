@@ -1,0 +1,11 @@
+<a
+  class="ff-link__anchor"
+  [href]="href()"
+  [target]="target()"
+  [attr.rel]="target() === '_blank' ? 'noopener noreferrer' : null"
+  [attr.aria-disabled]="disabled() || null"
+  [tabindex]="disabled() ? -1 : null"
+  (click)="onClick($event)"
+>
+  <ng-content />
+</a>

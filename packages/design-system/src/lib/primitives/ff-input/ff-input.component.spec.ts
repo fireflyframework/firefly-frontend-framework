@@ -162,4 +162,96 @@ describe('FfInputComponent', () => {
     const error = fixture.nativeElement.querySelector('.ff-input__error');
     expect(error.getAttribute('role')).toBe('alert');
   });
+
+  // --- Textarea support ---
+
+  it('should render textarea when type is "textarea"', () => {
+    fixture.componentRef.setInput('type', 'textarea');
+    fixture.detectChanges();
+
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    const input = fixture.nativeElement.querySelector('input');
+    expect(textarea).toBeTruthy();
+    expect(input).toBeNull();
+  });
+
+  it('should render input (not textarea) for non-textarea types', () => {
+    const input = fixture.nativeElement.querySelector('input');
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    expect(input).toBeTruthy();
+    expect(textarea).toBeNull();
+  });
+
+  it('should have default rows of 3', () => {
+    expect(component.rows()).toBe(3);
+  });
+
+  it('should apply rows attribute on textarea', () => {
+    fixture.componentRef.setInput('type', 'textarea');
+    fixture.componentRef.setInput('rows', 5);
+    fixture.detectChanges();
+
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    expect(textarea.rows).toBe(5);
+  });
+
+  it('should apply ff-input__native class on textarea', () => {
+    fixture.componentRef.setInput('type', 'textarea');
+    fixture.detectChanges();
+
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    expect(textarea.classList.contains('ff-input__native')).toBe(true);
+  });
+
+  it('should emit valueChange from textarea', () => {
+    fixture.componentRef.setInput('type', 'textarea');
+    fixture.detectChanges();
+
+    const spy = vi.fn();
+    component.valueChange.subscribe(spy);
+
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    textarea.value = 'multiline text';
+    textarea.dispatchEvent(new Event('input'));
+
+    expect(spy).toHaveBeenCalledWith('multiline text');
+  });
+
+  it('should render label for textarea', () => {
+    fixture.componentRef.setInput('type', 'textarea');
+    fixture.componentRef.setInput('label', 'Notes');
+    fixture.detectChanges();
+
+    const label = fixture.nativeElement.querySelector('.ff-input__label');
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    expect(label).toBeTruthy();
+    expect(label.getAttribute('for')).toBe(textarea.id);
+  });
+
+  it('should set aria-invalid on textarea when error is set', () => {
+    fixture.componentRef.setInput('type', 'textarea');
+    fixture.componentRef.setInput('error', 'Required');
+    fixture.detectChanges();
+
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    expect(textarea.getAttribute('aria-invalid')).toBe('true');
+  });
+
+  it('should set placeholder on textarea', () => {
+    fixture.componentRef.setInput('type', 'textarea');
+    fixture.componentRef.setInput('placeholder', 'Enter notes...');
+    fixture.detectChanges();
+
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    expect(textarea.placeholder).toBe('Enter notes...');
+  });
+
+  it('should disable textarea when disabled', () => {
+    fixture.componentRef.setInput('type', 'textarea');
+    fixture.componentRef.setInput('disabled', true);
+    fixture.detectChanges();
+
+    const textarea = fixture.nativeElement.querySelector('textarea');
+    expect(textarea.disabled).toBe(true);
+  });
 });

@@ -20,3 +20,16 @@ export type { FfCardShadow } from './lib/primitives/ff-card';
 export { FfSelectComponent } from './lib/primitives/ff-select';
 export type { FfSelectOption } from './lib/primitives/ff-select';
 export { FfDialogComponent } from './lib/primitives/ff-dialog';
+export { FfDividerComponent } from './lib/primitives/ff-divider';
+export type {
+  FfDividerOrientation,
+  FfDividerThickness,
+} from './lib/primitives/ff-divider';
+export { FfChipComponent } from './lib/primitives/ff-chip';
+export type { FfChipVariant, FfChipSize } from './lib/primitives/ff-chip';
+export { FfLinkComponent } from './lib/primitives/ff-link';
+export type { FfLinkVariant, FfLinkTarget } from './lib/primitives/ff-link';
+export { FfAvatarComponent } from './lib/primitives/ff-avatar';
+export type { FfAvatarSize } from './lib/primitives/ff-avatar';
+export { FfTooltipComponent } from './lib/primitives/ff-tooltip';
+export type { FfTooltipPosition } from './lib/primitives/ff-tooltip';
