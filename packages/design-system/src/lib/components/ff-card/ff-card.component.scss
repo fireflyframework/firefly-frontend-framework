@@ -1,0 +1,40 @@
+.ff-card {
+  display: block;
+  background-color: var(--ff-color-surface);
+  border: 1px solid var(--ff-color-neutral-200);
+  border-radius: var(--ff-radius-md);
+  overflow: hidden;
+
+  // Shadow variants
+  &--shadow-none {
+    box-shadow: none;
+  }
+
+  &--shadow-sm {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  &--shadow-md {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &--shadow-lg {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  // Header zone
+  [ff-card-header] {
+    padding: var(--ff-spacing-md) var(--ff-spacing-lg);
+    border-bottom: 1px solid var(--ff-color-neutral-200);
+    font-family: var(--ff-font-family);
+    font-size: var(--ff-font-size-lg);
+    font-weight: var(--ff-font-weight-semibold);
+    color: var(--ff-color-neutral-900);
+  }
+
+  // Footer zone
+  [ff-card-footer] {
+    padding: var(--ff-spacing-md) var(--ff-spacing-lg);
+    border-top: 1px solid var(--ff-color-neutral-200);
+  }
+}
