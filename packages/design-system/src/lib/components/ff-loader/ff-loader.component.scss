@@ -1,0 +1,75 @@
+.ff-loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  // --- Spinner ---
+  &__spinner {
+    display: inline-block;
+    border-radius: var(--ff-radius-full);
+    border: 2px solid var(--ff-color-neutral-200);
+    border-top-color: var(--ff-color-primary-500);
+    animation: ff-loader-spin 0.7s linear infinite;
+  }
+
+  // --- Skeleton ---
+  &__skeleton {
+    display: block;
+    border-radius: var(--ff-radius-sm);
+    background: linear-gradient(
+      90deg,
+      var(--ff-color-neutral-100) 25%,
+      var(--ff-color-neutral-200) 50%,
+      var(--ff-color-neutral-100) 75%
+    );
+    background-size: 200% 100%;
+    animation: ff-loader-shimmer 1.5s ease-in-out infinite;
+  }
+
+  // --- Sizes (spinner: square, skeleton: rectangular) ---
+  &--sm .ff-loader__spinner {
+    width: 16px;
+    height: 16px;
+  }
+
+  &--sm .ff-loader__skeleton {
+    width: 80px;
+    height: 12px;
+  }
+
+  &--md .ff-loader__spinner {
+    width: 24px;
+    height: 24px;
+  }
+
+  &--md .ff-loader__skeleton {
+    width: 120px;
+    height: 16px;
+  }
+
+  &--lg .ff-loader__spinner {
+    width: 36px;
+    height: 36px;
+    border-width: 3px;
+  }
+
+  &--lg .ff-loader__skeleton {
+    width: 200px;
+    height: 20px;
+  }
+}
+
+@keyframes ff-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ff-loader-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
