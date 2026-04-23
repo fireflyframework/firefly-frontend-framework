@@ -1,0 +1,51 @@
+.ff-badge {
+  display: inline-flex;
+  align-items: center;
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--ff-radius-full);
+    font-family: var(--ff-font-family);
+    font-weight: var(--ff-font-weight-medium);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  // Sizes
+  &--sm .ff-badge__label {
+    padding: 2px var(--ff-spacing-xs);
+    font-size: var(--ff-font-size-xs);
+  }
+
+  &--md .ff-badge__label {
+    padding: var(--ff-spacing-xs) var(--ff-spacing-sm);
+    font-size: var(--ff-font-size-sm);
+  }
+
+  // Semantic variants
+  &--success .ff-badge__label {
+    background-color: var(--ff-color-success-100);
+    color: var(--ff-color-success-700);
+  }
+
+  &--warning .ff-badge__label {
+    background-color: var(--ff-color-warning-100);
+    color: var(--ff-color-warning-700);
+  }
+
+  &--error .ff-badge__label {
+    background-color: var(--ff-color-error-100);
+    color: var(--ff-color-error-700);
+  }
+
+  &--info .ff-badge__label {
+    background-color: var(--ff-color-info-100);
+    color: var(--ff-color-info-700);
+  }
+
+  &--neutral .ff-badge__label {
+    background-color: var(--ff-color-neutral-100);
+    color: var(--ff-color-neutral-700);
+  }
+}
