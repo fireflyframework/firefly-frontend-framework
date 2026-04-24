@@ -9,6 +9,8 @@ import {
 } from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
 import { AuthTokens } from './auth.types';
+import { SessionService } from '../session/session.service';
+import { UserContextService } from '../user-context/user-context.service';
 
 const API = '/api/v1/experience/security';
 
@@ -37,6 +39,8 @@ function pastExp(): number {
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
+  let sessionService: SessionService;
+  let userContextService: UserContextService;
 
   beforeEach(() => {
     localStorage.clear();
@@ -50,6 +54,8 @@ describe('AuthService', () => {
 
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
+    sessionService = TestBed.inject(SessionService);
+    userContextService = TestBed.inject(UserContextService);
   });
 
   afterEach(() => {
@@ -158,6 +164,26 @@ describe('AuthService', () => {
 
       httpMock.expectNone(`${API}/auth/logout`);
       expect(service.isAuthenticated()).toBe(false);
+    });
+
+    it('should stop session tracking and clear user context', async () => {
+      localStorage.setItem('ff_access_token', 'tok');
+
+      const stopSpy = vi.spyOn(sessionService, 'stopTracking');
+      const clearSpy = vi.spyOn(userContextService, 'clear');
+
+      const promise = service.logout();
+
+      const req = httpMock.expectOne(`${API}/auth/logout`);
+      req.flush(null);
+
+      await promise;
+
+      expect(stopSpy).toHaveBeenCalledOnce();
+      expect(clearSpy).toHaveBeenCalledOnce();
+
+      stopSpy.mockRestore();
+      clearSpy.mockRestore();
     });
   });
 

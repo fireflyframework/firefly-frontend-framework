@@ -1,7 +1,9 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { LoginCredentials, AuthTokens, AuthResult } from './auth.types';
+import { SessionService } from '../session/session.service';
+import { UserContextService } from '../user-context/user-context.service';
 
 const TOKEN_STORAGE_KEY = 'ff_access_token';
 const REFRESH_STORAGE_KEY = 'ff_refresh_token';
@@ -13,9 +15,9 @@ const AUTH_API_BASE = '/api/v1/experience/security';
  * Handles login, logout, token storage (localStorage), and token refresh
  * with mutual exclusion to prevent concurrent refresh requests.
  *
- * This service is intentionally decoupled from SessionService and
- * UserContextService (D8 — 3 independent services). Logout coordination
- * across services is the consumer's responsibility.
+ * Coordinates logout across SessionService and UserContextService
+ * to prevent stale state. Dependency direction: auth → session/user-context
+ * (no circular dependency).
  *
  * API base: /api/v1/experience/security (exp-security microservice)
  */
@@ -27,7 +29,9 @@ export class AuthService {
   /** Mutex: holds the in-flight refresh promise so concurrent callers share it. */
   private refreshPromise: Promise<boolean> | null = null;
 
-  constructor(private readonly http: HttpClient) {}
+  private readonly http = inject(HttpClient);
+  private readonly sessionService = inject(SessionService);
+  private readonly userContextService = inject(UserContextService);
 
   /**
    * Authenticate with username/password credentials.
@@ -54,14 +58,15 @@ export class AuthService {
 
   /**
    * Log out the current user.
-   * Clears local tokens immediately, then notifies the server (best-effort).
-   * Does NOT call SessionService or UserContextService — the consumer
-   * is responsible for coordinating a full logout across services.
+   * Clears local tokens, stops session tracking, clears user context,
+   * then notifies the server (best-effort).
    */
   async logout(): Promise<void> {
     const token = this.getAccessToken();
     this.clearTokens();
     this.isAuthenticated.set(false);
+    this.sessionService.stopTracking();
+    this.userContextService.clear();
 
     if (token) {
       try {
