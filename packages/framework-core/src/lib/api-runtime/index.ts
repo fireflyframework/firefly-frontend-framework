@@ -1,2 +1,4 @@
-// api-runtime barrel — populated in STEP-1.10-012
-export {};
+export * from './transport';
+export * from './adapters/http';
+export { ApiClient } from './api-client.service';
+export { provideFireflyTransport } from './provide-firefly-transport';
