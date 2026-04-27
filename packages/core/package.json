@@ -1,5 +1,5 @@
 {
-  "name": "@firefly/framework-core",
+  "name": "@firefly/core",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^21.2.0",

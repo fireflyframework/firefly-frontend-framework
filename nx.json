@@ -58,7 +58,7 @@
       "config",
       "design-system",
       "schema-types",
-      "framework-core",
+      "core",
       "testing-utils",
       "elements"
     ],

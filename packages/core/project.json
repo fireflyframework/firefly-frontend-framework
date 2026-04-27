@@ -1,7 +1,7 @@
 {
-  "name": "framework-core",
+  "name": "core",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/framework-core/src",
+  "sourceRoot": "packages/core/src",
   "prefix": "lib",
   "projectType": "library",
   "release": {
@@ -11,18 +11,18 @@
       "fallbackCurrentVersionResolver": "disk"
     }
   },
-  "tags": ["scope:framework-core", "layer:services"],
+  "tags": ["scope:core", "layer:services"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "packages/framework-core/ng-package.json",
-        "tsConfig": "packages/framework-core/tsconfig.lib.json"
+        "project": "packages/core/ng-package.json",
+        "tsConfig": "packages/core/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "packages/framework-core/tsconfig.lib.prod.json"
+          "tsConfig": "packages/core/tsconfig.lib.prod.json"
         },
         "development": {}
       },

@@ -26,7 +26,7 @@
       "@firefly/config": ["packages/config/src/index.ts"],
       "@firefly/design-system": ["packages/design-system/src/index.ts"],
       "@firefly/schema-types": ["packages/schema-types/src/index.ts"],
-      "@firefly/framework-core": ["packages/framework-core/src/index.ts"],
+      "@firefly/core": ["packages/core/src/index.ts"],
       "@firefly/testing-utils": ["packages/testing-utils/src/index.ts"],
       "@firefly/elements": ["packages/elements/src/index.ts"]
     }
