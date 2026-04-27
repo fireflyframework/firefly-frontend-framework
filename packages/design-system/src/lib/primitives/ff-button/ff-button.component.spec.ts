@@ -131,4 +131,13 @@ describe('FfButtonComponent', () => {
     const content = hostEl.querySelector('.ff-button__content');
     expect(content).toBeTruthy();
   });
+
+  it('should keep content visible when loading', () => {
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+
+    const content = fixture.nativeElement.querySelector('.ff-button__content');
+    expect(content).toBeTruthy();
+    expect(getComputedStyle(content).visibility).not.toBe('hidden');
+  });
 });

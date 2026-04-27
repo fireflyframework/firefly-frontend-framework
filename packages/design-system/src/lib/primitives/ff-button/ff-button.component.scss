@@ -19,6 +19,9 @@
   --ff-btn-ghost-color: var(--ff-color-primary-500);
   --ff-btn-ghost-hover-bg: var(--ff-color-neutral-100);
 
+  // Component tokens — icons
+  --ff-btn-icon-size: 1.2em;
+
   // Component tokens — shared
   --ff-btn-radius: var(--ff-radius-md);
   --ff-btn-focus-ring: var(--ff-color-border-focus);
@@ -137,22 +140,26 @@
     cursor: wait;
   }
 
-  // Spinner
+  // Spinner (matches icon size)
   &__spinner {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: var(--ff-btn-icon-size);
+    height: var(--ff-btn-icon-size);
     border: 2px solid currentColor;
     border-right-color: transparent;
     border-radius: var(--ff-radius-full);
     animation: ff-button-spin 0.6s linear infinite;
   }
 
-  // Content hidden during loading
-  &__content--hidden {
-    visibility: hidden;
-    width: 0;
-    overflow: hidden;
+  // Prefix / suffix icon slots
+  [ffButtonPrefix],
+  [ffButtonSuffix] {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: var(--ff-btn-icon-size);
+    color: var(--ff-btn-icon-color, inherit);
+    line-height: 1;
   }
 }
 
