@@ -70,6 +70,9 @@ export class FfInputComponent {
   /** Emits the new value on every input event. */
   readonly valueChange = output<string>();
 
+  /** Emits when the input loses focus. Useful for marking form controls as touched. */
+  readonly blurred = output<void>();
+
   /** @internal Unique id for label-input association. */
   protected readonly inputId = `ff-input-${nextId++}`;
 
@@ -77,6 +80,11 @@ export class FfInputComponent {
   onInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.valueChange.emit(value);
+  }
+
+  /** @internal Forwards native blur events. */
+  onBlur(): void {
+    this.blurred.emit();
   }
 }
 
