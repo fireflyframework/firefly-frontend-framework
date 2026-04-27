@@ -128,6 +128,5 @@
   "affected": {
     "defaultBase": "develop"
   },
-  "analytics": false,
-  "nxCloudId": "69e9ec85271de7dcf2745c0a"
+  "analytics": false
 }
