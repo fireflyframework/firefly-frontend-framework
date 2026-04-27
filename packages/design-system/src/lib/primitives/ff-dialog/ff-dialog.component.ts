@@ -41,19 +41,22 @@ export class FfDialogComponent {
   /** Dialog title rendered in the header. */
   readonly title = input('');
 
+  /** Whether the dialog can be closed via backdrop click, Escape key, or X button. Defaults to `true`. */
+  readonly dismissible = input(true);
+
   /** Emits when the dialog is closed (Escape, backdrop click, or programmatic). */
   readonly closed = output<void>();
 
   /** @internal Handles backdrop click. */
   protected onBackdropClick(event: MouseEvent): void {
-    if ((event.target as HTMLElement).classList.contains('ff-dialog__backdrop')) {
+    if (this.dismissible() && (event.target as HTMLElement).classList.contains('ff-dialog__backdrop')) {
       this.closed.emit();
     }
   }
 
   /** @internal Handles Escape key. */
   protected onKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
+    if (this.dismissible() && event.key === 'Escape') {
       this.closed.emit();
     }
   }
