@@ -1,8 +1,13 @@
 .ff-link {
+  // Component tokens
+  --ff-link-color: var(--ff-color-info-600);
+  --ff-link-hover-color: var(--ff-color-info-700);
+  --ff-link-focus-ring: var(--ff-color-border-focus);
+
   display: inline;
 
   &__anchor {
-    color: var(--ff-color-primary-600);
+    color: var(--ff-link-color);
     font-family: var(--ff-font-family);
     font-size: inherit;
     text-decoration: none;
@@ -10,11 +15,11 @@
     transition: color 0.15s;
 
     &:hover {
-      color: var(--ff-color-primary-700);
+      color: var(--ff-link-hover-color);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: 2px solid var(--ff-link-focus-ring);
       outline-offset: 2px;
       border-radius: var(--ff-radius-sm);
     }

@@ -25,27 +25,27 @@
 
   // Semantic variants
   &--success .ff-badge__label {
-    background-color: var(--ff-color-success-100);
-    color: var(--ff-color-success-700);
+    background-color: var(--ff-badge-success-bg, var(--ff-color-success-100));
+    color: var(--ff-badge-success-color, var(--ff-color-success-700));
   }
 
   &--warning .ff-badge__label {
-    background-color: var(--ff-color-warning-100);
-    color: var(--ff-color-warning-700);
+    background-color: var(--ff-badge-warning-bg, var(--ff-color-warning-100));
+    color: var(--ff-badge-warning-color, var(--ff-color-warning-700));
   }
 
   &--error .ff-badge__label {
-    background-color: var(--ff-color-error-100);
-    color: var(--ff-color-error-700);
+    background-color: var(--ff-badge-error-bg, var(--ff-color-error-100));
+    color: var(--ff-badge-error-color, var(--ff-color-error-700));
   }
 
   &--info .ff-badge__label {
-    background-color: var(--ff-color-info-100);
-    color: var(--ff-color-info-700);
+    background-color: var(--ff-badge-info-bg, var(--ff-color-info-100));
+    color: var(--ff-badge-info-color, var(--ff-color-info-700));
   }
 
   &--neutral .ff-badge__label {
-    background-color: var(--ff-color-neutral-100);
-    color: var(--ff-color-neutral-700);
+    background-color: var(--ff-badge-neutral-bg, var(--ff-color-neutral-100));
+    color: var(--ff-badge-neutral-color, var(--ff-color-neutral-700));
   }
 }

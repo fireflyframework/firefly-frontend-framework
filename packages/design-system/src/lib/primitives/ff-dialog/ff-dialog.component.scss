@@ -1,4 +1,12 @@
 .ff-dialog {
+  // Component tokens
+  --ff-dialog-bg: var(--ff-color-surface);
+  --ff-dialog-radius: var(--ff-radius-lg);
+  --ff-dialog-border: var(--ff-color-neutral-200);
+  --ff-dialog-title-color: var(--ff-color-neutral-900);
+  --ff-dialog-body-color: var(--ff-color-neutral-700);
+  --ff-dialog-backdrop: rgba(0, 0, 0, 0.4);
+
   display: contents;
 
   &__backdrop {
@@ -8,7 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: var(--ff-dialog-backdrop);
   }
 
   &__panel {
@@ -18,35 +26,35 @@
     max-width: 560px;
     width: 100%;
     max-height: 85vh;
-    background-color: var(--ff-color-surface);
-    border-radius: var(--ff-radius-lg);
+    background-color: var(--ff-dialog-bg);
+    border-radius: var(--ff-dialog-radius);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     font-family: var(--ff-font-family);
   }
 
   &__header {
     padding: var(--ff-spacing-lg);
-    border-bottom: 1px solid var(--ff-color-neutral-200);
+    border-bottom: 1px solid var(--ff-dialog-border);
   }
 
   &__title {
     margin: 0;
     font-size: var(--ff-font-size-lg);
     font-weight: var(--ff-font-weight-semibold);
-    color: var(--ff-color-neutral-900);
+    color: var(--ff-dialog-title-color);
   }
 
   &__body {
     padding: var(--ff-spacing-lg);
     font-size: var(--ff-font-size-md);
-    color: var(--ff-color-neutral-700);
+    color: var(--ff-dialog-body-color);
     flex: 1;
     overflow-y: auto;
   }
 
   &__footer {
     padding: var(--ff-spacing-md) var(--ff-spacing-lg);
-    border-top: 1px solid var(--ff-color-neutral-200);
+    border-top: 1px solid var(--ff-dialog-border);
     display: flex;
     justify-content: flex-end;
     gap: var(--ff-spacing-sm);

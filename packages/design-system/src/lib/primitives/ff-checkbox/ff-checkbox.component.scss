@@ -1,4 +1,13 @@
 .ff-checkbox {
+  // Component tokens
+  --ff-checkbox-border: var(--ff-color-neutral-400);
+  --ff-checkbox-bg: var(--ff-color-surface);
+  --ff-checkbox-checked-bg: var(--ff-color-primary-500);
+  --ff-checkbox-checked-border: var(--ff-color-primary-500);
+  --ff-checkbox-check-color: var(--ff-color-on-primary);
+  --ff-checkbox-label-color: var(--ff-color-neutral-900);
+  --ff-checkbox-focus-ring: var(--ff-color-border-focus);
+
   display: inline-flex;
 
   &__wrapper {
@@ -22,9 +31,9 @@
     justify-content: center;
     width: 18px;
     height: 18px;
-    border: 2px solid var(--ff-color-neutral-400);
+    border: 2px solid var(--ff-checkbox-border);
     border-radius: var(--ff-radius-sm);
-    background-color: var(--ff-color-surface);
+    background-color: var(--ff-checkbox-bg);
     transition: background-color 0.15s, border-color 0.15s;
     flex-shrink: 0;
 
@@ -37,20 +46,20 @@
   &__label {
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
-    color: var(--ff-color-neutral-900);
+    color: var(--ff-checkbox-label-color);
     user-select: none;
   }
 
   // Checked state
   &--checked .ff-checkbox__box {
-    background-color: var(--ff-color-primary-500);
-    border-color: var(--ff-color-primary-500);
+    background-color: var(--ff-checkbox-checked-bg);
+    border-color: var(--ff-checkbox-checked-border);
 
     &::after {
       display: block;
       width: 5px;
       height: 9px;
-      border: solid var(--ff-color-on-primary);
+      border: solid var(--ff-checkbox-check-color);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg) translate(-1px, -1px);
     }
@@ -58,14 +67,14 @@
 
   // Indeterminate state
   &--indeterminate .ff-checkbox__box {
-    background-color: var(--ff-color-primary-500);
-    border-color: var(--ff-color-primary-500);
+    background-color: var(--ff-checkbox-checked-bg);
+    border-color: var(--ff-checkbox-checked-border);
 
     &::after {
       display: block;
       width: 8px;
       height: 2px;
-      background-color: var(--ff-color-on-primary);
+      background-color: var(--ff-checkbox-check-color);
       border: none;
       transform: none;
     }
@@ -73,7 +82,7 @@
 
   // Focus ring
   &__native:focus-visible ~ .ff-checkbox__box {
-    outline: 2px solid var(--ff-color-border-focus);
+    outline: 2px solid var(--ff-checkbox-focus-ring);
     outline-offset: 2px;
   }
 

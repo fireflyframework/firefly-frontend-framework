@@ -1,4 +1,9 @@
 .ff-tooltip {
+  // Component tokens
+  --ff-tooltip-bg: var(--ff-color-neutral-900);
+  --ff-tooltip-color: var(--ff-color-surface);
+  --ff-tooltip-radius: var(--ff-radius-sm);
+
   position: relative;
   display: inline-block;
 
@@ -6,9 +11,9 @@
     position: absolute;
     z-index: 1000;
     padding: var(--ff-spacing-xs);
-    background-color: var(--ff-color-neutral-900);
-    color: var(--ff-color-surface);
-    border-radius: var(--ff-radius-sm);
+    background-color: var(--ff-tooltip-bg);
+    color: var(--ff-tooltip-color);
+    border-radius: var(--ff-tooltip-radius);
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-xs);
     line-height: 1.4;
