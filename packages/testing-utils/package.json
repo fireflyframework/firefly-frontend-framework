@@ -1,5 +1,5 @@
 {
-  "name": "@firefly/testing-utils",
+  "name": "@fireflyframework/testing-utils",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^21.2.0",

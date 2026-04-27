@@ -1,5 +1,13 @@
 {
-  "name": "@firefly/schema-types",
-  "version": "0.0.1",
+  "name": "@fireflyframework/schema-types",
+  "version": "0.1.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fireflyframework/firefly-frontend-framework.git",
+    "directory": "packages/schema-types"
+  },
   "sideEffects": false
 }
