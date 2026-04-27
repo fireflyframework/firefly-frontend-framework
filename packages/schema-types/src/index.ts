@@ -1,4 +1,4 @@
-// @firefly/schema-types — DSL type definitions
+// @fireflyframework/schema-types — DSL type definitions
 
 // common
 export type { ArchetypeConfig, Mode, Pattern } from './common';

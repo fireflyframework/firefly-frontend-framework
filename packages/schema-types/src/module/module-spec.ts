@@ -9,7 +9,7 @@
  * ```yaml
  * # modules/auth.module.yaml
  * name: auth
- * path: '@nicdo/framework-core/auth'
+ * path: '@nicdo/core/auth'
  * services: [AuthService, TokenInterceptor]
  * providers: [provideAuth]
  * dependsOn: [session]

@@ -1,10 +1,12 @@
 {
-  "name": "@firefly/design-system-contract",
+  "name": "@fireflyframework/design-system-contract",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "vitest": "4.0.9",
+    "@nx/vite": "22.6.5"
   }
 }

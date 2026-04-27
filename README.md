@@ -156,6 +156,64 @@ This feature helps maintain a healthy CI pipeline by automatically detecting and
 
 [Learn more about self-healing CI →](https://nx.dev/ci/features/self-healing-ci)
 
+## 📦 Consuming Packages
+
+Firefly products consume framework packages via [GitHub Packages](https://github.com/orgs/fireflyframework/packages). Three packages are currently published:
+
+| Package | Version | Description |
+|---------|---------|-------------|
+| `@fireflyframework/core` | `0.1.0` | Auth, session, user context, transport layer, interceptors |
+| `@fireflyframework/design-system` | `0.1.1` | UI components, CSS tokens, theming |
+| `@fireflyframework/schema-types` | `0.1.0` | Shared TypeScript types and interfaces |
+
+### 1. Configure `.npmrc`
+
+Create a `.npmrc` file in the product root:
+
+```
+@fireflyframework:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
+
+Set the environment variable with a PAT that has `read:packages` scope:
+
+```bash
+export NODE_AUTH_TOKEN=ghp_your_token_here
+```
+
+### 2. Install packages
+
+```bash
+npm install @fireflyframework/core@^0.1.0 @fireflyframework/design-system@^0.1.1 @fireflyframework/schema-types@^0.1.0
+```
+
+### 3. Example `package.json`
+
+```json
+{
+  "dependencies": {
+    "@fireflyframework/core": "^0.1.0",
+    "@fireflyframework/design-system": "^0.1.1",
+    "@fireflyframework/schema-types": "^0.1.0"
+  }
+}
+```
+
+### 4. CI configuration
+
+In GitHub Actions, use a secret with `read:packages` scope:
+
+```yaml
+- name: Install dependencies
+  run: npm ci
+  env:
+    NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+```
+
+For a complete working example, see [`firefly-product-template`](https://github.com/fireflyframework/firefly-product-template).
+
+---
+
 ## 📁 Project Structure
 
 ```

@@ -38,7 +38,7 @@ export default [
               onlyDependOnLibsWithTags: ['scope:utils'],
             },
             {
-              sourceTag: 'scope:framework-core',
+              sourceTag: 'scope:core',
               onlyDependOnLibsWithTags: ['scope:schema-types', 'scope:utils'],
             },
             {
@@ -71,7 +71,7 @@ export default [
             {
               sourceTag: 'scope:feature',
               onlyDependOnLibsWithTags: [
-                'scope:framework-core',
+                'scope:core',
                 'scope:design-system',
                 'scope:design-system-contract',
                 'scope:schema-types',
@@ -81,7 +81,7 @@ export default [
             {
               sourceTag: 'scope:app',
               onlyDependOnLibsWithTags: [
-                'scope:framework-core',
+                'scope:core',
                 'scope:design-system',
                 'scope:design-system-contract',
                 'scope:schema-types',
