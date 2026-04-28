@@ -45,8 +45,32 @@ jobs:
       # - run: npx playwright install --with-deps
       # - run: pnpm nx affected -t e2e
 
-  showcase:
+  template:
     needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout template
+        uses: actions/checkout@v4
+        with:
+          repository: fireflyframework/firefly-product-template
+          ref: develop
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          cache: 'npm'
+
+      - name: Install template dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+
+      - name: Build template
+        run: npm run build
+
+  showcase:
+    needs: template
     runs-on: ubuntu-latest
     steps:
       - name: Checkout showcase
