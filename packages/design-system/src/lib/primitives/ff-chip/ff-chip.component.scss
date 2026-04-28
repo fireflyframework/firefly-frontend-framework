@@ -73,21 +73,22 @@
     font-size: var(--ff-font-size-sm);
   }
 
-  // --- Removable: body loses right border-radius ---
+  // --- Removable: border on host, children transparent ---
+
+  &--removable {
+    border: 1px solid var(--ff-chip-border);
+    background: var(--ff-chip-bg);
+  }
 
   &--removable .ff-chip__body {
-    border-right: none;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    padding-right: 0;
+    border: none;
+    background: none;
   }
 
   &--removable .ff-chip__remove {
-    border: 1px solid var(--ff-chip-border);
-    border-left: none;
-    border-top-right-radius: var(--ff-radius-full);
-    border-bottom-right-radius: var(--ff-radius-full);
-    background: var(--ff-chip-bg);
+    margin-left: 0;
+    margin-right: var(--ff-spacing-xs);
+    background: none;
   }
 
   &--removable.ff-chip--sm .ff-chip__remove {
