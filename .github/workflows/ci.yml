@@ -44,3 +44,27 @@ jobs:
       # TODO: Cuando se configuren tests e2e, añadir:
       # - run: npx playwright install --with-deps
       # - run: pnpm nx affected -t e2e
+
+  showcase:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout showcase
+        uses: actions/checkout@v4
+        with:
+          repository: fireflyframework/firefly-showcase
+          ref: develop
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          cache: 'npm'
+
+      - name: Install showcase dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+
+      - name: Build showcase
+        run: npm run build

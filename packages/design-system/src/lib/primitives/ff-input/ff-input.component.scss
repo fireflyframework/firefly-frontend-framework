@@ -1,4 +1,18 @@
 .ff-input {
+  // Component tokens
+  --ff-input-bg: var(--ff-color-surface);
+  --ff-input-border: var(--ff-color-border);
+  --ff-input-color: var(--ff-color-neutral-900);
+  --ff-input-placeholder: var(--ff-color-neutral-400);
+  --ff-input-focus-border: var(--ff-color-primary-500);
+  --ff-input-focus-ring: var(--ff-color-border-focus);
+  --ff-input-label-color: var(--ff-color-neutral-700);
+  --ff-input-hint-color: var(--ff-color-neutral-500);
+  --ff-input-error-color: var(--ff-color-error-600);
+  --ff-input-error-border: var(--ff-color-error-500);
+  --ff-input-error-ring: var(--ff-color-error-200);
+  --ff-input-radius: var(--ff-radius-md);
+
   display: flex;
   flex-direction: column;
   gap: var(--ff-spacing-xs);
@@ -7,7 +21,7 @@
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-sm);
     font-weight: var(--ff-font-weight-medium);
-    color: var(--ff-color-neutral-700);
+    color: var(--ff-input-label-color);
   }
 
   &__native {
@@ -17,20 +31,20 @@
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
     line-height: var(--ff-line-height-normal);
-    color: var(--ff-color-neutral-900);
-    background-color: var(--ff-color-surface);
-    border: 1px solid var(--ff-color-border);
-    border-radius: var(--ff-radius-md);
+    color: var(--ff-input-color);
+    background-color: var(--ff-input-bg);
+    border: 1px solid var(--ff-input-border);
+    border-radius: var(--ff-input-radius);
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
 
     &::placeholder {
-      color: var(--ff-color-neutral-400);
+      color: var(--ff-input-placeholder);
     }
 
     &:focus {
-      border-color: var(--ff-color-primary-500);
-      box-shadow: 0 0 0 2px var(--ff-color-border-focus);
+      border-color: var(--ff-input-focus-border);
+      box-shadow: 0 0 0 2px var(--ff-input-focus-ring);
     }
 
     &:disabled {
@@ -42,13 +56,13 @@
   &__hint {
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-xs);
-    color: var(--ff-color-neutral-500);
+    color: var(--ff-input-hint-color);
   }
 
   &__error {
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-xs);
-    color: var(--ff-color-error-600);
+    color: var(--ff-input-error-color);
   }
 
   // Textarea
@@ -58,15 +72,15 @@
 
   // Error state
   &--error .ff-input__native {
-    border-color: var(--ff-color-error-500);
+    border-color: var(--ff-input-error-border);
 
     &:focus {
-      box-shadow: 0 0 0 2px var(--ff-color-error-200);
+      box-shadow: 0 0 0 2px var(--ff-input-error-ring);
     }
   }
 
   &--error .ff-input__label {
-    color: var(--ff-color-error-600);
+    color: var(--ff-input-error-color);
   }
 
   // Disabled state

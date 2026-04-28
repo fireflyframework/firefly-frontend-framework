@@ -1,4 +1,13 @@
 .ff-radio {
+  // Component tokens
+  --ff-radio-border: var(--ff-color-neutral-400);
+  --ff-radio-bg: var(--ff-color-surface);
+  --ff-radio-selected-bg: var(--ff-color-primary-500);
+  --ff-radio-selected-border: var(--ff-color-primary-500);
+  --ff-radio-dot-color: var(--ff-color-on-primary);
+  --ff-radio-label-color: var(--ff-color-neutral-900);
+  --ff-radio-focus-ring: var(--ff-color-border-focus);
+
   display: inline-flex;
   gap: var(--ff-spacing-md);
 
@@ -40,9 +49,9 @@
     justify-content: center;
     width: 18px;
     height: 18px;
-    border: 2px solid var(--ff-color-neutral-400);
+    border: 2px solid var(--ff-radio-border);
     border-radius: 50%;
-    background-color: var(--ff-color-surface);
+    background-color: var(--ff-radio-bg);
     transition: border-color 0.15s, background-color 0.15s;
     flex-shrink: 0;
 
@@ -52,14 +61,14 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: var(--ff-color-on-primary);
+      background-color: var(--ff-radio-dot-color);
     }
   }
 
   // Selected state
   &__item--selected .ff-radio__dot {
-    background-color: var(--ff-color-primary-500);
-    border-color: var(--ff-color-primary-500);
+    background-color: var(--ff-radio-selected-bg);
+    border-color: var(--ff-radio-selected-border);
 
     &::after {
       display: block;
@@ -70,13 +79,13 @@
   &__label {
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
-    color: var(--ff-color-neutral-900);
+    color: var(--ff-radio-label-color);
     user-select: none;
   }
 
   // Focus ring
   &__native:focus-visible ~ .ff-radio__dot {
-    outline: 2px solid var(--ff-color-border-focus);
+    outline: 2px solid var(--ff-radio-focus-ring);
     outline-offset: 2px;
   }
 

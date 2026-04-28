@@ -1,4 +1,31 @@
 .ff-button {
+  // Component tokens — primary
+  --ff-btn-primary-bg: var(--ff-color-primary-500);
+  --ff-btn-primary-color: var(--ff-color-on-primary);
+  --ff-btn-primary-hover-bg: var(--ff-color-primary-600);
+  --ff-btn-primary-active-bg: var(--ff-color-primary-700);
+
+  // Component tokens — secondary
+  --ff-btn-secondary-bg: var(--ff-color-secondary-500);
+  --ff-btn-secondary-color: var(--ff-color-on-primary);
+  --ff-btn-secondary-hover-bg: var(--ff-color-secondary-600);
+
+  // Component tokens — outline
+  --ff-btn-outline-color: var(--ff-color-primary-500);
+  --ff-btn-outline-border: var(--ff-color-primary-500);
+  --ff-btn-outline-hover-bg: var(--ff-color-primary-50);
+
+  // Component tokens — ghost
+  --ff-btn-ghost-color: var(--ff-color-primary-500);
+  --ff-btn-ghost-hover-bg: var(--ff-color-neutral-100);
+
+  // Component tokens — icons
+  --ff-btn-icon-size: 1.2em;
+
+  // Component tokens — shared
+  --ff-btn-radius: var(--ff-radius-md);
+  --ff-btn-focus-ring: var(--ff-color-border-focus);
+
   display: inline-block;
 
   &__native {
@@ -7,7 +34,7 @@
     justify-content: center;
     gap: var(--ff-spacing-sm);
     border: 1px solid transparent;
-    border-radius: var(--ff-radius-md);
+    border-radius: var(--ff-btn-radius);
     font-family: var(--ff-font-family);
     font-weight: var(--ff-font-weight-medium);
     cursor: pointer;
@@ -34,38 +61,38 @@
 
   // Primary
   &--primary .ff-button__native {
-    background-color: var(--ff-color-primary-500);
-    color: var(--ff-color-on-primary);
-    border-color: var(--ff-color-primary-500);
+    background-color: var(--ff-btn-primary-bg);
+    color: var(--ff-btn-primary-color);
+    border-color: var(--ff-btn-primary-bg);
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-color-primary-600);
-      border-color: var(--ff-color-primary-600);
+      background-color: var(--ff-btn-primary-hover-bg);
+      border-color: var(--ff-btn-primary-hover-bg);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--ff-color-primary-700);
+      background-color: var(--ff-btn-primary-active-bg);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: 2px solid var(--ff-btn-focus-ring);
       outline-offset: 2px;
     }
   }
 
   // Secondary
   &--secondary .ff-button__native {
-    background-color: var(--ff-color-secondary-500);
-    color: var(--ff-color-on-primary);
-    border-color: var(--ff-color-secondary-500);
+    background-color: var(--ff-btn-secondary-bg);
+    color: var(--ff-btn-secondary-color);
+    border-color: var(--ff-btn-secondary-bg);
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-color-secondary-600);
-      border-color: var(--ff-color-secondary-600);
+      background-color: var(--ff-btn-secondary-hover-bg);
+      border-color: var(--ff-btn-secondary-hover-bg);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: 2px solid var(--ff-btn-focus-ring);
       outline-offset: 2px;
     }
   }
@@ -73,15 +100,15 @@
   // Outline
   &--outline .ff-button__native {
     background-color: transparent;
-    color: var(--ff-color-primary-500);
-    border-color: var(--ff-color-primary-500);
+    color: var(--ff-btn-outline-color);
+    border-color: var(--ff-btn-outline-border);
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-color-primary-50);
+      background-color: var(--ff-btn-outline-hover-bg);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: 2px solid var(--ff-btn-focus-ring);
       outline-offset: 2px;
     }
   }
@@ -89,15 +116,15 @@
   // Ghost
   &--ghost .ff-button__native {
     background-color: transparent;
-    color: var(--ff-color-primary-500);
+    color: var(--ff-btn-ghost-color);
     border-color: transparent;
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-color-neutral-100);
+      background-color: var(--ff-btn-ghost-hover-bg);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: 2px solid var(--ff-btn-focus-ring);
       outline-offset: 2px;
     }
   }
@@ -113,22 +140,26 @@
     cursor: wait;
   }
 
-  // Spinner
+  // Spinner (matches icon size)
   &__spinner {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: var(--ff-btn-icon-size);
+    height: var(--ff-btn-icon-size);
     border: 2px solid currentColor;
     border-right-color: transparent;
     border-radius: var(--ff-radius-full);
     animation: ff-button-spin 0.6s linear infinite;
   }
 
-  // Content hidden during loading
-  &__content--hidden {
-    visibility: hidden;
-    width: 0;
-    overflow: hidden;
+  // Prefix / suffix icon slots
+  [ffButtonPrefix],
+  [ffButtonSuffix] {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: var(--ff-btn-icon-size);
+    color: var(--ff-btn-icon-color, inherit);
+    line-height: 1;
   }
 }
 

@@ -1,4 +1,7 @@
 .ff-divider {
+  // Component tokens
+  --ff-divider-color: var(--ff-color-border);
+
   display: block;
   flex-shrink: 0;
   border: 0;
@@ -7,7 +10,7 @@
   &--horizontal {
     width: 100%;
     border-top-style: solid;
-    border-top-color: var(--ff-color-border);
+    border-top-color: var(--ff-divider-color);
   }
 
   &--horizontal.ff-divider--thin {
@@ -23,7 +26,7 @@
     display: inline-block;
     align-self: stretch;
     border-left-style: solid;
-    border-left-color: var(--ff-color-border);
+    border-left-color: var(--ff-divider-color);
   }
 
   &--vertical.ff-divider--thin {

@@ -7,8 +7,11 @@
 >
   @if (loading()) {
     <span class="ff-button__spinner" aria-hidden="true"></span>
+  } @else {
+    <ng-content select="[ffButtonPrefix]" />
   }
-  <span class="ff-button__content" [class.ff-button__content--hidden]="loading()">
+  <span class="ff-button__content">
     <ng-content />
   </span>
+  <ng-content select="[ffButtonSuffix]" />
 </button>
