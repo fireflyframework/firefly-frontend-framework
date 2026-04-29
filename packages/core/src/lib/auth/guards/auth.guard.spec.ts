@@ -4,7 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { authGuard } from './auth.guard';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth.service';
 
 @Component({ template: '', standalone: true })
 class DummyComponent {}
