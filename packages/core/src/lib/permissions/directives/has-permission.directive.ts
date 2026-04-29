@@ -7,7 +7,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { PermissionService } from './permission.service';
+import { PermissionService } from '../permission.service';
 
 /**
  * Structural directive that conditionally renders its host element

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { Component } from '@angular/core';
 import { permissionGuard, roleGuard } from './permission.guard';
-import { PermissionService } from './permission.service';
+import { PermissionService } from '../permission.service';
 
 @Component({ template: '', standalone: true })
 class DummyComponent {}

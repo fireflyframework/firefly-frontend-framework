@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HasPermissionDirective } from './has-permission.directive';
-import { PermissionService } from './permission.service';
+import { PermissionService } from '../permission.service';
 
 @Component({
   template: `<span *ffHasPermission="'resource.write'">Visible</span>`,

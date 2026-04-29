@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HasRoleDirective } from './has-role.directive';
-import { PermissionService } from './permission.service';
+import { PermissionService } from '../permission.service';
 
 @Component({
   template: `<span *ffHasRole="'admin'">Admin Only</span>`,

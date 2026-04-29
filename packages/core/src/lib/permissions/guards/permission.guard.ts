@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { PermissionService } from './permission.service';
+import { PermissionService } from '../permission.service';
 
 /**
  * Factory that creates a route guard requiring ALL given permissions.
