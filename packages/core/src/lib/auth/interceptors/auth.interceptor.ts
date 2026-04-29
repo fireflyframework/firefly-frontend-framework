@@ -6,7 +6,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { catchError, switchMap, throwError } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth.service';
 import { from } from 'rxjs';
 
 /** Endpoints that must NOT receive a Bearer token (they handle their own auth). */
