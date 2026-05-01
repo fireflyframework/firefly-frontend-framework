@@ -1,9 +1,7 @@
 import {
   EnvironmentProviders,
-  inject,
   InjectionToken,
   makeEnvironmentProviders,
-  provideAppInitializer,
 } from '@angular/core';
 import { DynamicPermissionConfig } from './dynamic-permission.types';
 
