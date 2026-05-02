@@ -13,22 +13,21 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
     "paths": {
       "@fireflyframework/design-system-contract": [
-        "packages/design-system-contract/src/index.ts"
+        "./packages/design-system-contract/src/index.ts"
       ],
-      "@fireflyframework/utils/array": ["packages/utils/src/array/index.ts"],
-      "@fireflyframework/utils/object": ["packages/utils/src/object/index.ts"],
-      "@fireflyframework/utils/string": ["packages/utils/src/string/index.ts"],
-      "@fireflyframework/utils/type-guards": ["packages/utils/src/type-guards/index.ts"],
-      "@fireflyframework/generators": ["packages/generators/src/index.ts"],
-      "@fireflyframework/config": ["packages/config/src/index.ts"],
-      "@fireflyframework/design-system": ["packages/design-system/src/index.ts"],
-      "@fireflyframework/schema-types": ["packages/schema-types/src/index.ts"],
-      "@fireflyframework/core": ["packages/core/src/index.ts"],
-      "@fireflyframework/testing-utils": ["packages/testing-utils/src/index.ts"],
-      "@fireflyframework/elements": ["packages/elements/src/index.ts"]
+      "@fireflyframework/utils/array": ["./packages/utils/src/array/index.ts"],
+      "@fireflyframework/utils/object": ["./packages/utils/src/object/index.ts"],
+      "@fireflyframework/utils/string": ["./packages/utils/src/string/index.ts"],
+      "@fireflyframework/utils/type-guards": ["./packages/utils/src/type-guards/index.ts"],
+      "@fireflyframework/generators": ["./packages/generators/src/index.ts"],
+      "@fireflyframework/config": ["./packages/config/src/index.ts"],
+      "@fireflyframework/design-system": ["./packages/design-system/src/index.ts"],
+      "@fireflyframework/schema-types": ["./packages/schema-types/src/index.ts"],
+      "@fireflyframework/core": ["./packages/core/src/index.ts"],
+      "@fireflyframework/testing-utils": ["./packages/testing-utils/src/index.ts"],
+      "@fireflyframework/elements": ["./packages/elements/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

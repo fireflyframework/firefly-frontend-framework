@@ -20,6 +20,12 @@ export type { FfCardShadow } from './lib/primitives/ff-card';
 export { FfSelectComponent } from './lib/primitives/ff-select';
 export type { FfSelectOption } from './lib/primitives/ff-select';
 export { FfDialogComponent } from './lib/primitives/ff-dialog';
+export { FfToastComponent } from './lib/primitives/ff-toast';
+export type { FfToastVariant } from './lib/primitives/ff-toast';
+export { FfBannerComponent } from './lib/primitives/ff-banner';
+export type { FfBannerVariant } from './lib/primitives/ff-banner';
+export { FfBottomSheetComponent } from './lib/primitives/ff-bottom-sheet';
+export type { FfBottomSheetVariant } from './lib/primitives/ff-bottom-sheet';
 export { FfDividerComponent } from './lib/primitives/ff-divider';
 export type {
   FfDividerOrientation,
