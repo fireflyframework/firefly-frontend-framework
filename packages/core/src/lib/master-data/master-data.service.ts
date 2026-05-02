@@ -2,6 +2,7 @@ import { Injectable, Signal, computed, signal } from '@angular/core';
 import { firstValueFrom, isObservable } from 'rxjs';
 import { MasterDataSource, MasterDataState } from './master-data.types';
 
+/** Internal cache entry for a registered master-data source. */
 interface MasterDataEntry {
   source: MasterDataSource;
   data: ReturnType<typeof signal<unknown[]>>;
@@ -39,6 +40,8 @@ export class MasterDataService {
   /**
    * Register master-data sources. Does NOT load them — only stores
    * the source definitions. Call `loadAll()` to trigger loading.
+   *
+   * @param sources - Array of source definitions to register
    */
   register(sources: MasterDataSource[]): void {
     for (const source of sources) {
@@ -65,6 +68,9 @@ export class MasterDataService {
    * Get the data for a registered master.
    * Returns `Signal<T[]>` that starts empty and fills after loading.
    * If the key does not exist, returns a signal that always emits `[]`.
+   *
+   * @param key - Master-data source key
+   * @returns Reactive signal with the cached data array
    */
   get<T>(key: string): Signal<T[]> {
     const entry = this.entries.get(key);
@@ -75,6 +81,9 @@ export class MasterDataService {
   /**
    * Get the loading state of a registered master.
    * If the key does not exist, returns a signal that always emits `'idle'`.
+   *
+   * @param key - Master-data source key
+   * @returns Reactive signal with the current loading state
    */
   state(key: string): Signal<MasterDataState> {
     const entry = this.entries.get(key);
@@ -82,7 +91,11 @@ export class MasterDataService {
     return entry.state.asReadonly();
   }
 
-  /** Reload a single master by key. */
+  /**
+   * Reload a single master by key.
+   *
+   * @param key - Master-data source key to reload
+   */
   async reload(key: string): Promise<void> {
     await this.loadOne(key);
   }
@@ -94,6 +107,11 @@ export class MasterDataService {
 
   // ------- private -------
 
+  /**
+   * Load a single master-data source by key.
+   *
+   * @param key - Master-data source key to load
+   */
   private async loadOne(key: string): Promise<void> {
     const entry = this.entries.get(key);
     if (!entry) return;
@@ -115,6 +133,11 @@ export class MasterDataService {
     }
   }
 
+  /**
+   * Schedule a TTL expiration that resets the entry state to `idle`.
+   *
+   * @param entry - Cache entry whose TTL timer should be (re)started
+   */
   private scheduleTtl(entry: MasterDataEntry): void {
     if (entry.ttlTimer) clearTimeout(entry.ttlTimer);
     if (!entry.source.ttl) return;

@@ -46,6 +46,8 @@ export class TransportRegistry {
    * Called by provider functions (provideHttpTransport(), provideGrpcTransport(), etc.)
    * during application bootstrap. If an adapter is already registered for this protocol,
    * it replaces it (useful for testing: register MockTransportAdapter over the real one).
+   *
+   * @param adapter - Transport adapter instance to register
    */
   registerAdapter(adapter: TransportAdapter): void {
     this.adapters.set(adapter.protocol, adapter);
@@ -55,6 +57,8 @@ export class TransportRegistry {
    * Load routes from configuration.
    *
    * Called once by provideFireflyTransport() during bootstrap.
+   *
+   * @param routes - Array of service-to-protocol route mappings
    */
   setRoutes(routes: TransportRoute[]): void {
     this.routes.set(routes);
@@ -118,7 +122,12 @@ export class TransportRegistry {
   }
 }
 
-/** Capitalize first letter — inline to avoid circular dependency with utils */
+/**
+ * Capitalize first letter — inline to avoid circular dependency with utils.
+ *
+ * @param s - String to capitalize
+ * @returns String with the first character uppercased
+ */
 function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }

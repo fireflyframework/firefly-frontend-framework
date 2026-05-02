@@ -1,0 +1,12 @@
+@if (icon()) {
+  <span class="ff-toast__icon">{{ icon() }}</span>
+}
+<span class="ff-toast__message">{{ message() }}</span>
+@if (dismissible()) {
+  <button
+    class="ff-toast__close"
+    type="button"
+    aria-label="Dismiss"
+    (click)="dismissed.emit()"
+  >&#x2715;</button>
+}

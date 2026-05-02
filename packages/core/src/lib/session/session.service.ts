@@ -86,6 +86,11 @@ export class SessionService {
     this.sessionState.set('expired');
   }
 
+  /**
+   * Start warning and inactivity timers for the session.
+   *
+   * @param expiresIn - Total session duration in seconds
+   */
   private startTimers(expiresIn: number): void {
     const warningAt =
       (expiresIn - this.config.warningBeforeExpiry) * 1000;
@@ -99,6 +104,7 @@ export class SessionService {
     this.startInactivityTimer();
   }
 
+  /** Start the inactivity timer that expires the session after idle timeout. */
   private startInactivityTimer(): void {
     this.inactivityTimer = setTimeout(() => {
       this.sessionState.set('expired');
@@ -107,6 +113,7 @@ export class SessionService {
     }, this.config.inactivityTimeout * 1000);
   }
 
+  /** Handle DOM activity events with throttling to avoid excessive timer resets. */
   private handleActivity(): void {
     const now = Date.now();
     if (now - this.lastActivityTime < ACTIVITY_THROTTLE_MS) {
@@ -116,18 +123,21 @@ export class SessionService {
     this.resetActivity();
   }
 
+  /** Register DOM event listeners for user activity detection. */
   private addListeners(): void {
     for (const event of ACTIVITY_EVENTS) {
       document.addEventListener(event, this.onActivity, { passive: true });
     }
   }
 
+  /** Remove DOM event listeners for user activity detection. */
   private removeListeners(): void {
     for (const event of ACTIVITY_EVENTS) {
       document.removeEventListener(event, this.onActivity);
     }
   }
 
+  /** Clear the inactivity timer if active. */
   private clearInactivityTimer(): void {
     if (this.inactivityTimer !== null) {
       clearTimeout(this.inactivityTimer);
@@ -135,6 +145,7 @@ export class SessionService {
     }
   }
 
+  /** Clear both inactivity and warning timers. */
   private clearAllTimers(): void {
     this.clearInactivityTimer();
     if (this.warningTimer !== null) {

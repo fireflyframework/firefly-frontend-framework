@@ -1,3 +1,4 @@
+export * from './lib/alerts';
 export * from './lib/auth';
 export * from './lib/session';
 export * from './lib/user-context';

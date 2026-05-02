@@ -6,6 +6,8 @@ import {
   output,
 } from '@angular/core';
 
+export type FfDialogVariant = 'success' | 'error' | 'warning' | 'info';
+
 /**
  * Firefly dialog atom.
  *
@@ -14,7 +16,7 @@ import {
  *
  * @example
  * ```html
- * <ff-dialog title="Confirm deletion" [open]="showDialog" (closed)="showDialog = false">
+ * <ff-dialog title="Confirm deletion" type="warning" [open]="showDialog" (closed)="showDialog = false">
  *   <p>Are you sure you want to delete this item?</p>
  *   <div ff-dialog-actions>
  *     <ff-button variant="secondary" (clicked)="showDialog = false">Cancel</ff-button>
@@ -31,7 +33,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class]': '"ff-dialog"',
+    '[class]': '"ff-dialog" + (type() ? " ff-dialog--" + type() : "")',
   },
 })
 export class FfDialogComponent {
@@ -40,6 +42,9 @@ export class FfDialogComponent {
 
   /** Dialog title rendered in the header. */
   readonly title = input('');
+
+  /** Semantic variant controlling visual style. Optional — when unset no variant class is applied. */
+  readonly type = input<FfDialogVariant | undefined>(undefined);
 
   /** Whether the dialog can be closed via backdrop click, Escape key, or X button. Defaults to `true`. */
   readonly dismissible = input(true);

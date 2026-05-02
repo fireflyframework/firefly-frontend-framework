@@ -1,0 +1,21 @@
+@if (icon()) {
+  <span class="ff-banner__icon">{{ icon() }}</span>
+}
+<span class="ff-banner__message">{{ message() }}</span>
+<div class="ff-banner__actions">
+  @if (actionLabel()) {
+    <button
+      class="ff-banner__action"
+      type="button"
+      (click)="actionClicked.emit()"
+    >{{ actionLabel() }}</button>
+  }
+  @if (dismissible()) {
+    <button
+      class="ff-banner__close"
+      type="button"
+      aria-label="Dismiss"
+      (click)="dismissed.emit()"
+    >&#x2715;</button>
+  }
+</div>

@@ -44,7 +44,11 @@ export class NavigationService {
     this.filterByPermissions(this._items()),
   );
 
-  /** Set the initial navigation configuration (replaces all items). */
+  /**
+   * Set the initial navigation configuration (replaces all items).
+   *
+   * @param config - Navigation tree definition
+   */
   configure(config: NavigationConfig): void {
     this._items.set(config.items);
   }
@@ -53,6 +57,8 @@ export class NavigationService {
    * Register a top-level navigation item dynamically.
    * If an item with the same `id` already exists, it is replaced.
    * Useful for lazy-loaded features that add their own nav items.
+   *
+   * @param item - Navigation item to add or replace
    */
   registerItem(item: NavItem): void {
     this._items.update((items) => {
@@ -61,11 +67,23 @@ export class NavigationService {
     });
   }
 
-  /** Remove a top-level navigation item by id. */
+  /**
+   * Remove a top-level navigation item by id.
+   *
+   * @param id - Identifier of the item to remove
+   */
   unregisterItem(id: string): void {
     this._items.update((items) => items.filter((i) => i.id !== id));
   }
 
+  /**
+   * Recursively filter navigation items by current permissions.
+   * Removes items whose `requiredPermission` is not granted, and
+   * removes containers when all their children are filtered out.
+   *
+   * @param items - Navigation items to filter
+   * @returns Filtered array of permitted items
+   */
   private filterByPermissions(items: NavItem[]): NavItem[] {
     const currentPerms = this.permissions.permissions();
     return items

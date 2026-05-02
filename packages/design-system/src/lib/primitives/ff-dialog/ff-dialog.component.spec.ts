@@ -59,6 +59,35 @@ describe('FfDialogComponent', () => {
     expect(host.classList.contains('ff-dialog')).toBe(true);
   });
 
+  it('should not have variant class by default', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.className).toBe('ff-dialog');
+  });
+
+  it('should apply variant class when type is set', () => {
+    fixture.componentRef.setInput('type', 'warning');
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.classList.contains('ff-dialog--warning')).toBe(true);
+  });
+
+  it.each(['success', 'error', 'warning', 'info'] as const)('should apply ff-dialog--%s class', (variant) => {
+    fixture.componentRef.setInput('type', variant);
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.classList.contains(`ff-dialog--${variant}`)).toBe(true);
+    expect(host.classList.contains('ff-dialog')).toBe(true);
+  });
+
+  it('should remove variant class when type is cleared', () => {
+    fixture.componentRef.setInput('type', 'error');
+    fixture.detectChanges();
+    fixture.componentRef.setInput('type', undefined);
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.className).toBe('ff-dialog');
+  });
+
   it('should not render backdrop when closed', () => {
     const backdrop = fixture.nativeElement.querySelector('.ff-dialog__backdrop');
     expect(backdrop).toBeFalsy();

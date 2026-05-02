@@ -37,12 +37,20 @@ export class UserContextService {
     return current[0];
   });
 
-  /** Set user profile (e.g. from a /me API response or decoded token). */
+  /**
+   * Set user profile (e.g. from a /me API response or decoded token).
+   *
+   * @param profile - User identity data to store
+   */
   setUser(profile: UserProfile): void {
     this.user.set(profile);
   }
 
-  /** Set user roles. */
+  /**
+   * Set user roles.
+   *
+   * @param roles - Array of role identifiers assigned to the current user
+   */
   setRoles(roles: UserRole[]): void {
     this.roles.set(roles);
   }
