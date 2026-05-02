@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   AlertFormat,
   AlertType,
@@ -12,6 +12,7 @@ import {
   Toast,
   ToastOptions,
 } from './alert.types';
+import { ALERT_CONFIG } from './provide-alerts';
 
 const DEFAULT_TOAST_DURATION = 3000;
 const ERROR_TOAST_DURATION = 5000;
@@ -74,6 +75,7 @@ export class AlertService {
   /** Active dialogs (read-only). */
   readonly activeDialogs = this._dialogs.asReadonly();
 
+  private readonly config = inject(ALERT_CONFIG, { optional: true });
   private readonly timers = new Map<string, ReturnType<typeof setTimeout>>();
   private readonly dialogResolvers = new Map<
     string,
@@ -95,21 +97,26 @@ export class AlertService {
    */
   toast(message: string, type: AlertType, options?: ToastOptions): void {
     const id = this.generateId();
+    const defaultDuration = this.config?.defaultToastDuration ?? DEFAULT_TOAST_DURATION;
     const duration =
       options?.duration ??
-      (type === 'error' ? ERROR_TOAST_DURATION : DEFAULT_TOAST_DURATION);
+      (type === 'error' ? ERROR_TOAST_DURATION : defaultDuration);
+    const maxToasts = this.config?.maxVisibleToasts ?? MAX_VISIBLE_TOASTS;
 
     const entry: Toast = {
       id,
       message,
       type,
-      options: options ?? {},
+      options: {
+        ...options,
+        position: options?.position ?? this.config?.defaultToastPosition,
+      },
       createdAt: Date.now(),
     };
 
     this._toasts.update((current) => {
       const updated = [...current, entry];
-      while (updated.length > MAX_VISIBLE_TOASTS) {
+      while (updated.length > maxToasts) {
         const removed = updated.shift()!;
         this.clearTimer(removed.id);
       }
@@ -133,17 +140,21 @@ export class AlertService {
    */
   banner(message: string, type: AlertType, options?: BannerOptions): void {
     const id = this.generateId();
+    const maxBanners = this.config?.maxVisibleBanners ?? MAX_VISIBLE_BANNERS;
     const entry: Banner = {
       id,
       message,
       type,
-      options: options ?? {},
+      options: {
+        ...options,
+        position: options?.position ?? this.config?.defaultBannerPosition,
+      },
       createdAt: Date.now(),
     };
 
     this._banners.update((current) => {
       const updated = [...current, entry];
-      while (updated.length > MAX_VISIBLE_BANNERS) {
+      while (updated.length > maxBanners) {
         const removed = updated.shift()!;
         this.clearTimer(removed.id);
       }
