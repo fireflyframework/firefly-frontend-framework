@@ -233,5 +233,266 @@ describe('AlertService — toasts & banners', () => {
       expect(service.activeToasts()).toHaveLength(0);
       expect(service.activeBanners()).toHaveLength(0);
     });
+
+    it('should also clear bottom-sheets and dialogs', () => {
+      service.toast('T', 'info');
+      service.banner('B', 'warning');
+      service.bottomSheet('BS', 'info');
+      service.dialog({ type: 'info', message: 'D' });
+
+      service.dismissAll();
+
+      expect(service.activeToasts()).toHaveLength(0);
+      expect(service.activeBanners()).toHaveLength(0);
+      expect(service.activeBottomSheets()).toHaveLength(0);
+      expect(service.activeDialogs()).toHaveLength(0);
+    });
+
+    it('should resolve pending dialogs as cancelled', async () => {
+      const promise = service.dialog({ type: 'info', message: 'test' });
+      service.dismissAll();
+
+      const result = await promise;
+      expect(result).toEqual({ confirmed: false });
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // Bottom-sheets
+  // ---------------------------------------------------------------
+
+  describe('bottomSheet()', () => {
+    it('should add a bottom-sheet to activeBottomSheets', () => {
+      service.bottomSheet('Details', 'info');
+
+      expect(service.activeBottomSheets()).toHaveLength(1);
+      expect(service.activeBottomSheets()[0].message).toBe('Details');
+      expect(service.activeBottomSheets()[0].type).toBe('info');
+    });
+
+    it('should preserve options', () => {
+      service.bottomSheet('Actions', 'warning', {
+        title: 'Choose action',
+        dismissible: true,
+        actions: [{ label: 'Delete', callback: () => {}, type: 'destructive' }],
+      });
+
+      const bs = service.activeBottomSheets()[0];
+      expect(bs.options.title).toBe('Choose action');
+      expect(bs.options.actions).toHaveLength(1);
+      expect(bs.options.actions![0].label).toBe('Delete');
+    });
+  });
+
+  describe('dismissBottomSheet()', () => {
+    it('should remove a specific bottom-sheet by ID', () => {
+      service.bottomSheet('A', 'info');
+      service.bottomSheet('B', 'warning');
+
+      const idA = service.activeBottomSheets()[0].id;
+      service.dismissBottomSheet(idA);
+
+      expect(service.activeBottomSheets()).toHaveLength(1);
+      expect(service.activeBottomSheets()[0].message).toBe('B');
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // Dialogs (Promise-based)
+  // ---------------------------------------------------------------
+
+  describe('dialog()', () => {
+    it('should add a dialog to activeDialogs', () => {
+      service.dialog({ type: 'info', message: 'Are you sure?' });
+
+      expect(service.activeDialogs()).toHaveLength(1);
+      expect(service.activeDialogs()[0].options.message).toBe('Are you sure?');
+    });
+
+    it('should return a Promise that resolves with DialogResult', async () => {
+      const promise = service.dialog({
+        type: 'info',
+        message: 'Confirm?',
+        confirmLabel: 'Yes',
+        cancelLabel: 'No',
+      });
+
+      const id = service.activeDialogs()[0].id;
+      service.resolveDialog(id, { confirmed: true });
+
+      const result = await promise;
+      expect(result).toEqual({ confirmed: true });
+    });
+
+    it('should remove dialog from activeDialogs after resolve', async () => {
+      const promise = service.dialog({ type: 'info', message: 'test' });
+      const id = service.activeDialogs()[0].id;
+
+      service.resolveDialog(id, { confirmed: false });
+      await promise;
+
+      expect(service.activeDialogs()).toHaveLength(0);
+    });
+
+    it('should store destructiveConfirmText in options', () => {
+      service.dialog({
+        type: 'destructive',
+        message: 'Delete account?',
+        destructiveConfirmText: 'DELETE',
+      });
+
+      expect(
+        service.activeDialogs()[0].options.destructiveConfirmText,
+      ).toBe('DELETE');
+    });
+
+    it('should handle multiple pending dialogs simultaneously', async () => {
+      const p1 = service.dialog({ type: 'info', message: 'First' });
+      const p2 = service.dialog({ type: 'warning', message: 'Second' });
+
+      expect(service.activeDialogs()).toHaveLength(2);
+
+      const id1 = service.activeDialogs()[0].id;
+      const id2 = service.activeDialogs()[1].id;
+
+      service.resolveDialog(id2, { confirmed: false });
+      service.resolveDialog(id1, { confirmed: true });
+
+      const [r1, r2] = await Promise.all([p1, p2]);
+      expect(r1.confirmed).toBe(true);
+      expect(r2.confirmed).toBe(false);
+      expect(service.activeDialogs()).toHaveLength(0);
+    });
+  });
+
+  describe('resolveDialog()', () => {
+    it('should be a no-op for unknown IDs', () => {
+      service.resolveDialog('nonexistent', { confirmed: true });
+      expect(service.activeDialogs()).toHaveLength(0);
+    });
+
+    it('should support DialogResult with input', async () => {
+      const promise = service.dialog({
+        type: 'destructive',
+        message: 'Confirm delete',
+        destructiveConfirmText: 'DELETE',
+      });
+
+      const id = service.activeDialogs()[0].id;
+      service.resolveDialog(id, { confirmed: true, input: 'DELETE' });
+
+      const result = await promise;
+      expect(result).toEqual({ confirmed: true, input: 'DELETE' });
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // Convenience shortcuts
+  // ---------------------------------------------------------------
+
+  describe('shortcuts', () => {
+    it('success() should create a toast by default', () => {
+      service.success('Done!');
+
+      expect(service.activeToasts()).toHaveLength(1);
+      expect(service.activeToasts()[0].type).toBe('success');
+    });
+
+    it('error() should create a toast by default', () => {
+      service.error('Failed');
+
+      expect(service.activeToasts()).toHaveLength(1);
+      expect(service.activeToasts()[0].type).toBe('error');
+    });
+
+    it('error toast should have 5000ms duration', () => {
+      service.error('Failed');
+
+      vi.advanceTimersByTime(3000);
+      expect(service.activeToasts()).toHaveLength(1);
+
+      vi.advanceTimersByTime(2000);
+      expect(service.activeToasts()).toHaveLength(0);
+    });
+
+    it('warning() should create a toast by default', () => {
+      service.warning('Careful');
+
+      expect(service.activeToasts()).toHaveLength(1);
+      expect(service.activeToasts()[0].type).toBe('warning');
+    });
+
+    it('info() should create a toast by default', () => {
+      service.info('FYI');
+
+      expect(service.activeToasts()).toHaveLength(1);
+      expect(service.activeToasts()[0].type).toBe('info');
+    });
+
+    it('success() with banner format should create a banner', () => {
+      service.success('Saved', 'banner');
+
+      expect(service.activeToasts()).toHaveLength(0);
+      expect(service.activeBanners()).toHaveLength(1);
+      expect(service.activeBanners()[0].type).toBe('success');
+    });
+
+    it('error() with dialog format should create a dialog', () => {
+      service.error('Critical error', 'dialog');
+
+      expect(service.activeToasts()).toHaveLength(0);
+      expect(service.activeDialogs()).toHaveLength(1);
+      expect(service.activeDialogs()[0].options.type).toBe('error');
+    });
+
+    it('info() with bottom-sheet format should create a bottom-sheet', () => {
+      service.info('Details', 'bottom-sheet');
+
+      expect(service.activeToasts()).toHaveLength(0);
+      expect(service.activeBottomSheets()).toHaveLength(1);
+      expect(service.activeBottomSheets()[0].type).toBe('info');
+    });
+  });
+
+  describe('confirm()', () => {
+    it('should return true when confirmed', async () => {
+      const promise = service.confirm('Are you sure?');
+
+      const id = service.activeDialogs()[0].id;
+      service.resolveDialog(id, { confirmed: true });
+
+      expect(await promise).toBe(true);
+    });
+
+    it('should return false when cancelled', async () => {
+      const promise = service.confirm('Are you sure?');
+
+      const id = service.activeDialogs()[0].id;
+      service.resolveDialog(id, { confirmed: false });
+
+      expect(await promise).toBe(false);
+    });
+
+    it('should create a dialog with default labels', () => {
+      service.confirm('Delete this?');
+
+      const dialog = service.activeDialogs()[0];
+      expect(dialog.options.type).toBe('info');
+      expect(dialog.options.confirmLabel).toBe('Confirm');
+      expect(dialog.options.cancelLabel).toBe('Cancel');
+    });
+
+    it('should allow overriding dialog options', () => {
+      service.confirm('Delete?', {
+        type: 'destructive',
+        confirmLabel: 'Delete',
+        cancelLabel: 'Keep',
+      });
+
+      const dialog = service.activeDialogs()[0];
+      expect(dialog.options.type).toBe('destructive');
+      expect(dialog.options.confirmLabel).toBe('Delete');
+      expect(dialog.options.cancelLabel).toBe('Keep');
+    });
   });
 });

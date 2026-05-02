@@ -14,6 +14,7 @@ export type AlertFormat = 'toast' | 'banner' | 'bottom-sheet' | 'dialog';
 // Internal state models (managed by AlertService via signals)
 // ---------------------------------------------------------------------------
 
+/** Immutable toast entry managed by AlertService. Read from `activeToasts` signal. */
 export interface Toast {
   readonly id: string;
   readonly message: string;
@@ -22,6 +23,7 @@ export interface Toast {
   readonly createdAt: number;
 }
 
+/** Immutable banner entry managed by AlertService. Read from `activeBanners` signal. */
 export interface Banner {
   readonly id: string;
   readonly message: string;
@@ -30,11 +32,19 @@ export interface Banner {
   readonly createdAt: number;
 }
 
+/** Immutable bottom-sheet entry managed by AlertService. Read from `activeBottomSheets` signal. */
 export interface BottomSheet {
   readonly id: string;
   readonly message: string;
   readonly type: AlertType;
   readonly options: BottomSheetOptions;
+  readonly createdAt: number;
+}
+
+/** Immutable dialog entry managed by AlertService. Read from `activeDialogs` signal. */
+export interface Dialog {
+  readonly id: string;
+  readonly options: DialogOptions;
   readonly createdAt: number;
 }
 
