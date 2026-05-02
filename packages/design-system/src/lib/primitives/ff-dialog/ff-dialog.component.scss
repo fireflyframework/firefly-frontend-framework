@@ -92,4 +92,34 @@
       display: none;
     }
   }
+
+  // Variant styles — applied when [type] is set
+  &--success {
+    --ff-dialog-accent: var(--ff-color-success);
+  }
+
+  &--error {
+    --ff-dialog-accent: var(--ff-color-error);
+  }
+
+  &--warning {
+    --ff-dialog-accent: var(--ff-color-warning);
+  }
+
+  &--info {
+    --ff-dialog-accent: var(--ff-color-info);
+  }
+
+  &--success,
+  &--error,
+  &--warning,
+  &--info {
+    .ff-dialog__panel {
+      border-top: 3px solid var(--ff-dialog-accent);
+    }
+
+    .ff-dialog__title {
+      color: var(--ff-dialog-accent);
+    }
+  }
 }
