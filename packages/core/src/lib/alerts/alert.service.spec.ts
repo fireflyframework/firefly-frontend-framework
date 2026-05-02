@@ -274,7 +274,7 @@ describe('AlertService — toasts & banners', () => {
       service.bottomSheet('Actions', 'warning', {
         title: 'Choose action',
         dismissible: true,
-        actions: [{ label: 'Delete', callback: () => {}, type: 'destructive' }],
+        actions: [{ label: 'Delete', callback: () => undefined, type: 'destructive' }],
       });
 
       const bs = service.activeBottomSheets()[0];
