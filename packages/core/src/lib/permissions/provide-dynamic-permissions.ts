@@ -28,6 +28,9 @@ export const DYNAMIC_PERMISSION_CONFIG =
  *   ],
  * };
  * ```
+ *
+ * @param config - Route-to-permission mapping and guard behavior options
+ * @returns EnvironmentProviders to register in the application config
  */
 export function provideDynamicPermissions(
   config: DynamicPermissionConfig,

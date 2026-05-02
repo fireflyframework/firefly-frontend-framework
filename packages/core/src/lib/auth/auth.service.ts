@@ -132,7 +132,11 @@ export class AuthService {
     return localStorage.getItem(TOKEN_STORAGE_KEY);
   }
 
-  /** Execute the actual refresh API call. Called only by refreshToken(). */
+  /**
+   * Execute the actual refresh API call. Called only by `refreshToken()`.
+   *
+   * @returns `true` if refresh succeeded, `false` otherwise
+   */
   private async doRefresh(): Promise<boolean> {
     const refreshTokenValue = localStorage.getItem(REFRESH_STORAGE_KEY);
     if (!refreshTokenValue) {
@@ -156,17 +160,28 @@ export class AuthService {
     }
   }
 
+  /**
+   * Persist tokens to localStorage.
+   *
+   * @param tokens - Access and refresh tokens to store
+   */
   private storeTokens(tokens: AuthTokens): void {
     localStorage.setItem(TOKEN_STORAGE_KEY, tokens.accessToken);
     localStorage.setItem(REFRESH_STORAGE_KEY, tokens.refreshToken);
   }
 
+  /** Remove all tokens from localStorage. */
   private clearTokens(): void {
     localStorage.removeItem(TOKEN_STORAGE_KEY);
     localStorage.removeItem(REFRESH_STORAGE_KEY);
   }
 
-  /** Check JWT expiration by decoding the payload. Returns true if expired or malformed. */
+  /**
+   * Check JWT expiration by decoding the payload.
+   *
+   * @param token - JWT access token string
+   * @returns `true` if expired or malformed, `false` if still valid
+   */
   private isTokenExpired(token: string): boolean {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
