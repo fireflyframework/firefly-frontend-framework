@@ -6,3 +6,4 @@ export * from './lib/api-runtime';
 export * from './lib/permissions';
 export * from './lib/master-data';
 export * from './lib/navigation';
+export * from './lib/tenant-theming';
