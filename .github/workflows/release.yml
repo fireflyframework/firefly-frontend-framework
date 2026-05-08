@@ -3,16 +3,8 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      package:
-        description: 'Package to release'
-        required: true
-        type: choice
-        options:
-          - core
-          - utils
-          - both
-      version:
-        description: 'Version to release (e.g. 0.6.0)'
+      packages:
+        description: 'Packages to release (comma-separated, e.g. "core,utils" or "design-system")'
         required: true
         type: string
 
@@ -42,35 +34,45 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
-      - name: Build packages
-        run: pnpm nx run-many --target=build --projects=core,utils
-
-      - name: Publish utils
-        if: inputs.package == 'utils' || inputs.package == 'both'
-        run: |
-          cd dist/packages/utils
-          npm publish
+      - name: Release packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-
-      - name: Publish core
-        if: inputs.package == 'core' || inputs.package == 'both'
         run: |
-          cd dist/packages/core
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+          IFS=',' read -ra PKGS <<< "${{ inputs.packages }}"
+          for pkg in "${PKGS[@]}"; do
+            pkg=$(echo "$pkg" | xargs)
+            PKG_DIR="packages/${pkg}"
 
-      - name: Tag utils
-        if: inputs.package == 'utils' || inputs.package == 'both'
-        run: |
-          VERSION=$(node -p "require('./packages/utils/package.json').version")
-          git tag -a "utils@${VERSION}" -m "Release @fireflyframework/utils v${VERSION}"
-          git push origin "utils@${VERSION}"
+            if [ ! -f "${PKG_DIR}/package.json" ]; then
+              echo "::error::Package directory ${PKG_DIR}/package.json not found"
+              exit 1
+            fi
 
-      - name: Tag core
-        if: inputs.package == 'core' || inputs.package == 'both'
-        run: |
-          VERSION=$(node -p "require('./packages/core/package.json').version")
-          git tag -a "core@${VERSION}" -m "Release @fireflyframework/core v${VERSION}"
-          git push origin "core@${VERSION}"
+            VERSION=$(node -p "require('./${PKG_DIR}/package.json').version")
+            NAME=$(node -p "require('./${PKG_DIR}/package.json').name")
+            TAG="${pkg}@${VERSION}"
+
+            echo "=========================================="
+            echo "Releasing ${NAME} v${VERSION} (tag: ${TAG})"
+            echo "=========================================="
+
+            # Check tag does not already exist
+            if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
+              echo "::error::Tag ${TAG} already exists on remote. Skipping ${pkg}."
+              exit 1
+            fi
+
+            # Build
+            pnpm nx run "${pkg}:build"
+
+            # Publish
+            cd "dist/${PKG_DIR}"
+            npm publish
+            cd -
+
+            # Tag
+            git tag -a "${TAG}" -m "Release ${NAME} v${VERSION}"
+            git push origin "${TAG}"
+
+            echo "${NAME}@${VERSION} published and tagged successfully."
+          done
