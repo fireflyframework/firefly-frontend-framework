@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-05-08
+
 ### Added
 - I18n module: `I18nService`, `provideI18n()`, `I18N_CONFIG`
 - Translation pipe: `FfTranslatePipe` (`{{ key | ffTranslate }}`)
@@ -63,7 +65,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.5.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.0...HEAD
+[0.6.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.5.0...core@0.6.0
 [0.5.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.4.0...core@0.5.0
 [0.4.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.3.1...core@0.4.0
 [0.3.1]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.3.0...core@0.3.1
