@@ -1,6 +1,6 @@
 {
   "name": "@fireflyframework/utils",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "commonjs",
   "sideEffects": false,
   "exports": {
@@ -19,6 +19,10 @@
     "./type-guards": {
       "types": "./src/type-guards/index.d.ts",
       "default": "./src/type-guards/index.js"
+    },
+    "./formatting": {
+      "types": "./src/formatting/index.d.ts",
+      "default": "./src/formatting/index.js"
     }
   },
   "dependencies": {
