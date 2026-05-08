@@ -5,21 +5,30 @@
   "projectType": "library",
   "release": {
     "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "manifestRootsToUpdate": [
+        "dist/{projectRoot}"
+      ],
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk"
     }
   },
-  "tags": ["scope:utils"],
+  "tags": [
+    "scope:utils",
+    "layer:types"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/packages/utils",
         "main": "packages/utils/src/index.ts",
         "tsConfig": "packages/utils/tsconfig.lib.json",
-        "assets": ["packages/utils/*.md"]
+        "assets": [
+          "packages/utils/*.md"
+        ]
       }
     },
     "nx-release-publish": {

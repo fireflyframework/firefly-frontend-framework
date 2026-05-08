@@ -12,7 +12,7 @@
  */
 export function formatNIF(value: string | null | undefined): string {
   if (!value) return '';
-  const clean = value.replace(/[\s.\-]/g, '').toUpperCase();
+  const clean = value.replace(/[\s.-]/g, '').toUpperCase();
 
   // NIF: 8 digits + 1 letter
   const nifMatch = clean.match(/^(\d{2})(\d{3})(\d{3})([A-Z])$/);
