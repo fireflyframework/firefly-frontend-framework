@@ -19,6 +19,10 @@
     "./type-guards": {
       "types": "./src/type-guards/index.d.ts",
       "default": "./src/type-guards/index.js"
+    },
+    "./formatting": {
+      "types": "./src/formatting/index.d.ts",
+      "default": "./src/formatting/index.js"
     }
   },
   "dependencies": {
