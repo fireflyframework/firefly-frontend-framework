@@ -112,4 +112,71 @@ describe('provideI18n()', () => {
 
     expect(service.currentLocale()).toBe('en');
   });
+
+  // ---------------------------------------------------------------
+  // ICU Message Format (pluralization)
+  // ---------------------------------------------------------------
+
+  describe('useMessageFormat', () => {
+    const ICU_CONFIG: I18nConfig = {
+      ...TEST_CONFIG,
+      useMessageFormat: true,
+    };
+
+    const ES_ICU_TRANSLATIONS = {
+      greeting: 'Hola',
+      items: '{count, plural, =0 {Sin elementos} one {1 elemento} other {{count} elementos}}',
+      gender: '{gender, select, male {El usuario} female {La usuaria} other {El/la usuario/a}}',
+    };
+
+    it('should resolve ICU plural =0', async () => {
+      const service = setup(ICU_CONFIG);
+      const initPromise = TestBed.inject(ApplicationInitStatus).donePromise;
+      httpTesting.expectOne('assets/i18n/es.json').flush(ES_ICU_TRANSLATIONS);
+      await initPromise;
+
+      const result = service.translate('items', { count: 0 });
+      expect(result).toBe('Sin elementos');
+    });
+
+    it('should resolve ICU plural one', async () => {
+      const service = setup(ICU_CONFIG);
+      const initPromise = TestBed.inject(ApplicationInitStatus).donePromise;
+      httpTesting.expectOne('assets/i18n/es.json').flush(ES_ICU_TRANSLATIONS);
+      await initPromise;
+
+      const result = service.translate('items', { count: 1 });
+      expect(result).toBe('1 elemento');
+    });
+
+    it('should resolve ICU plural other', async () => {
+      const service = setup(ICU_CONFIG);
+      const initPromise = TestBed.inject(ApplicationInitStatus).donePromise;
+      httpTesting.expectOne('assets/i18n/es.json').flush(ES_ICU_TRANSLATIONS);
+      await initPromise;
+
+      const result = service.translate('items', { count: 5 });
+      expect(result).toBe('5 elementos');
+    });
+
+    it('should resolve ICU select expression', async () => {
+      const service = setup(ICU_CONFIG);
+      const initPromise = TestBed.inject(ApplicationInitStatus).donePromise;
+      httpTesting.expectOne('assets/i18n/es.json').flush(ES_ICU_TRANSLATIONS);
+      await initPromise;
+
+      expect(service.translate('gender', { gender: 'male' })).toBe('El usuario');
+      expect(service.translate('gender', { gender: 'female' })).toBe('La usuaria');
+      expect(service.translate('gender', { gender: 'other' })).toBe('El/la usuario/a');
+    });
+
+    it('should still work with regular translations when messageformat is enabled', async () => {
+      const service = setup(ICU_CONFIG);
+      const initPromise = TestBed.inject(ApplicationInitStatus).donePromise;
+      httpTesting.expectOne('assets/i18n/es.json').flush(ES_ICU_TRANSLATIONS);
+      await initPromise;
+
+      expect(service.translate('greeting')).toBe('Hola');
+    });
+  });
 });

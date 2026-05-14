@@ -15,7 +15,13 @@
     "@angular/router": "^21.2.0",
     "rxjs": "~7.8.0",
     "@jsverse/transloco": "^8.3.0",
-    "@fireflyframework/utils": ">=0.1.0"
+    "@fireflyframework/utils": ">=0.1.0",
+    "@jsverse/transloco-messageformat": "^8.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "peerDependenciesMeta": {
+    "@jsverse/transloco-messageformat": {
+      "optional": true
+    }
+  }
 }

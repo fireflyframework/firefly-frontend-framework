@@ -14,6 +14,7 @@ import {
   TranslocoLoader,
   TranslocoService,
 } from '@jsverse/transloco';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 import { firstValueFrom } from 'rxjs';
 
 import { I18nService } from './i18n.service';
@@ -67,6 +68,7 @@ export function provideI18n(config: I18nConfig): EnvironmentProviders {
       },
       loader: TranslocoHttpTranslationLoader,
     }),
+    ...(config.useMessageFormat ? [provideTranslocoMessageformat()] : []),
     provideAppInitializer(() => {
       const service = inject(I18nService);
       const i18nConfig = inject(I18N_CONFIG);

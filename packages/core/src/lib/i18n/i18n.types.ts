@@ -59,6 +59,15 @@ export interface I18nConfig {
    * Set to `false` to disable persistence. Default: `'ff-locale'`.
    */
   readonly storageKey?: string | false;
+  /**
+   * Enable ICU Message Format for pluralization and select expressions.
+   * When enabled, translation values can use ICU syntax:
+   * \`"{count, plural, =0 {No items} one {1 item} other {{count} items}}"\`
+   *
+   * Requires \`@jsverse/transloco-messageformat\` as peer dependency.
+   * Default: \`false\`.
+   */
+  readonly useMessageFormat?: boolean;
 }
 
 // ---------------------------------------------------------------------------
