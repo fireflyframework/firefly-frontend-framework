@@ -43,7 +43,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should map 400 to VALIDATION_ERROR', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.flush({ field: 'name' }, { status: 400, statusText: 'Bad Request' });
@@ -55,7 +55,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should NOT map 401 — skip to let authInterceptor handle it', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
@@ -65,7 +65,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should map 403 to FORBIDDEN', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.flush('Forbidden', { status: 403, statusText: 'Forbidden' });
@@ -75,7 +75,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should map 404 to NOT_FOUND', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.flush('Not Found', { status: 404, statusText: 'Not Found' });
@@ -85,7 +85,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should map 408 to TIMEOUT_ERROR', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.flush('Timeout', { status: 408, statusText: 'Request Timeout' });
@@ -95,7 +95,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should map 0 to NETWORK_ERROR', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.error(new ProgressEvent('error'));
@@ -105,7 +105,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should map 500 to SERVER_ERROR', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.flush('Internal', { status: 500, statusText: 'Internal Server Error' });
@@ -115,7 +115,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should map 503 to SERVER_ERROR', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.flush('Unavailable', { status: 503, statusText: 'Service Unavailable' });
@@ -125,7 +125,7 @@ describe('errorInterceptor', () => {
   });
 
   it('should map 422 to UNKNOWN_ERROR (other 4xx)', () => {
-    http.get('/api/data').subscribe({ error: () => {} });
+    http.get('/api/data').subscribe({ error: () => { /* noop */ } });
 
     const req = httpMock.expectOne('/api/data');
     req.flush('Unprocessable', { status: 422, statusText: 'Unprocessable Entity' });

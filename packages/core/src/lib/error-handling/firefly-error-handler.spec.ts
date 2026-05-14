@@ -15,7 +15,7 @@ describe('FireflyErrorHandler', () => {
 
     handler = TestBed.inject(FireflyErrorHandler);
     errorService = TestBed.inject(ErrorService);
-    consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { /* noop */ });
   });
 
   afterEach(() => {
