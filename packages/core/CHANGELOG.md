@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.4] - 2026-05-14
+
+### Added
+- Error handling module: `ErrorService`, `provideErrorHandling()`, `ERROR_HANDLING_CONFIG`
+- `errorInterceptor` — HTTP error classification (400, 403, 404, 408, 500+, network errors). 401 intentionally skipped (handled by `authInterceptor`)
+- `FireflyErrorHandler` — replaces Angular default `ErrorHandler` for uncaught error capture
+- `createAppError()` factory function for creating typed `AppError` instances
+- Types: `AppError`, `ErrorCode`, `ErrorHandlingConfig`
+
 ## [0.6.3] - 2026-05-14
 
 ### Fixed
@@ -82,7 +91,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.3...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.4...HEAD
+[0.6.4]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.3...core@0.6.4
 [0.6.3]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.2...core@0.6.3
 [0.6.2]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.1...core@0.6.2
 [0.6.1]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.0...core@0.6.1
