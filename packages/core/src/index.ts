@@ -8,3 +8,4 @@ export * from './lib/master-data';
 export * from './lib/navigation';
 export * from './lib/tenant-theming';
 export * from './lib/i18n';
+export * from './lib/error-handling';
