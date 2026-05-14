@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.3] - 2026-05-14
+
+### Fixed
+- `provideI18n()`: register `MessageFormatTranspiler` as flat provider instead of nested `EnvironmentProviders` — fixes ICU expressions rendering as raw text
+
 ## [0.6.2] - 2026-05-14
 
 ### Added
@@ -77,7 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.2...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.3...HEAD
+[0.6.3]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.2...core@0.6.3
 [0.6.2]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.1...core@0.6.2
 [0.6.1]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.0...core@0.6.1
 [0.6.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.5.0...core@0.6.0
