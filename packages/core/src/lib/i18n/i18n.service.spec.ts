@@ -7,6 +7,8 @@ import {
 import { I18nService } from './i18n.service';
 import { I18nConfig } from './i18n.types';
 
+const flush = () => new Promise(r => setTimeout(r));
+
 const EN_TRANSLATIONS = {
   'common.greeting': 'Hello',
   'common.farewell': 'Goodbye',
@@ -138,8 +140,9 @@ describe('I18nService', () => {
       service.configure(DEFAULT_CONFIG);
     });
 
-    it('should switch to a valid locale', () => {
+    it('should switch to a valid locale', async () => {
       service.switchLocale('es');
+      await flush();
       expect(service.currentLocale()).toBe('es');
     });
 
@@ -148,8 +151,9 @@ describe('I18nService', () => {
       expect(service.currentLocale()).toBe('en');
     });
 
-    it('should persist locale to localStorage', () => {
+    it('should persist locale to localStorage', async () => {
       service.switchLocale('es');
+      await flush();
       expect(localStorage.getItem('ff-locale')).toBe('es');
     });
 
@@ -159,9 +163,10 @@ describe('I18nService', () => {
       expect(service.error()).toBeNull();
     });
 
-    it('should not persist when storageKey is false', () => {
+    it('should not persist when storageKey is false', async () => {
       service.configure({ ...DEFAULT_CONFIG, storageKey: false });
       service.switchLocale('es');
+      await flush();
       expect(localStorage.getItem('ff-locale')).toBeNull();
     });
   });
@@ -185,9 +190,10 @@ describe('I18nService', () => {
       expect(service.translate('missing.key')).toBe('missing.key');
     });
 
-    it('should translate in active locale after switch', () => {
+    it('should translate in active locale after switch', async () => {
       service.configure(DEFAULT_CONFIG);
       service.switchLocale('es');
+      await flush();
       expect(service.translate('common.greeting')).toBe('Hola');
     });
   });

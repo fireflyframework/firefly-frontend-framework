@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-05-14
+
+### Fixed
+- `I18nService.switchLocale()`: load translations via `transloco.load()` before calling `setActiveLang()` — Transloco v8 does not auto-load on lang change
+
 ## [0.6.0] - 2026-05-08
 
 ### Added
@@ -65,7 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.1...HEAD
+[0.6.1]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.0...core@0.6.1
 [0.6.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.5.0...core@0.6.0
 [0.5.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.4.0...core@0.5.0
 [0.4.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.3.1...core@0.4.0
