@@ -3,6 +3,8 @@ import {
   TranslocoTestingModule,
 } from '@jsverse/transloco';
 
+const flush = () => new Promise(r => setTimeout(r));
+
 import { I18nService } from './i18n.service';
 import { FfTranslatePipe } from './ff-translate.pipe';
 import { FfCurrencyPipe } from './formatting/ff-currency.pipe';
@@ -61,8 +63,9 @@ describe('FfTranslatePipe', () => {
     expect(pipe.transform('missing.key')).toBe('missing.key');
   });
 
-  it('should reflect locale change', () => {
+  it('should reflect locale change', async () => {
     service.switchLocale('es');
+    await flush();
     expect(pipe.transform('hello')).toBe('Hola');
   });
 });

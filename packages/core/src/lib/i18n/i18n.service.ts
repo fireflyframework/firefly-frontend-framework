@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
 import {
@@ -108,9 +108,20 @@ export class I18nService {
       return;
     }
 
-    this.transloco.setActiveLang(locale);
-    this.persistLocale(locale);
     this._error.set(null);
+    this._isLoading.set(true);
+
+    firstValueFrom(this.transloco.load(locale))
+      .then(() => {
+        this.transloco.setActiveLang(locale);
+        this.persistLocale(locale);
+        this._isLoading.set(false);
+      })
+      .catch((err: unknown) => {
+        const message =
+          err instanceof Error ? err.message : 'Failed to load translations';
+        this.setError(message);
+      });
   }
 
   // ---------------------------------------------------------------
