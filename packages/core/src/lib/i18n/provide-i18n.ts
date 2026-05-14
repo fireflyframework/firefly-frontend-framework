@@ -13,8 +13,12 @@ import {
   Translation,
   TranslocoLoader,
   TranslocoService,
+  TRANSLOCO_TRANSPILER,
 } from '@jsverse/transloco';
-import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
+import {
+  MessageFormatTranspiler,
+  TRANSLOCO_MESSAGE_FORMAT_CONFIG,
+} from '@jsverse/transloco-messageformat';
 import { firstValueFrom } from 'rxjs';
 
 import { I18nService } from './i18n.service';
@@ -46,7 +50,7 @@ export const I18N_CONFIG = new InjectionToken<I18nConfig>('I18N_CONFIG');
  *     provideI18n({
  *       defaultLocale: 'es',
  *       availableLocales: [
- *         { code: 'es', displayName: 'Español' },
+ *         { code: 'es', displayName: 'Espa\u00f1ol' },
  *         { code: 'en', displayName: 'English' },
  *       ],
  *       translationsPath: 'assets/i18n',
@@ -68,7 +72,12 @@ export function provideI18n(config: I18nConfig): EnvironmentProviders {
       },
       loader: TranslocoHttpTranslationLoader,
     }),
-    ...(config.useMessageFormat ? [provideTranslocoMessageformat()] : []),
+    ...(config.useMessageFormat
+      ? [
+          { provide: TRANSLOCO_MESSAGE_FORMAT_CONFIG, useValue: undefined },
+          { provide: TRANSLOCO_TRANSPILER, useClass: MessageFormatTranspiler },
+        ]
+      : []),
     provideAppInitializer(() => {
       const service = inject(I18nService);
       const i18nConfig = inject(I18N_CONFIG);
