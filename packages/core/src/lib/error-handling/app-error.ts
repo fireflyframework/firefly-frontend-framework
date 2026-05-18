@@ -1,10 +1,19 @@
 /**
- * Classification codes for application errors.
+ * Indicates where the error originated from.
+ *
+ * - `'global'` — uncaught error captured by `FireflyErrorHandler`
+ * - `'http'` — HTTP error classified by `errorInterceptor`
+ * - `'programmatic'` — explicitly created via `createAppError()`
+ */
+export type ErrorOrigin = 'global' | 'http' | 'programmatic';
+
+/**
+ * Built-in classification codes for application errors.
  *
  * Used by `errorInterceptor` to map HTTP status codes and by
  * `FireflyErrorHandler` to classify uncaught errors.
  */
-export type ErrorCode =
+export type BuiltinErrorCode =
   | 'VALIDATION_ERROR'
   | 'FORBIDDEN'
   | 'NOT_FOUND'
@@ -12,6 +21,32 @@ export type ErrorCode =
   | 'NETWORK_ERROR'
   | 'SERVER_ERROR'
   | 'UNKNOWN_ERROR';
+
+/**
+ * Extend this interface via module augmentation to add product-specific
+ * error codes without modifying the framework.
+ *
+ * @example
+ * ```typescript
+ * // In your product code:
+ * declare module '@fireflyframework/core' {
+ *   interface CustomErrorCodes {
+ *     LEASE_EXPIRED: true;
+ *     DOCUMENT_UPLOAD_FAILED: true;
+ *   }
+ * }
+ * ```
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CustomErrorCodes {}
+
+/**
+ * Classification code for application errors.
+ *
+ * Includes the 7 built-in codes plus any product-specific codes
+ * declared via `CustomErrorCodes` module augmentation.
+ */
+export type ErrorCode = BuiltinErrorCode | keyof CustomErrorCodes;
 
 /**
  * Application-level error representation.
@@ -24,6 +59,8 @@ export interface AppError {
   readonly code: ErrorCode;
   /** Human-readable error message. */
   readonly message: string;
+  /** Where the error originated from. */
+  readonly origin: ErrorOrigin;
   /** HTTP status code, if the error originated from an HTTP response. */
   readonly status?: number;
   /** Additional context (validation errors, server payload, etc.). */
@@ -45,17 +82,18 @@ export interface ErrorHandlingConfig {
  *
  * @param code - Error classification code
  * @param message - Human-readable message
- * @param options - Optional status, details
+ * @param options - Optional status, details, origin (defaults to 'programmatic')
  * @returns Immutable `AppError` instance
  */
 export function createAppError(
   code: ErrorCode,
   message: string,
-  options?: { status?: number; details?: unknown },
+  options?: { status?: number; details?: unknown; origin?: ErrorOrigin },
 ): AppError {
   return {
     code,
     message,
+    origin: options?.origin ?? 'programmatic',
     status: options?.status,
     details: options?.details,
     timestamp: Date.now(),

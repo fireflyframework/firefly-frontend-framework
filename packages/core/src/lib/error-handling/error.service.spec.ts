@@ -82,6 +82,24 @@ describe('ErrorService', () => {
   });
 });
 
+describe('AppError origin field', () => {
+  it('should default origin to programmatic', () => {
+    const error = createAppError('NOT_FOUND', 'Not found');
+    expect(error.origin).toBe('programmatic');
+  });
+
+  it('should set origin to global when specified', () => {
+    const error = createAppError('UNKNOWN_ERROR', 'Uncaught', { origin: 'global' });
+    expect(error.origin).toBe('global');
+  });
+
+  it('should set origin to http when specified', () => {
+    const error = createAppError('SERVER_ERROR', 'Internal', { status: 500, origin: 'http' });
+    expect(error.origin).toBe('http');
+    expect(error.status).toBe(500);
+  });
+});
+
 describe('ErrorService with custom config', () => {
   let service: ErrorService;
 
