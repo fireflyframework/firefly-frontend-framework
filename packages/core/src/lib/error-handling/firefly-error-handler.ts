@@ -52,6 +52,7 @@ export class FireflyErrorHandler implements ErrorHandler {
 
     const appError = createAppError('UNKNOWN_ERROR', message, {
       details: unwrapped instanceof Error ? unwrapped.stack : unwrapped,
+      origin: 'global',
     });
 
     this.errorService.handleError(appError);

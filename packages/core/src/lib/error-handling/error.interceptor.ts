@@ -54,6 +54,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           const appError = createAppError(code, error.message, {
             status: error.status,
             details: error.error,
+            origin: 'http',
           });
           errorService.handleError(appError);
         }

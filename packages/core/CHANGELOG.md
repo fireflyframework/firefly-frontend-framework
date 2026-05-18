@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-05-18
+
+### Added
+- `ErrorOrigin` type — classifies error source as `'global'`, `'http'`, or `'programmatic'`
+- `AppError.origin` field — set automatically by `FireflyErrorHandler` (`global`), `errorInterceptor` (`http`), or defaults to `programmatic` via `createAppError()`
+- `BuiltinErrorCode` type — the 7 built-in error codes extracted as a named type
+- `CustomErrorCodes` interface — extensible via module augmentation for product-specific error codes
+- `ErrorCode` type now equals `BuiltinErrorCode | keyof CustomErrorCodes`
+
 ## [0.7.0] - 2026-05-14
 
 ### Added
@@ -91,7 +100,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.1...HEAD
+[0.7.1]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.0...core@0.7.1
 [0.7.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.3...core@0.7.0
 [0.6.3]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.2...core@0.6.3
 [0.6.2]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.1...core@0.6.2
