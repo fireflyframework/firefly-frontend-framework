@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-05-19
+
+### Added
+- Storage module: `StorageService`, `provideStorage()`, `STORAGE_CONFIG`
+- Typed abstraction over `localStorage` and `sessionStorage` with automatic JSON serialization
+- Namespace prefixing (configurable prefix, default `ff`) to prevent key collisions across apps
+- TTL support: `setWithTTL()` with lazy expiration on `get()`/`has()`
+- SSR/restricted environment fallback: in-memory `Map` adapter when Storage API is unavailable
+- Full API: `get`, `set`, `remove`, `clear`, `setWithTTL`, `has`, `keys`
+- Types: `StorageType`, `StorageConfig`, `StorageEntry`
+
 ## [0.8.0] - 2026-05-19
 
 ### Added
@@ -119,7 +130,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.8.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.9.0...HEAD
+[0.9.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.8.0...core@0.9.0
 [0.8.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.2...core@0.8.0
 [0.7.2]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.1...core@0.7.2
 [0.7.1]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.0...core@0.7.1
