@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-05-19
+
+### Added
+- Feature flags module: `FeatureFlagService`, `provideFeatureFlags()`, `FEATURE_FLAG_CONFIG`
+- Structural directive: `FfFeatureFlagDirective` (`*ffFeatureFlag`) for conditional rendering based on flag state
+- Built-in flag sources: `static` (inline defaults), `localStorage` (persisted), `endpoint` (remote HTTP)
+- Custom source registry: `registerSource(name, loader)` — products can register their own flag providers (LaunchDarkly, Firebase, etc.)
+- Multi-source composition: `loadFromSources(sources[])` — load and merge from multiple sources sequentially
+- Change notifications: `flagsChanged` signal — reactive version counter incremented on every flag mutation
+- Types: `FlagSource`, `BuiltInFlagSource`, `FeatureFlagConfig`, `FlagSnapshot`, `FlagLoader`
+
 ## [0.7.2] - 2026-05-19
 
 ### Added
@@ -108,7 +119,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.2...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.8.0...HEAD
+[0.8.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.2...core@0.8.0
 [0.7.2]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.1...core@0.7.2
 [0.7.1]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.0...core@0.7.1
 [0.7.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.3...core@0.7.0
