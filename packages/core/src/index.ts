@@ -9,3 +9,4 @@ export * from './lib/navigation';
 export * from './lib/tenant-theming';
 export * from './lib/i18n';
 export * from './lib/error-handling';
+export * from './lib/feature-flags';
