@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.2] - 2026-05-19
+
+### Added
+- `retryInterceptor` — functional `HttpInterceptorFn` with exponential backoff for transient HTTP errors (408, 429, 500, 502, 503, 504)
+- `TRANSPORT_OPTIONS` injection token — exposes `TransportGlobalOptions` to interceptors at runtime
+- Configurable retry: `maxRetries`, `backoffMs`, `maxBackoffMs`, `retryableStatuses`, `idempotentOnly`
+- Idempotent-only filter: by default only retries GET, PUT, DELETE, HEAD, OPTIONS (POST skipped unless `idempotentOnly: false`)
+
 ## [0.7.1] - 2026-05-18
 
 ### Added
@@ -100,7 +108,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.1...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.2...HEAD
+[0.7.2]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.1...core@0.7.2
 [0.7.1]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.0...core@0.7.1
 [0.7.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.3...core@0.7.0
 [0.6.3]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.6.2...core@0.6.3
