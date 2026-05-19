@@ -170,6 +170,127 @@ describe('FeatureFlagService', () => {
       expect(service.isEnabled('from-loader')()).toBe(true);
       expect(service.isEnabled('from-static')()).toBe(false);
     });
+
+    it('should load from a registered custom source', async () => {
+      const firebaseLoader = vi.fn().mockResolvedValue({ 'fb-flag': true });
+      service.registerSource('firebase', firebaseLoader);
+
+      await service.loadFlags('firebase');
+
+      expect(firebaseLoader).toHaveBeenCalled();
+      expect(service.isEnabled('fb-flag')()).toBe(true);
+    });
+
+    it('should prioritize config.loader over registered source', async () => {
+      const registered = vi.fn().mockResolvedValue({ reg: true });
+      const configLoader = vi.fn().mockResolvedValue({ cfg: true });
+      service.registerSource('custom', registered);
+
+      await service.loadFlags('custom', { loader: configLoader });
+
+      expect(configLoader).toHaveBeenCalled();
+      expect(registered).not.toHaveBeenCalled();
+      expect(service.isEnabled('cfg')()).toBe(true);
+    });
+
+    it('should do nothing for unregistered unknown source', async () => {
+      await service.loadFlags('unknown-source');
+
+      expect(service.flags().size).toBe(0);
+    });
+  });
+
+  describe('registerSource', () => {
+    it('should register a custom source', async () => {
+      const loader = vi.fn().mockResolvedValue({ custom: true });
+      service.registerSource('my-source', loader);
+
+      await service.loadFlags('my-source');
+
+      expect(service.isEnabled('custom')()).toBe(true);
+    });
+
+    it('should allow overriding a registered source', async () => {
+      const loaderV1 = vi.fn().mockResolvedValue({ v1: true });
+      const loaderV2 = vi.fn().mockResolvedValue({ v2: true });
+
+      service.registerSource('source', loaderV1);
+      service.registerSource('source', loaderV2);
+
+      await service.loadFlags('source');
+
+      expect(loaderV1).not.toHaveBeenCalled();
+      expect(loaderV2).toHaveBeenCalled();
+      expect(service.isEnabled('v2')()).toBe(true);
+    });
+  });
+
+  describe('loadFromSources', () => {
+    it('should load and merge from multiple sources', async () => {
+      service.registerSource('source-a', async () => ({ a: true }));
+      service.registerSource('source-b', async () => ({ b: true }));
+
+      await service.loadFromSources(['source-a', 'source-b']);
+
+      expect(service.isEnabled('a')()).toBe(true);
+      expect(service.isEnabled('b')()).toBe(true);
+    });
+
+    it('should let later sources override earlier ones', async () => {
+      service.registerSource('base', async () => ({ flag: false }));
+      service.registerSource('override', async () => ({ flag: true }));
+
+      await service.loadFromSources(['base', 'override']);
+
+      expect(service.isEnabled('flag')()).toBe(true);
+    });
+
+    it('should mix built-in and custom sources', async () => {
+      service.registerSource('custom', async () => ({ custom: true }));
+
+      await service.loadFromSources(['static', 'custom'], {
+        defaults: { builtin: true },
+      });
+
+      expect(service.isEnabled('builtin')()).toBe(true);
+      expect(service.isEnabled('custom')()).toBe(true);
+    });
+  });
+
+  describe('flagsChanged', () => {
+    it('should start at 0', () => {
+      expect(service.flagsChanged()).toBe(0);
+    });
+
+    it('should increment on setFlag', () => {
+      service.setFlag('a', true);
+
+      expect(service.flagsChanged()).toBe(1);
+    });
+
+    it('should increment on setFlags', () => {
+      service.setFlags({ a: true, b: true });
+
+      expect(service.flagsChanged()).toBe(1);
+    });
+
+    it('should increment on clear', () => {
+      service.setFlag('a', true);
+      const before = service.flagsChanged();
+
+      service.clear();
+
+      expect(service.flagsChanged()).toBe(before + 1);
+    });
+
+    it('should track cumulative mutations', () => {
+      service.setFlag('a', true);
+      service.setFlag('b', true);
+      service.setFlags({ c: true });
+      service.clear();
+
+      expect(service.flagsChanged()).toBe(4);
+    });
   });
 
   describe('snapshot', () => {

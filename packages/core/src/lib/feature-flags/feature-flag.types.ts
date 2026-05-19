@@ -1,11 +1,22 @@
 /**
- * Source from which feature flags can be loaded.
+ * Built-in sources from which feature flags can be loaded.
  *
  * - `'static'` — flags provided inline via `FeatureFlagConfig.defaults`
  * - `'localStorage'` — flags persisted in `localStorage` under `'ff-flags'`
  * - `'endpoint'` — flags fetched from a remote HTTP endpoint
  */
-export type FlagSource = 'static' | 'localStorage' | 'endpoint';
+export type BuiltInFlagSource = 'static' | 'localStorage' | 'endpoint';
+
+/**
+ * Source from which feature flags can be loaded.
+ *
+ * Includes the 3 built-in sources plus any custom source name
+ * registered via `FeatureFlagService.registerSource()`.
+ *
+ * The `(string & {})` pattern preserves IDE autocomplete for
+ * built-in values while allowing arbitrary strings.
+ */
+export type FlagSource = BuiltInFlagSource | (string & {});
 
 /**
  * Configuration for the feature-flags module.

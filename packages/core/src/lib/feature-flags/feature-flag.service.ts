@@ -1,5 +1,5 @@
 import { Injectable, InjectionToken, Signal, computed, inject, signal } from '@angular/core';
-import { FeatureFlagConfig, FlagSnapshot, FlagSource } from './feature-flag.types';
+import { FeatureFlagConfig, FlagLoader, FlagSnapshot, FlagSource } from './feature-flag.types';
 
 /**
  * Injection token for the feature-flags module configuration.
@@ -15,24 +15,46 @@ export const FEATURE_FLAG_CONFIG = new InjectionToken<FeatureFlagConfig>(
  * Signal-based feature flag service.
  *
  * Provides runtime toggles for conditional feature activation.
- * Flags can be loaded from static config, localStorage, or a remote
- * endpoint. All queries return reactive signals — UI updates
- * automatically when flags change.
+ * Flags can be loaded from built-in sources (static, localStorage, endpoint),
+ * custom sources registered via `registerSource()`, or a `FlagLoader` function.
+ * All queries return reactive signals — UI updates automatically when flags change.
  *
  * Usage:
  * ```typescript
  * const flags = inject(FeatureFlagService);
  * const enabled = flags.isEnabled('new-dashboard'); // Signal<boolean>
+ *
+ * // Register custom source from product
+ * flags.registerSource('firebase', async () => {
+ *   const snapshot = await getRemoteConfig();
+ *   return snapshot.flags;
+ * });
+ * await flags.loadFlags('firebase');
  * ```
  */
 @Injectable({ providedIn: 'root' })
 export class FeatureFlagService {
   private readonly _flags = signal<Map<string, boolean>>(new Map());
   private readonly _computedCache = new Map<string, Signal<boolean>>();
+  private readonly _sourceRegistry = new Map<string, FlagLoader>();
+  private readonly _version = signal(0);
   private readonly config = inject(FEATURE_FLAG_CONFIG, { optional: true });
 
   /** Current flags map (read-only). */
   readonly flags = this._flags.asReadonly();
+
+  /**
+   * Reactive version counter — incremented on every flag mutation.
+   *
+   * Useful for reacting to any flag change without tracking individual flags:
+   * ```typescript
+   * effect(() => {
+   *   const v = flagService.flagsChanged();
+   *   console.log('Flags updated, version:', v);
+   * });
+   * ```
+   */
+  readonly flagsChanged = this._version.asReadonly();
 
   constructor() {
     if (this.config?.defaults) {
@@ -70,6 +92,7 @@ export class FeatureFlagService {
       next.set(flagName, value);
       return next;
     });
+    this._version.update((v) => v + 1);
   }
 
   /**
@@ -86,12 +109,31 @@ export class FeatureFlagService {
       }
       return next;
     });
+    this._version.update((v) => v + 1);
+  }
+
+  /**
+   * Register a custom flag source by name.
+   *
+   * Products can register their own sources (e.g. LaunchDarkly, Firebase Remote Config)
+   * and then load from them using `loadFlags('my-source')`.
+   *
+   * @param name - Unique source name (e.g. `'firebase'`, `'launchdarkly'`)
+   * @param loader - Async function that returns the flag record
+   */
+  registerSource(name: string, loader: FlagLoader): void {
+    this._sourceRegistry.set(name, loader);
   }
 
   /**
    * Load flags from the specified source.
    *
-   * @param source - Where to load flags from (`'static'`, `'localStorage'`, `'endpoint'`)
+   * Resolution order:
+   * 1. If `config.loader` is provided, it takes precedence over everything
+   * 2. If `source` matches a registered custom source, use its loader
+   * 3. Otherwise, use the built-in handler (static, localStorage, endpoint)
+   *
+   * @param source - Where to load flags from (built-in or custom registered name)
    * @param config - Optional config override (defaults to the injected config)
    */
   async loadFlags(source: FlagSource, config?: FeatureFlagConfig): Promise<void> {
@@ -99,6 +141,14 @@ export class FeatureFlagService {
 
     if (cfg.loader) {
       const flags = await cfg.loader();
+      this.setFlags(flags);
+      return;
+    }
+
+    // Check registry for custom sources
+    const registeredLoader = this._sourceRegistry.get(source);
+    if (registeredLoader) {
+      const flags = await registeredLoader();
       this.setFlags(flags);
       return;
     }
@@ -135,6 +185,21 @@ export class FeatureFlagService {
   }
 
   /**
+   * Load flags from multiple sources sequentially, merging results.
+   *
+   * Each source's flags are merged into the current state. Later sources
+   * override earlier ones for the same flag name.
+   *
+   * @param sources - Array of source names to load from (built-in or custom)
+   * @param config - Optional config override passed to each `loadFlags()` call
+   */
+  async loadFromSources(sources: FlagSource[], config?: FeatureFlagConfig): Promise<void> {
+    for (const source of sources) {
+      await this.loadFlags(source, config);
+    }
+  }
+
+  /**
    * Return a snapshot of the current flag state.
    *
    * @returns Plain object with current flags
@@ -149,5 +214,6 @@ export class FeatureFlagService {
   clear(): void {
     this._flags.set(new Map());
     this._computedCache.clear();
+    this._version.update((v) => v + 1);
   }
 }
