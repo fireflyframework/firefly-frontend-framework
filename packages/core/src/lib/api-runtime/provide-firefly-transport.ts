@@ -2,6 +2,7 @@ import { EnvironmentProviders, inject, makeEnvironmentProviders, provideEnvironm
 import { TransportRegistry } from './transport/transport-registry';
 import { TransportConfig } from './transport/transport-config';
 import { TransportRoute } from './transport/transport-route';
+import { TRANSPORT_OPTIONS } from './transport/retry.interceptor';
 
 /**
  * Configures the Transport Layer with routes from TransportConfig.
@@ -23,6 +24,7 @@ import { TransportRoute } from './transport/transport-route';
  */
 export function provideFireflyTransport(config: TransportConfig): EnvironmentProviders {
   return makeEnvironmentProviders([
+    ...(config.options ? [{ provide: TRANSPORT_OPTIONS, useValue: config.options }] : []),
     provideEnvironmentInitializer(() => {
       const registry = inject(TransportRegistry);
 

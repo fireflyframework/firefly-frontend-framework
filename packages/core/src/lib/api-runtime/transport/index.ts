@@ -4,3 +4,4 @@ export type { HttpMethod, TransportProtocol, TransportRequest, TransportResponse
 export type { TransportRoute, ResolvedTransport } from './transport-route';
 export type { TransportConfig, TransportGlobalOptions } from './transport-config';
 export { TransportRegistry } from './transport-registry';
+export { retryInterceptor, TRANSPORT_OPTIONS } from './retry.interceptor';
