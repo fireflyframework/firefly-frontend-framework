@@ -301,7 +301,7 @@ describe('EnvironmentService (protectedFields)', () => {
       ],
     });
     service = TestBed.inject(EnvironmentService);
-    warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    warnSpy = vi.spyOn(console, 'warn').mockImplementation(vi.fn());
   });
 
   afterEach(() => {
