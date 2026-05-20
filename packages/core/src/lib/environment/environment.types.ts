@@ -68,8 +68,9 @@ export interface EnvironmentEntry {
  * - `'currentEnv'`  — blocks `setEnvironment()`
  * - `'apiBaseUrl'`  — blocks `setApiBaseUrl()`
  * - `'flags'`       — blocks `setFlag()`
+ * - `'services'`    — blocks `setServiceUrl()`
  */
-export type ProtectedField = 'currentEnv' | 'apiBaseUrl' | 'flags';
+export type ProtectedField = 'currentEnv' | 'apiBaseUrl' | 'flags' | 'services';
 
 // ---------------------------------------------------------------------------
 // Module configuration
