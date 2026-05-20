@@ -72,6 +72,9 @@ export class EnvironmentService {
   /** Runtime overrides for individual flags (set by `setFlag()`). */
   private readonly _flagOverrides = new Map<string, unknown>();
 
+  /** Runtime overrides for individual service URLs (set by `setServiceUrl()`). */
+  private readonly _serviceOverrides = new Map<string, string>();
+
   // ---------------------------------------------------------------------------
   // Public signals (readonly)
   // ---------------------------------------------------------------------------
@@ -113,6 +116,7 @@ export class EnvironmentService {
     this._originalEnv = config.default;
     this._apiBaseUrlOverride = null;
     this._flagOverrides.clear();
+    this._serviceOverrides.clear();
   }
 
   /**
@@ -168,9 +172,16 @@ export class EnvironmentService {
   getApiUrl(service?: string): string {
     const entry = this._getCurrentEntry();
 
-    // Service-specific URL takes priority
-    if (service && entry.services?.[service]) {
-      return entry.services[service];
+    if (service) {
+      // Runtime service override takes highest priority
+      if (this._serviceOverrides.has(service)) {
+        return this._serviceOverrides.get(service)!;
+      }
+
+      // Config service-specific URL
+      if (entry.services?.[service]) {
+        return entry.services[service];
+      }
     }
 
     // apiBaseUrl override takes priority over config
@@ -239,6 +250,7 @@ export class EnvironmentService {
     this._currentEnv.set(env);
     this._apiBaseUrlOverride = null;
     this._flagOverrides.clear();
+    this._serviceOverrides.clear();
   }
 
   /**
@@ -272,6 +284,22 @@ export class EnvironmentService {
   }
 
   /**
+   * Override a single service URL at runtime.
+   *
+   * Overrides take priority over the environment's `services` map
+   * and over `apiBaseUrl` for the specified service.
+   *
+   * Blocked when `'services'` is in `protectedFields`.
+   *
+   * @param service - Service name
+   * @param url - Service URL
+   */
+  setServiceUrl(service: string, url: string): void {
+    if (this._isProtected('services')) return;
+    this._serviceOverrides.set(service, url);
+  }
+
+  /**
    * Reset the service to the state after the last `loadConfig()` call.
    *
    * Restores the original environment, clears all runtime overrides
@@ -284,6 +312,7 @@ export class EnvironmentService {
     }
     this._apiBaseUrlOverride = null;
     this._flagOverrides.clear();
+    this._serviceOverrides.clear();
   }
 
   // ---------------------------------------------------------------------------

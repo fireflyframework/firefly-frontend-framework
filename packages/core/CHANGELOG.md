@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.1] - 2026-05-20
+
+### Added
+- `setServiceUrl(service, url)` — runtime override of individual service URLs
+- `'services'` added to `ProtectedField` union type — blocks `setServiceUrl()` when listed in `protectedFields`
+- `getApiUrl(service)` now checks runtime service overrides first (priority: serviceOverrides > config services > apiBaseUrlOverride > apiBaseUrl)
+- Service URL overrides are cleared on `setEnvironment()`, `loadConfig()`, and `reset()`
+
 ## [0.10.0] - 2026-05-20
 
 ### Added

@@ -33,7 +33,7 @@ const MULTI_ENV_CONFIG: EnvironmentConfig = {
 
 const PROTECTED_CONFIG: EnvironmentConfig = {
   ...MULTI_ENV_CONFIG,
-  protectedFields: ['currentEnv', 'apiBaseUrl', 'flags'],
+  protectedFields: ['currentEnv', 'apiBaseUrl', 'flags', 'services'],
 };
 
 // ---------------------------------------------------------------------------
@@ -248,6 +248,54 @@ describe('EnvironmentService (injected config)', () => {
     });
   });
 
+  // --- setServiceUrl ---
+
+  describe('setServiceUrl', () => {
+    it('should override a service URL', () => {
+      service.setServiceUrl('lending', 'http://custom-lending.com');
+      expect(service.getApiUrl('lending')).toBe('http://custom-lending.com');
+    });
+
+    it('should take priority over config service URLs', () => {
+      expect(service.getApiUrl('lending')).toBe('http://localhost:3001');
+      service.setServiceUrl('lending', 'http://override.com');
+      expect(service.getApiUrl('lending')).toBe('http://override.com');
+    });
+
+    it('should allow adding a new service not in config', () => {
+      service.setServiceUrl('payments', 'http://payments.local');
+      expect(service.getApiUrl('payments')).toBe('http://payments.local');
+    });
+
+    it('should not affect apiBaseUrl resolution', () => {
+      service.setServiceUrl('lending', 'http://custom.com');
+      expect(service.getApiUrl()).toBe('http://localhost:3000');
+    });
+
+    it('should not affect other services', () => {
+      service.setServiceUrl('lending', 'http://custom.com');
+      expect(service.getApiUrl('auth')).toBe('http://localhost:4000');
+    });
+
+    it('should be cleared on setEnvironment', () => {
+      service.setServiceUrl('lending', 'http://custom.com');
+      service.setEnvironment('staging');
+      expect(service.getApiUrl('lending')).toBe('https://lending.stg.firefly.com');
+    });
+
+    it('should be cleared on reset', () => {
+      service.setServiceUrl('lending', 'http://custom.com');
+      service.reset();
+      expect(service.getApiUrl('lending')).toBe('http://localhost:3001');
+    });
+
+    it('should be cleared on loadConfig', () => {
+      service.setServiceUrl('lending', 'http://custom.com');
+      service.loadConfig(MULTI_ENV_CONFIG);
+      expect(service.getApiUrl('lending')).toBe('http://localhost:3001');
+    });
+  });
+
   // --- reset ---
 
   describe('reset', () => {
@@ -329,6 +377,14 @@ describe('EnvironmentService (protectedFields)', () => {
     expect(service.getFlag('enableBeta')).toBe(true);
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining('flags'),
+    );
+  });
+
+  it('setServiceUrl should be blocked and log warning', () => {
+    service.setServiceUrl('lending', 'http://hacked.com');
+    expect(service.getApiUrl('lending')).toBe('http://localhost:3001');
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('services'),
     );
   });
 });
