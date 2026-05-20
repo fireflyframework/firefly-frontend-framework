@@ -19,7 +19,7 @@ import { NavItem, NavigationConfig } from './navigation.types';
  *
  * Does NOT wrap `Router.navigate()` — use Angular Router directly.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class NavigationService {
   private readonly permissions = inject(PermissionService);
   private readonly router = inject(Router);

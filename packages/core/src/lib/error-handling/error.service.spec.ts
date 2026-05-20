@@ -2,12 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { ErrorService, ERROR_HANDLING_CONFIG } from './error.service';
 import { createAppError } from './app-error';
 import type { AppError } from './app-error';
+import { provideErrorHandling } from './provide-error-handling';
 
 describe('ErrorService', () => {
   let service: ErrorService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [provideErrorHandling()] });
     service = TestBed.inject(ErrorService);
   });
 
@@ -106,7 +107,7 @@ describe('ErrorService with custom config', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: ERROR_HANDLING_CONFIG, useValue: { maxHistorySize: 3 } },
+        provideErrorHandling({ maxHistorySize: 3 }),
       ],
     });
     service = TestBed.inject(ErrorService);

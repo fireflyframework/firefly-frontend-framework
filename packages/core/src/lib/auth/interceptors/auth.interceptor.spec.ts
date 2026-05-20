@@ -9,6 +9,9 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { authInterceptor } from './auth.interceptor';
+import { provideAuth } from '../provide-auth';
+import { provideSession } from '../../session/provide-session';
+import { provideUserContext } from '../../user-context/provide-user-context';
 
 /** Flush Promise microtask queue so async interceptor logic completes. */
 const flushMicrotasks = () => new Promise((r) => setTimeout(r, 0));
@@ -22,6 +25,9 @@ describe('authInterceptor', () => {
 
     TestBed.configureTestingModule({
       providers: [
+        provideAuth(),
+        provideSession(),
+        provideUserContext(),
         provideHttpClient(withInterceptors([authInterceptor])),
         provideHttpClientTesting(),
       ],

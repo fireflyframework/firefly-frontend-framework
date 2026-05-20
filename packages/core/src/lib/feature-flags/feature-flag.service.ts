@@ -32,7 +32,7 @@ export const FEATURE_FLAG_CONFIG = new InjectionToken<FeatureFlagConfig>(
  * await flags.loadFlags('firebase');
  * ```
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class FeatureFlagService {
   private readonly _flags = signal<Map<string, boolean>>(new Map());
   private readonly _computedCache = new Map<string, Signal<boolean>>();

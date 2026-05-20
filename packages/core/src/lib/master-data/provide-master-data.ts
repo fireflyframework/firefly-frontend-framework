@@ -36,6 +36,7 @@ export function provideMasterData(
   sources: MasterDataSource[]
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
+    MasterDataService,
     {
       provide: MASTER_DATA_SOURCES,
       useValue: sources,

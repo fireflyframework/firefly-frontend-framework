@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { FeatureFlagService, FEATURE_FLAG_CONFIG } from './feature-flag.service';
+import { provideFeatureFlags } from './provide-feature-flags';
 
 describe('FeatureFlagService', () => {
   let service: FeatureFlagService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [provideFeatureFlags()] });
     service = TestBed.inject(FeatureFlagService);
   });
 
@@ -338,10 +339,7 @@ describe('FeatureFlagService with config', () => {
   it('should load defaults from injected config', () => {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: FEATURE_FLAG_CONFIG,
-          useValue: { defaults: { 'pre-loaded': true } },
-        },
+        provideFeatureFlags({ defaults: { 'pre-loaded': true } }),
       ],
     });
 

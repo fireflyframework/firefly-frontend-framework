@@ -15,7 +15,7 @@ import { UserProfile, UserRole } from './user-context.types';
  * The product layer is responsible for mapping its token/API
  * responses to these signals.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class UserContextService {
   readonly user = signal<UserProfile | null>(null);
   readonly roles = signal<UserRole[]>([]);

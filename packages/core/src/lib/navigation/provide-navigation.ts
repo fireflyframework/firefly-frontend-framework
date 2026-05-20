@@ -44,6 +44,7 @@ export function provideNavigation(
   config: NavigationConfig
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
+    NavigationService,
     {
       provide: NAVIGATION_CONFIG,
       useValue: config,

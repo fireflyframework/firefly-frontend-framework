@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { AlertService } from './alert.service';
+import { provideAlerts } from './provide-alerts';
 
 describe('AlertService — toasts & banners', () => {
   let service: AlertService;
 
   beforeEach(() => {
     vi.useFakeTimers();
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [provideAlerts()] });
     service = TestBed.inject(AlertService);
   });
 

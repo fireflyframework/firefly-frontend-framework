@@ -24,6 +24,7 @@ import { TRANSPORT_OPTIONS } from './transport/retry.interceptor';
  */
 export function provideFireflyTransport(config: TransportConfig): EnvironmentProviders {
   return makeEnvironmentProviders([
+    TransportRegistry,
     ...(config.options ? [{ provide: TRANSPORT_OPTIONS, useValue: config.options }] : []),
     provideEnvironmentInitializer(() => {
       const registry = inject(TransportRegistry);

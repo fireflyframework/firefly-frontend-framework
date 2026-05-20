@@ -1,6 +1,6 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 import type { FeatureFlagConfig } from './feature-flag.types';
-import { FEATURE_FLAG_CONFIG } from './feature-flag.service';
+import { FeatureFlagService, FEATURE_FLAG_CONFIG } from './feature-flag.service';
 
 /**
  * Configure the feature-flags module.
@@ -27,6 +27,7 @@ export function provideFeatureFlags(
   config?: FeatureFlagConfig,
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
+    FeatureFlagService,
     ...(config
       ? [{ provide: FEATURE_FLAG_CONFIG, useValue: config }]
       : []),

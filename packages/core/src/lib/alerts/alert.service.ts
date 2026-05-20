@@ -56,7 +56,7 @@ const MAX_VISIBLE_BANNERS = 3;
  * // @for (toast of alerts.activeToasts(); track toast.id) { ... }
  * ```
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AlertService {
   private readonly _toasts = signal<Toast[]>([]);
   private readonly _banners = signal<Banner[]>([]);

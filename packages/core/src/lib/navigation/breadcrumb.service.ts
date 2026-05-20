@@ -16,7 +16,7 @@ import { BreadcrumbItem } from './navigation.types';
  *
  * Routes without `data.breadcrumb` are skipped in the trail.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class BreadcrumbService {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);

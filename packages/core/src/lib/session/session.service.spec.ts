@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { SESSION_TIMEOUT_CONFIG } from './session-timeout.config';
 import { SessionTimeoutConfig } from './session.types';
+import { provideSession } from './provide-session';
 
 describe('SessionService', () => {
   let service: SessionService;
@@ -9,7 +10,7 @@ describe('SessionService', () => {
   beforeEach(() => {
     vi.useFakeTimers();
 
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [provideSession()] });
     service = TestBed.inject(SessionService);
   });
 
@@ -177,7 +178,7 @@ describe('SessionService', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         providers: [
-          { provide: SESSION_TIMEOUT_CONFIG, useValue: customConfig },
+          provideSession(customConfig),
         ],
       });
       service = TestBed.inject(SessionService);

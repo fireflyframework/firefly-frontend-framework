@@ -11,6 +11,9 @@ import { AuthService } from './auth.service';
 import { AuthTokens } from './auth.types';
 import { SessionService } from '../session/session.service';
 import { UserContextService } from '../user-context/user-context.service';
+import { provideAuth } from './provide-auth';
+import { provideSession } from '../session/provide-session';
+import { provideUserContext } from '../user-context/provide-user-context';
 
 const API = '/api/v1/experience/security';
 
@@ -47,6 +50,9 @@ describe('AuthService', () => {
 
     TestBed.configureTestingModule({
       providers: [
+        provideAuth(),
+        provideSession(),
+        provideUserContext(),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],

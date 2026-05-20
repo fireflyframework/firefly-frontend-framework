@@ -26,7 +26,7 @@ const ACTIVITY_THROTTLE_MS = 5_000;
  *
  * Configuration is injectable via `SESSION_TIMEOUT_CONFIG`.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class SessionService {
   /** Current session lifecycle state. */
   readonly sessionState = signal<SessionState>('expired');

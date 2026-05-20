@@ -5,6 +5,7 @@ import { dynamicPermissionGuard } from './dynamic-permission.guard';
 import { PermissionService } from '../permission.service';
 import { RoutePermissionMap } from '../dynamic-permission.types';
 import { DYNAMIC_PERMISSION_CONFIG } from '../provide-dynamic-permissions';
+import { providePermissions } from '../provide-permissions';
 
 @Component({ template: '', standalone: true })
 class DummyComponent {}
@@ -19,7 +20,7 @@ describe('dynamicPermissionGuard', () => {
     providers: any[] = [],
   ) {
     TestBed.configureTestingModule({
-      providers: [provideRouter(routes), ...providers],
+      providers: [provideRouter(routes), providePermissions(), ...providers],
     });
     service = TestBed.inject(PermissionService);
     router = TestBed.inject(Router);

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HasRoleDirective } from './has-role.directive';
 import { PermissionService } from '../permission.service';
+import { providePermissions } from '../provide-permissions';
 
 @Component({
   template: `<span *ffHasRole="'admin'">Admin Only</span>`,
@@ -17,6 +18,7 @@ describe('HasRoleDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestHostComponent],
+      providers: [providePermissions()],
     });
 
     service = TestBed.inject(PermissionService);

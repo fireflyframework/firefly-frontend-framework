@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { NavigationService } from './navigation.service';
 import { NavigationConfig } from './navigation.types';
 import { provideNavigation } from './provide-navigation';
+import { providePermissions } from '../permissions/provide-permissions';
 
 describe('provideNavigation', () => {
   const config: NavigationConfig = {
@@ -26,7 +27,7 @@ describe('provideNavigation', () => {
 
   it('should configure NavigationService via APP_INITIALIZER', async () => {
     TestBed.configureTestingModule({
-      providers: [provideRouter([]), provideNavigation(config)],
+      providers: [provideRouter([]), providePermissions(), provideNavigation(config)],
     });
 
     const initStatus = TestBed.inject(ApplicationInitStatus);
@@ -42,7 +43,7 @@ describe('provideNavigation', () => {
 
   it('should work with empty items', async () => {
     TestBed.configureTestingModule({
-      providers: [provideRouter([]), provideNavigation({ items: [] })],
+      providers: [provideRouter([]), providePermissions(), provideNavigation({ items: [] })],
     });
 
     const initStatus = TestBed.inject(ApplicationInitStatus);

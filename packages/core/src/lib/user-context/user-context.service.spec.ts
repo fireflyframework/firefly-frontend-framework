@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserContextService } from './user-context.service';
 import { ROLE_PRIORITY } from './role-priority.config';
 import { UserProfile } from './user-context.types';
+import { provideUserContext } from './provide-user-context';
 
 const MOCK_USER: UserProfile = {
   userId: 'u1',
@@ -14,7 +15,7 @@ describe('UserContextService', () => {
   let service: UserContextService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [provideUserContext()] });
     service = TestBed.inject(UserContextService);
   });
 
@@ -73,6 +74,7 @@ describe('UserContextService', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         providers: [
+          provideUserContext(),
           {
             provide: ROLE_PRIORITY,
             useValue: ['admin', 'supervisor', 'distributor', 'agent'],

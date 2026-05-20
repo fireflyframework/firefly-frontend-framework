@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FfFeatureFlagDirective } from './feature-flag.directive';
 import { FeatureFlagService } from './feature-flag.service';
+import { provideFeatureFlags } from './provide-feature-flags';
 
 @Component({
   template: `<span *ffFeatureFlag="'new-dashboard'">Visible</span>`,
@@ -17,6 +18,7 @@ describe('FfFeatureFlagDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestHostComponent],
+      providers: [provideFeatureFlags()],
     });
 
     service = TestBed.inject(FeatureFlagService);

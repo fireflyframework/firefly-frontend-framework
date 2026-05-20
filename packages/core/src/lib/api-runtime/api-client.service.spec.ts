@@ -5,6 +5,8 @@ import { TransportRegistry } from './transport/transport-registry';
 import { TransportAdapter } from './transport/transport-adapter';
 import { TransportError } from './transport/transport-error';
 import { TransportProtocol, TransportRequest, TransportResponse } from './transport/transport-request';
+import { provideApiClient } from './provide-api-client';
+import { provideFireflyTransport } from './provide-firefly-transport';
 
 /** Minimal mock adapter for testing */
 class MockTransportAdapter extends TransportAdapter {
@@ -29,7 +31,7 @@ describe('ApiClient', () => {
   let mockAdapter: MockTransportAdapter;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [provideApiClient(), provideFireflyTransport({ defaultProtocol: 'http', routes: [] })] });
     apiClient = TestBed.inject(ApiClient);
     registry = TestBed.inject(TransportRegistry);
 

@@ -3,6 +3,8 @@ import { provideRouter } from '@angular/router';
 import { NavigationService } from './navigation.service';
 import { PermissionService } from '../permissions/permission.service';
 import { NavItem } from './navigation.types';
+import { provideNavigation } from './provide-navigation';
+import { providePermissions } from '../permissions/provide-permissions';
 
 describe('NavigationService', () => {
   let service: NavigationService;
@@ -10,7 +12,7 @@ describe('NavigationService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideNavigation({ items: [] }), providePermissions()],
     });
     service = TestBed.inject(NavigationService);
     permissions = TestBed.inject(PermissionService);

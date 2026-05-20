@@ -21,7 +21,7 @@ const AUTH_API_BASE = '/api/v1/experience/security';
  *
  * API base: /api/v1/experience/security (exp-security microservice)
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AuthService {
   /** Reactive signal indicating whether the user is currently authenticated. */
   readonly isAuthenticated = signal(false);

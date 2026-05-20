@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HasPermissionDirective } from './has-permission.directive';
 import { PermissionService } from '../permission.service';
+import { providePermissions } from '../provide-permissions';
 
 @Component({
   template: `<span *ffHasPermission="'resource.write'">Visible</span>`,
@@ -17,6 +18,7 @@ describe('HasPermissionDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestHostComponent],
+      providers: [providePermissions()],
     });
 
     service = TestBed.inject(PermissionService);
