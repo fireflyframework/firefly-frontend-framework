@@ -4,7 +4,7 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 import type { ErrorHandlingConfig } from './app-error';
-import { ERROR_HANDLING_CONFIG } from './error.service';
+import { ErrorService, ERROR_HANDLING_CONFIG } from './error.service';
 import { FireflyErrorHandler } from './firefly-error-handler';
 
 /**
@@ -36,6 +36,7 @@ export function provideErrorHandling(
   config?: ErrorHandlingConfig,
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
+    ErrorService,
     { provide: ErrorHandler, useClass: FireflyErrorHandler },
     ...(config ? [{ provide: ERROR_HANDLING_CONFIG, useValue: config }] : []),
   ]);

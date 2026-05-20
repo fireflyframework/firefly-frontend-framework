@@ -8,6 +8,7 @@ import {
 import { DynamicPermissionConfig, RoutePermissionMap } from './dynamic-permission.types';
 import { dynamicPermissionGuard } from './guards/dynamic-permission.guard';
 import { PermissionService } from './permission.service';
+import { providePermissions } from './provide-permissions';
 
 @Component({ template: '', standalone: true })
 class DummyComponent {}
@@ -29,7 +30,7 @@ describe('provideDynamicPermissions', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [provideRouter([]), provideDynamicPermissions(config)],
+      providers: [provideRouter([]), providePermissions(), provideDynamicPermissions(config)],
     });
 
     const injected = TestBed.inject(DYNAMIC_PERMISSION_CONFIG);
@@ -44,6 +45,7 @@ describe('provideDynamicPermissions', () => {
 
     TestBed.configureTestingModule({
       providers: [
+        providePermissions(),
         provideRouter([
           {
             path: 'secured',
@@ -69,6 +71,7 @@ describe('provideDynamicPermissions', () => {
   it('should respect fallbackBehavior from provided config', async () => {
     TestBed.configureTestingModule({
       providers: [
+        providePermissions(),
         provideRouter([
           {
             path: 'unmapped',
@@ -94,6 +97,7 @@ describe('provideDynamicPermissions', () => {
   it('should respect redirectTo from provided config', async () => {
     TestBed.configureTestingModule({
       providers: [
+        providePermissions(),
         provideRouter([
           {
             path: 'locked',
@@ -125,6 +129,7 @@ describe('provideDynamicPermissions', () => {
 
     TestBed.configureTestingModule({
       providers: [
+        providePermissions(),
         provideRouter([
           {
             path: 'page',

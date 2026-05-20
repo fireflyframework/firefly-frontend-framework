@@ -1,11 +1,10 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import { PermissionService } from './permission.service';
 
 /**
  * Configures the Permissions module.
  *
- * Currently PermissionService is `providedIn: 'root'` and requires
- * no additional setup, so this factory returns an empty provider set.
- * It exists as a consistent entry-point for product `app.config.ts`
+ * Registers `PermissionService` and serves as a consistent entry-point for product `app.config.ts`
  * and as an extension point for future configuration (e.g. default
  * redirect route, permission loaders).
  *
@@ -19,5 +18,5 @@ import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
  * ```
  */
 export function providePermissions(): EnvironmentProviders {
-  return makeEnvironmentProviders([]);
+  return makeEnvironmentProviders([PermissionService]);
 }

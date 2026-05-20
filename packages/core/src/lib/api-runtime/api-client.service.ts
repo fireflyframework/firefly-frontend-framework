@@ -24,7 +24,7 @@ import { TransportError } from './transport/transport-error';
  * - Retry (that's RetryInterceptor cross-protocol, G14)
  * - Handle auth headers (that's SecurityInterceptor)
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ApiClient {
   private readonly registry = inject(TransportRegistry);
 

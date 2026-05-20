@@ -14,7 +14,7 @@ import { PermissionSnapshot } from './permission.types';
  * All queries return reactive signals — UI updates automatically
  * when permissions change.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class PermissionService {
   private readonly _permissions = signal<string[]>([]);
   private readonly _roles = signal<string[]>([]);

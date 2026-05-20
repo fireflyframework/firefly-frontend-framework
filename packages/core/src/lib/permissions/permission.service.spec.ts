@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { PermissionService } from './permission.service';
+import { providePermissions } from './provide-permissions';
 
 describe('PermissionService', () => {
   let service: PermissionService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [providePermissions()] });
     service = TestBed.inject(PermissionService);
   });
 

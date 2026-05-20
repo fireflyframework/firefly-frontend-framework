@@ -3,6 +3,7 @@ import { Router, provideRouter } from '@angular/router';
 import { Component } from '@angular/core';
 import { permissionGuard, roleGuard } from './permission.guard';
 import { PermissionService } from '../permission.service';
+import { providePermissions } from '../provide-permissions';
 
 @Component({ template: '', standalone: true })
 class DummyComponent {}
@@ -14,6 +15,7 @@ describe('permissionGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        providePermissions(),
         provideRouter([
           {
             path: 'protected',
@@ -76,6 +78,7 @@ describe('roleGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        providePermissions(),
         provideRouter([
           {
             path: 'admin',

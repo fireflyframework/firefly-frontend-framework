@@ -10,6 +10,7 @@ import {
 } from '@angular/common/http/testing';
 import { errorInterceptor } from './error.interceptor';
 import { ErrorService } from './error.service';
+import { provideErrorHandling } from './provide-error-handling';
 
 describe('errorInterceptor', () => {
   let http: HttpClient;
@@ -19,6 +20,7 @@ describe('errorInterceptor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        provideErrorHandling(),
         provideHttpClient(withInterceptors([errorInterceptor])),
         provideHttpClientTesting(),
       ],

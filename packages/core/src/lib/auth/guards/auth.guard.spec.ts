@@ -5,6 +5,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { authGuard } from './auth.guard';
 import { AuthService } from '../auth.service';
+import { provideAuth } from '../provide-auth';
+import { provideSession } from '../../session/provide-session';
+import { provideUserContext } from '../../user-context/provide-user-context';
 
 @Component({ template: '', standalone: true })
 class DummyComponent {}
@@ -18,6 +21,9 @@ describe('authGuard', () => {
 
     TestBed.configureTestingModule({
       providers: [
+        provideAuth(),
+        provideSession(),
+        provideUserContext(),
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([

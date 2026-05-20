@@ -35,7 +35,7 @@ export const ERROR_HANDLING_CONFIG = new InjectionToken<{ maxHistorySize?: numbe
  * this.errors.clearError();
  * ```
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ErrorService {
   private readonly config = inject(ERROR_HANDLING_CONFIG, { optional: true });
 

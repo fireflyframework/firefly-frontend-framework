@@ -22,7 +22,7 @@ import { TransportRoute, ResolvedTransport } from './transport-route';
  * configuration and adapters are registered in the providers.
  * No dynamic re-routing at runtime.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class TransportRegistry {
   /** Configured routes — loaded from firefly.config.yaml by provideFireflyTransport() */
   private readonly routes = signal<TransportRoute[]>([]);

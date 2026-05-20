@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FireflyErrorHandler } from './firefly-error-handler';
 import { ErrorService } from './error.service';
+import { provideErrorHandling } from './provide-error-handling';
 
 describe('FireflyErrorHandler', () => {
   let handler: FireflyErrorHandler;
@@ -10,7 +11,7 @@ describe('FireflyErrorHandler', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FireflyErrorHandler],
+      providers: [provideErrorHandling(), FireflyErrorHandler],
     });
 
     handler = TestBed.inject(FireflyErrorHandler);

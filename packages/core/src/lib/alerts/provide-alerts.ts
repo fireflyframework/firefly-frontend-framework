@@ -4,6 +4,7 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 import { AlertConfig } from './alert.types';
+import { AlertService } from './alert.service';
 
 /**
  * Injection token for optional alert configuration.
@@ -36,6 +37,7 @@ export function provideAlerts(
   config?: AlertConfig,
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
+    AlertService,
     ...(config ? [{ provide: ALERT_CONFIG, useValue: config }] : []),
   ]);
 }

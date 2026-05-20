@@ -22,7 +22,7 @@ interface MasterDataEntry {
  * All queries return reactive signals — UI updates automatically
  * when data changes.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class MasterDataService {
   private readonly entries = new Map<string, MasterDataEntry>();
   private readonly stateSignals = signal<Map<string, Signal<MasterDataState>>>(new Map());

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { BreadcrumbService } from './breadcrumb.service';
+import { provideBreadcrumb } from './provide-breadcrumb';
 
 @Component({ template: '', standalone: true })
 class DummyComponent {}
@@ -13,6 +14,7 @@ describe('BreadcrumbService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        provideBreadcrumb(),
         provideRouter([
           {
             path: 'modules',

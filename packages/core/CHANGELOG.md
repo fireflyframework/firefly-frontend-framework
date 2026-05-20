@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-05-20
+
+### Changed
+- **BREAKING:** All 16 services now require explicit registration via `provideX()` factory functions
+- Removed `providedIn: 'root'` from 12 services: ErrorService, FeatureFlagService, NavigationService, BreadcrumbService, PermissionService, AlertService, MasterDataService, TransportRegistry, ApiClient, AuthService, UserContextService, SessionService
+- Updated 7 existing factories to register their service class (provideErrorHandling, provideFeatureFlags, provideNavigation, providePermissions, provideAlerts, provideMasterData, provideFireflyTransport)
+
+### Added
+- `provideAuth()` — factory for AuthService registration
+- `provideSession(config?)` — factory for SessionService registration (accepts optional `SessionTimeoutConfig`)
+- `provideBreadcrumb()` — factory for BreadcrumbService registration
+- `provideApiClient()` — factory for ApiClient registration
+- `provideUserContext()` — factory for UserContextService registration
+
+### Migration
+- Applications MUST add `provideAuth()`, `provideSession()`, `provideBreadcrumb()`, `provideApiClient()`, and `provideUserContext()` to their `app.config.ts` providers
+- Tests that inject services directly MUST include the corresponding `provideX()` in `TestBed.configureTestingModule({ providers: [...] })`
+
 ## [0.10.1] - 2026-05-20
 
 ### Added
@@ -154,7 +172,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.10.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.11.0...HEAD
+[0.11.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.10.1...core@0.11.0
 [0.10.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.9.0...core@0.10.0
 [0.9.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.8.0...core@0.9.0
 [0.8.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.2...core@0.8.0

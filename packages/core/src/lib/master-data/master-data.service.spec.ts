@@ -2,12 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { MasterDataService } from './master-data.service';
 import { MasterDataSource } from './master-data.types';
+import { provideMasterData } from './provide-master-data';
 
 describe('MasterDataService', () => {
   let service: MasterDataService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [provideMasterData([])] });
     service = TestBed.inject(MasterDataService);
   });
 
