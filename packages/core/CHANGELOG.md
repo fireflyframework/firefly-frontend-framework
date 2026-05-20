@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-05-20
+
+### Added
+- Security module: `provideSecurity(config?)` factory with `SECURITY_CONFIG` injection token
+- `SecurityService` — signal-based CSRF config management, cookie/manual token read, SSR-safe
+- `csrfInterceptor` — functional HTTP interceptor, adds CSRF header on mutation requests (POST/PUT/PATCH/DELETE)
+- PII masking utilities: `maskNif()`, `maskCard()`, `maskPhone()`, `maskEmail()`, `maskIban()`
+- `FfPiiMaskPipe` — standalone pipe for template-based PII masking (`{{ value | ffPiiMask:'nif' }}`)
+- `FfPiiMaskDirective` — attribute directive with toggle show/hide and event emission
+- HTML sanitization utilities: `sanitizeHtml()`, `escapeXss()`, `stripTags()`
+- Types: `PiiFieldType`, `PiiMaskingMode`, `CsrfConfig`, `SecurityConfig`
+
 ## [0.11.0] - 2026-05-20
 
 ### Changed
