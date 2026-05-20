@@ -11,3 +11,4 @@ export * from './lib/i18n';
 export * from './lib/error-handling';
 export * from './lib/feature-flags';
 export * from './lib/storage';
+export * from './lib/environment';

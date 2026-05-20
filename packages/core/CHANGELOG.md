@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-05-20
+
+### Added
+- Environment module: `EnvironmentService`, `provideEnvironment()`, `ENVIRONMENT_CONFIG`
+- Runtime environment management with signal-based state (`currentEnv`, `config`)
+- Multi-environment configuration: dev, staging, production, and custom environments
+- API URL resolution: `getApiUrl(service?)` with per-service overrides and base URL fallback
+- Environment detection: `isDev()`, `isStaging()`, `isProduction()`
+- Runtime flags: `getFlag(key)`, `setFlag(key, value)`
+- Runtime mutation: `setEnvironment()`, `setApiBaseUrl()` with optional field protection
+- Protected fields: `protectedFields` config blocks setters with console warning
+- External config loading: `loadEnvironment(url)` fetches JSON (APP_INITIALIZER compatible)
+- Programmatic loading: `loadConfig(config)` as base primitive
+- Full reset: `reset()` restores state to last `loadConfig()` snapshot
+- Types: `Environment`, `EnvironmentEntry`, `EnvironmentConfig`, `ProtectedField`
+
 ## [0.9.0] - 2026-05-19
 
 ### Added
@@ -130,7 +146,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.9.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.10.0...HEAD
+[0.10.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.9.0...core@0.10.0
 [0.9.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.8.0...core@0.9.0
 [0.8.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.2...core@0.8.0
 [0.7.2]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.7.1...core@0.7.2
