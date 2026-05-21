@@ -14,7 +14,7 @@ describe('FilePickerService', () => {
     removeEventListener: ReturnType<typeof vi.fn>;
     parentNode: { removeChild: ReturnType<typeof vi.fn> } | null;
   };
-  let listeners: Record<string, Function>;
+  let listeners: Record<string, (...args: unknown[]) => void>;
   let mockDoc: {
     createElement: ReturnType<typeof vi.fn>;
     body: { appendChild: ReturnType<typeof vi.fn> };
@@ -29,7 +29,7 @@ describe('FilePickerService', () => {
       style: { display: '' },
       files: null,
       click: vi.fn(),
-      addEventListener: vi.fn((event: string, fn: Function) => {
+      addEventListener: vi.fn((event: string, fn: (...args: unknown[]) => void) => {
         listeners[event] = fn;
       }),
       removeEventListener: vi.fn(),

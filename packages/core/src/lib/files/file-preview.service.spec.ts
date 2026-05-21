@@ -33,7 +33,7 @@ describe('FilePreviewService', () => {
     createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockImplementation(() => {
       return `blob:mock-url-${++urlCounter}`;
     });
-    revokeObjectURLSpy = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+    revokeObjectURLSpy = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => { /* noop */ });
   });
 
   afterEach(() => {

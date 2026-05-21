@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
-import { Observable, map, scan, forkJoin } from 'rxjs';
+import { Observable, scan, forkJoin } from 'rxjs';
 import { FILES_CONFIG, UploadProgress } from './file.types';
 
 /**
