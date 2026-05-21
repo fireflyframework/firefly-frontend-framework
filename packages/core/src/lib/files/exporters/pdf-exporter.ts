@@ -29,6 +29,7 @@ export async function exportToPdf<T>(data: T[], config: ExportConfig<T>): Promis
   let autoTable: any;
 
   try {
+    // @ts-expect-error — optional peer dependency, resolved at runtime
     const jspdfModule = await import('jspdf');
     jsPDF = jspdfModule.default ?? jspdfModule.jsPDF;
   } catch {
@@ -38,6 +39,7 @@ export async function exportToPdf<T>(data: T[], config: ExportConfig<T>): Promis
   }
 
   try {
+    // @ts-expect-error — optional peer dependency, resolved at runtime
     const autoTableModule = await import('jspdf-autotable');
     autoTable = autoTableModule.default ?? autoTableModule;
   } catch {

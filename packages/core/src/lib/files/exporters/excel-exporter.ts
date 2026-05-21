@@ -28,6 +28,7 @@ export async function exportToExcel<T>(data: T[], config: ExportConfig<T>): Prom
   let ExcelJS: any;
 
   try {
+    // @ts-expect-error — optional peer dependency, resolved at runtime
     ExcelJS = await import('exceljs');
   } catch {
     throw new Error(
