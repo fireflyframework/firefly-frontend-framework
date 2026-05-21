@@ -16,11 +16,19 @@
     "rxjs": "~7.8.0",
     "@jsverse/transloco": "^8.3.0",
     "@fireflyframework/utils": ">=0.1.0",
-    "@jsverse/transloco-messageformat": "^8.3.0"
+    "@jsverse/transloco-messageformat": "^8.3.0",
+    "jspdf": ">=2.5.0",
+    "jspdf-autotable": ">=3.8.0"
   },
   "sideEffects": false,
   "peerDependenciesMeta": {
     "@jsverse/transloco-messageformat": {
+      "optional": true
+    },
+    "jspdf": {
+      "optional": true
+    },
+    "jspdf-autotable": {
       "optional": true
     }
   }
