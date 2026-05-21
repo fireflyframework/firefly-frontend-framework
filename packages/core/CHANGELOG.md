@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-05-22
+
+### Added
+- Files module (EXTENDED): `provideFiles(config?)` factory with `FILES_CONFIG` injection token
+- `FileValidationService` — validates file size, MIME type, and extension with configurable rules
+- `FilePickerService` — programmatic native file picker via hidden `<input type="file">`
+- `FileUploadService` — HTTP POST upload with real-time progress tracking via `Observable<UploadProgress>`
+- `FileDownloadService` — triggers browser downloads from URLs or in-memory Blobs
+- `FilePreviewService` — blob URL lifecycle management with `createBlobUrl()`, `revokeBlobUrl()`, `revokeAll()`
+- `FileExportService` — orchestrates tabular data export (CSV/PDF/Excel) with automatic format selection and download
+- `exportToCsv()` — pure JS CSV exporter with UTF-8 BOM, configurable separators, field escaping
+- `exportToPdf()` — PDF exporter via dynamic `import('jspdf')` with title, autoTable layout, column widths
+- `exportToExcel()` — Excel exporter via dynamic `import('exceljs')` with styled headers, sheet naming
+- Types: `ExportFormat`, `ExportConfig`, `ExportColumn`, `UploadProgress`, `FileValidationConfig`, `ValidationResult`, `FilesConfig`
+- Optional peer dependencies: `jspdf >=2.5.0`, `jspdf-autotable >=3.8.0`, `exceljs >=4.4.0`
+
 ## [0.12.0] - 2026-05-20
 
 ### Added
