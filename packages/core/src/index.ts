@@ -15,3 +15,4 @@ export * from './lib/environment';
 export * from './lib/security';
 export * from './lib/files';
 export * from './lib/notifications';
+export * from './lib/event-bus';
