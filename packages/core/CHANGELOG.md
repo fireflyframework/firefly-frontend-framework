@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.15.0] - 2026-05-23
+
+### Added
+- Event Bus module (CORE #16): `provideEventBus(options?)` factory with `EVENT_BUS_CONFIG` injection token
+- `EventBusService` — central pub/sub with typed `DomainEvent<T>`, `publish()`, `subscribe()`, `subscribePattern()` (wildcard/regex)
+- Dual reactive API: `stream(eventType)` returns `Observable<DomainEvent<T>>`, `signal(eventType)` returns `Signal<DomainEvent<T> | undefined>`
+- `EventQueueService` — persistent event queue backed by `StorageService` (localStorage), bounded by `maxQueueSize`, with `enqueue()`, `flush()`, `clear()`
+- `EventHistoryService` — in-memory ring buffer bounded by `historySize`, with `query(filter?)` supporting AND-logic filters (type, source, since)
+- Types: `DomainEvent<T>`, `EventHandler<T>`, `EventFilter`, `QueueStatus`, `FlushResult`, `EventBusOptions`, `EventBusConfig`
+
 ## [0.14.0] - 2026-05-22
 
 ### Added
@@ -214,7 +224,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.14.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.15.0...HEAD
+[0.15.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.14.0...core@0.15.0
 [0.14.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.13.0...core@0.14.0
 [0.13.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.12.0...core@0.13.0
 [0.12.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.11.0...core@0.12.0
