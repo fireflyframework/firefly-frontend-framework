@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-05-22
+
+### Added
+- Notifications module (EXTENDED): `provideNotifications(options?)` factory with `NOTIFICATION_CONFIG` injection token
+- `NotificationService` — central event dispatcher with adapter registry, `emit()` routing via `supports()`, and `Promise.allSettled` fault tolerance
+- `NotificationAdapter` interface — contract for pluggable notification channels (`name`, `supports()`, `send()`)
+- `FireflyEvent` type — system event payload with `type`, `product`, `severity`, `message`, `timestamp`, and optional `data`
+- `ConsoleAdapter` — always-on fallback adapter, logs events to console with severity-aware formatting
+- `NoopAdapter` — silent no-op adapter for testing environments
+- `SlackAdapter` — dispatches events to Slack via incoming webhook URL with severity emoji formatting
+- `WebhookAdapter` — generic HTTP POST adapter with configurable URL and custom headers
+- `EmailAdapter` — dispatches events to an HTTP relay endpoint with email-specific payload (from, subject, body)
+- Types: `EventSeverity`, `SlackAdapterOptions`, `EmailAdapterOptions`, `WebhookAdapterOptions`, `NotificationOptions`, `NotificationConfig`
+
 ## [0.13.0] - 2026-05-22
 
 ### Added
@@ -200,7 +214,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.11.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.14.0...HEAD
+[0.14.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.13.0...core@0.14.0
+[0.13.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.12.0...core@0.13.0
+[0.12.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.11.0...core@0.12.0
 [0.11.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.10.1...core@0.11.0
 [0.10.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.9.0...core@0.10.0
 [0.9.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.8.0...core@0.9.0
