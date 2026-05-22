@@ -29,7 +29,7 @@ describe('NoopAdapter', () => {
   });
 
   it('should resolve without doing anything', async () => {
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'log').mockImplementation(vi.fn());
     await expect(adapter.send(createEvent())).resolves.toBeUndefined();
     expect(spy).not.toHaveBeenCalled();
     spy.mockRestore();

@@ -19,6 +19,7 @@ export class NoopAdapter implements NotificationAdapter {
     return true;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async send(_event: FireflyEvent): Promise<void> {
     // intentionally empty
   }

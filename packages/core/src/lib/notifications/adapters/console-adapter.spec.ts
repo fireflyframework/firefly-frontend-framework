@@ -30,7 +30,7 @@ describe('ConsoleAdapter', () => {
   });
 
   it('should log info events with console.log', async () => {
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'log').mockImplementation(vi.fn());
     await adapter.send(createEvent({ severity: 'info' }));
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy.mock.calls[0][0]).toContain('[INFO]');
@@ -40,7 +40,7 @@ describe('ConsoleAdapter', () => {
   });
 
   it('should log warning events with console.warn', async () => {
-    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'warn').mockImplementation(vi.fn());
     await adapter.send(createEvent({ severity: 'warning' }));
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy.mock.calls[0][0]).toContain('[WARN]');
@@ -48,7 +48,7 @@ describe('ConsoleAdapter', () => {
   });
 
   it('should log error events with console.error', async () => {
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
     await adapter.send(createEvent({ severity: 'error' }));
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy.mock.calls[0][0]).toContain('[ERROR]');
@@ -56,7 +56,7 @@ describe('ConsoleAdapter', () => {
   });
 
   it('should log critical events with console.error', async () => {
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
     await adapter.send(createEvent({ severity: 'critical' }));
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy.mock.calls[0][0]).toContain('[CRITICAL]');
@@ -64,7 +64,7 @@ describe('ConsoleAdapter', () => {
   });
 
   it('should include event data when present', async () => {
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'log').mockImplementation(vi.fn());
     const data = { key: 'value' };
     await adapter.send(createEvent({ data }));
     expect(spy.mock.calls[0][1]).toEqual(data);
@@ -72,14 +72,14 @@ describe('ConsoleAdapter', () => {
   });
 
   it('should pass empty string when no data', async () => {
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'log').mockImplementation(vi.fn());
     await adapter.send(createEvent());
     expect(spy.mock.calls[0][1]).toBe('');
     spy.mockRestore();
   });
 
   it('should format the log line correctly', async () => {
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'log').mockImplementation(vi.fn());
     await adapter.send(createEvent({
       severity: 'info',
       product: 'my-app',
