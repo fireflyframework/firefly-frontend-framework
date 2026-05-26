@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-05-26
+
+### Added
+- Cookies module (EXTENDED #20): `provideCookies(options?)` factory with `COOKIE_CONFIG` injection token
+- `CookieService` — typed CRUD for browser cookies: `get()`, `set()`, `delete()`, `getAll()` with automatic URI encoding
+- `CookieConsentService` — GDPR/ePrivacy consent management with signal-based reactive state
+- Consent API: `acceptAll()`, `rejectAll()`, `updatePreferences()`, `isCategoryAllowed()`, `consentGiven()`, `preferences()`
+- `FfCookieConsentDirective` — structural directive `*ffCookieConsent="'category'"` for conditional rendering based on consent
+- Consent enforcement: `CookieService.set()` checks category consent before writing non-essential cookies
+- Configurable categories: `essential` (always allowed), `analytics`, `preferences`, plus custom categories via `(string & {})`
+- Types: `CookieCategory`, `CookieOptions`, `ConsentPreferences`, `CookieModuleOptions`, `CookieConfig`
+
 ## [0.15.0] - 2026-05-23
 
 ### Added
@@ -224,7 +236,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.15.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.16.0...HEAD
+[0.16.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.15.0...core@0.16.0
 [0.15.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.14.0...core@0.15.0
 [0.14.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.13.0...core@0.14.0
 [0.13.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.12.0...core@0.13.0
