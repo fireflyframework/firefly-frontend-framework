@@ -1,0 +1,17 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
+// ============================================================
+// Firefly Design System — Z-index Tokens (sys layer)
+// A single stacking scale so overlays never collide.
+// See firefly-docs/reference/design-tokens.md §5.1.
+// ============================================================
+
+:root {
+  --ff-sys-z-dropdown: 1000;
+  --ff-sys-z-sticky: 1020;
+  --ff-sys-z-fixed: 1030;
+  --ff-sys-z-modal-backdrop: 1040;
+  --ff-sys-z-modal: 1050;
+  --ff-sys-z-popover: 1060;
+  --ff-sys-z-tooltip: 1070;
+  --ff-sys-z-toast: 1080;
+}

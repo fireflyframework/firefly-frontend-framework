@@ -1,15 +1,15 @@
 .ff-radio {
   // Component tokens
-  --ff-radio-border: var(--ff-color-neutral-400);
-  --ff-radio-bg: var(--ff-color-surface);
-  --ff-radio-selected-bg: var(--ff-color-primary-500);
-  --ff-radio-selected-border: var(--ff-color-primary-500);
-  --ff-radio-dot-color: var(--ff-color-on-primary);
-  --ff-radio-label-color: var(--ff-color-neutral-900);
-  --ff-radio-focus-ring: var(--ff-color-border-focus);
+  --ff-radio-border: var(--ff-ref-color-neutral-400);
+  --ff-radio-bg: var(--ff-sys-color-surface);
+  --ff-radio-bg-selected: var(--ff-ref-color-primary-500);
+  --ff-radio-border-selected: var(--ff-ref-color-primary-500);
+  --ff-radio-dot-color: var(--ff-sys-color-on-primary);
+  --ff-radio-label-color: var(--ff-ref-color-neutral-900);
+  --ff-radio-focus-ring: var(--ff-sys-color-border-focus);
 
   display: inline-flex;
-  gap: var(--ff-spacing-md);
+  gap: var(--ff-ref-spacing-md);
 
   // Orientation
   &--horizontal {
@@ -24,7 +24,7 @@
   &__item {
     display: inline-flex;
     align-items: center;
-    gap: var(--ff-spacing-sm);
+    gap: var(--ff-ref-spacing-sm);
     cursor: pointer;
   }
 
@@ -52,7 +52,7 @@
     border: 2px solid var(--ff-radio-border);
     border-radius: 50%;
     background-color: var(--ff-radio-bg);
-    transition: border-color 0.15s, background-color 0.15s;
+    transition: border-color var(--ff-sys-duration-fast), background-color var(--ff-sys-duration-fast);
     flex-shrink: 0;
 
     &::after {
@@ -67,8 +67,8 @@
 
   // Selected state
   &__item--selected .ff-radio__dot {
-    background-color: var(--ff-radio-selected-bg);
-    border-color: var(--ff-radio-selected-border);
+    background-color: var(--ff-radio-bg-selected);
+    border-color: var(--ff-radio-border-selected);
 
     &::after {
       display: block;
@@ -77,15 +77,15 @@
 
   // Label text
   &__label {
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-md);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-md);
     color: var(--ff-radio-label-color);
     user-select: none;
   }
 
   // Focus ring
   &__native:focus-visible ~ .ff-radio__dot {
-    outline: 2px solid var(--ff-radio-focus-ring);
+    outline: var(--ff-sys-focus-ring-width) solid var(--ff-radio-focus-ring);
     outline-offset: 2px;
   }
 

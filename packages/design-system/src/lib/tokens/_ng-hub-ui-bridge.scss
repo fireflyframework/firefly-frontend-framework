@@ -1,0 +1,88 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
+// ============================================================
+// Firefly → ng-hub-ui theming bridge  (OPT-IN — not imported by index.scss)
+// ------------------------------------------------------------
+// Single source of truth that feeds ng-hub-ui's `--hub-*` tokens from the
+// Firefly canonical `--ff-ref-*` / `--ff-sys-*` system, so every consumed
+// Tier 2 ng-hub-ui component (table, board, calendar, stepper, …) inherits
+// Firefly theming — including dark mode — with zero changes to the library.
+//
+// Maps the ng-hub-ui SEMANTIC layer (`--hub-sys-*`) plus the scalar `ref`
+// tokens components consume directly. ng-hub-ui's own `--hub-ref-color-*`
+// palette is intentionally NOT mapped (that is the library's internal pigment;
+// the semantic layer is the theming surface).
+//
+// USAGE (opt-in): a product that consumes ng-hub-ui imports this AFTER the
+// token layer, e.g.  @use 'tokens/ng-hub-ui-bridge';  (or @import). It is NOT
+// pulled in by tokens/index.scss so the design system stays free of any hub
+// coupling unless a product asks for it. See design-tokens.md §7 and the
+// "Composite components" section of design-system-catalog.md.
+//
+// NOTE: the design-system package does not yet ship its SCSS for products to
+// import (see TODO B-12); until then a product keeps a local copy. The
+// showcase copy lives at firefly-showcase/src/styles/_ff-hub-bridge.scss.
+// ============================================================
+
+:root {
+  // ---- Surfaces & text ----
+  --hub-sys-surface-page: var(--ff-sys-color-surface);
+  --hub-sys-surface-elevated: var(--ff-sys-bg-secondary);
+  --hub-sys-text-primary: var(--ff-sys-text-primary);
+  --hub-sys-text-muted: var(--ff-sys-text-muted);
+  --hub-sys-link-color: var(--ff-ref-color-primary-500);
+  --hub-sys-link-hover-color: var(--ff-ref-color-primary-600);
+
+  // ---- Borders & shadows ----
+  --hub-sys-border-color-default: var(--ff-sys-color-border);
+  --hub-sys-shadow-sm: var(--ff-ref-elevation-sm);
+  --hub-sys-shadow: var(--ff-ref-elevation-md);
+  --hub-sys-shadow-lg: var(--ff-ref-elevation-lg);
+
+  // ---- Brand & status (with subtle / emphasis steps) ----
+  --hub-sys-color-primary: var(--ff-ref-color-primary-500);
+  --hub-sys-color-primary-subtle: var(--ff-ref-color-primary-50);
+  --hub-sys-color-primary-border-subtle: var(--ff-ref-color-primary-200);
+  --hub-sys-color-primary-emphasis: var(--ff-ref-color-primary-700);
+  --hub-sys-color-secondary: var(--ff-ref-color-secondary-500);
+  --hub-sys-color-success: var(--ff-sys-color-success);
+  --hub-sys-color-success-subtle: var(--ff-sys-color-success-subtle);
+  --hub-sys-color-success-emphasis: var(--ff-sys-color-success-emphasis);
+  --hub-sys-color-danger: var(--ff-sys-color-error);
+  --hub-sys-color-danger-subtle: var(--ff-sys-color-error-subtle);
+  --hub-sys-color-danger-emphasis: var(--ff-sys-color-error-emphasis);
+  --hub-sys-color-warning: var(--ff-sys-color-warning);
+  --hub-sys-color-warning-subtle: var(--ff-sys-color-warning-subtle);
+  --hub-sys-color-warning-emphasis: var(--ff-sys-color-warning-emphasis);
+  --hub-sys-color-info: var(--ff-sys-color-info);
+  --hub-sys-color-info-subtle: var(--ff-sys-color-info-subtle);
+  --hub-sys-color-info-emphasis: var(--ff-sys-color-info-emphasis);
+
+  // ---- Interaction states ----
+  --hub-sys-state-hover-bg: var(--ff-sys-bg-secondary);
+  --hub-sys-state-active-bg: var(--ff-sys-bg-tertiary);
+  --hub-sys-state-striped-bg: var(--ff-sys-bg-secondary);
+
+  // ---- Focus ----
+  --hub-sys-focus-ring-color: var(--ff-sys-focus-ring-color);
+  --hub-sys-focus-ring-width: var(--ff-sys-focus-ring-width);
+
+  // ---- Scalar ref tokens consumed by components ----
+  --hub-ref-color-white: var(--ff-sys-color-surface);
+  --hub-ref-surface-2: var(--ff-sys-bg-secondary);
+  --hub-ref-border-width: 1px;
+  --hub-ref-icon-size: 1em;
+  --hub-ref-font-family: var(--ff-ref-font-family);
+  --hub-ref-font-family-base: var(--ff-ref-font-family);
+  --hub-ref-font-size-base: var(--ff-ref-font-size-md);
+  --hub-ref-font-size-sm: var(--ff-ref-font-size-sm);
+  --hub-ref-font-size-lg: var(--ff-ref-font-size-lg);
+  --hub-ref-radius-sm: var(--ff-ref-radius-sm);
+  --hub-ref-radius-md: var(--ff-ref-radius-md);
+  --hub-ref-radius-lg: var(--ff-ref-radius-lg);
+  --hub-ref-space-0: 0;
+  --hub-ref-space-1: var(--ff-ref-spacing-xs);
+  --hub-ref-space-2: var(--ff-ref-spacing-sm);
+  --hub-ref-space-3: var(--ff-ref-spacing-md);
+  --hub-ref-space-4: var(--ff-ref-spacing-lg);
+  --hub-ref-space-5: var(--ff-ref-spacing-xl);
+}

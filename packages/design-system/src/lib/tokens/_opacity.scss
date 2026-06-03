@@ -1,0 +1,14 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
+// ============================================================
+// Firefly Design System — Opacity Tokens (sys layer)
+// See firefly-docs/reference/design-tokens.md §5.2.
+// ============================================================
+
+:root {
+  --ff-sys-opacity-0: 0;
+  --ff-sys-opacity-25: 0.25;
+  --ff-sys-opacity-50: 0.5;
+  --ff-sys-opacity-75: 0.75;
+  --ff-sys-opacity-100: 1;
+  --ff-sys-opacity-disabled: 0.5;
+}

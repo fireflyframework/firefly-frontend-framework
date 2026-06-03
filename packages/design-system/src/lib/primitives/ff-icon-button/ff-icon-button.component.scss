@@ -1,11 +1,11 @@
 .ff-icon-button {
   // Component tokens
-  --ff-icon-btn-color: var(--ff-color-neutral-700);
-  --ff-icon-btn-hover-color: var(--ff-color-primary-500);
-  --ff-icon-btn-hover-bg: var(--ff-color-neutral-100);
-  --ff-icon-btn-active-bg: var(--ff-color-neutral-200);
-  --ff-icon-btn-radius: var(--ff-radius-md);
-  --ff-icon-btn-focus-ring: var(--ff-color-border-focus);
+  --ff-icon-btn-color: var(--ff-ref-color-neutral-700);
+  --ff-icon-btn-color-hover: var(--ff-ref-color-primary-500);
+  --ff-icon-btn-bg-hover: var(--ff-ref-color-neutral-100);
+  --ff-icon-btn-bg-active: var(--ff-ref-color-neutral-200);
+  --ff-icon-btn-radius: var(--ff-ref-radius-md);
+  --ff-icon-btn-focus-ring: var(--ff-sys-color-border-focus);
 
   display: inline-block;
 
@@ -18,41 +18,41 @@
     background-color: transparent;
     color: var(--ff-icon-btn-color);
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    transition: background-color var(--ff-sys-duration-base), color var(--ff-sys-duration-base), box-shadow var(--ff-sys-duration-base);
     padding: 0;
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-icon-btn-hover-bg);
-      color: var(--ff-icon-btn-hover-color);
+      background-color: var(--ff-icon-btn-bg-hover);
+      color: var(--ff-icon-btn-color-hover);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--ff-icon-btn-active-bg);
+      background-color: var(--ff-icon-btn-bg-active);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-icon-btn-focus-ring);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-icon-btn-focus-ring);
       outline-offset: 2px;
     }
   }
 
   // Sizes — square hit area
   &--sm .ff-icon-button__native {
-    width: calc(var(--ff-spacing-lg) - var(--ff-spacing-xs));
-    height: calc(var(--ff-spacing-lg) - var(--ff-spacing-xs));
-    font-size: var(--ff-font-size-sm);
+    width: calc(var(--ff-ref-spacing-lg) - var(--ff-ref-spacing-xs));
+    height: calc(var(--ff-ref-spacing-lg) - var(--ff-ref-spacing-xs));
+    font-size: var(--ff-ref-font-size-sm);
   }
 
   &--md .ff-icon-button__native {
-    width: var(--ff-spacing-xl);
-    height: var(--ff-spacing-xl);
-    font-size: var(--ff-font-size-md);
+    width: var(--ff-ref-spacing-xl);
+    height: var(--ff-ref-spacing-xl);
+    font-size: var(--ff-ref-font-size-md);
   }
 
   &--lg .ff-icon-button__native {
-    width: calc(var(--ff-spacing-xl) + var(--ff-spacing-sm));
-    height: calc(var(--ff-spacing-xl) + var(--ff-spacing-sm));
-    font-size: var(--ff-font-size-lg);
+    width: calc(var(--ff-ref-spacing-xl) + var(--ff-ref-spacing-sm));
+    height: calc(var(--ff-ref-spacing-xl) + var(--ff-ref-spacing-sm));
+    font-size: var(--ff-ref-font-size-lg);
   }
 
   // Disabled

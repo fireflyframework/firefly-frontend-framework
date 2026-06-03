@@ -1,0 +1,745 @@
+// ============================================================
+// Firefly Design System — Consolidated Tokens (single source of truth)
+// ------------------------------------------------------------
+// ALL design tokens with their values, in one file, per the source-of-truth
+// doctrine (firefly-docs/reference/design-tokens.md):
+//   • Firefly --ff-ref-* / --ff-sys-* (brand values, light + dark)
+//   • Deprecated flat --ff-* aliases (compat)
+//   • ng-hub-ui --hub-* theming surface, fed from --ff-* (Tier 2 bridge)
+//
+// This file SUPERSEDES the per-family partials (_colors, _spacing, …) and the
+// standalone _ng-hub-ui-bridge — those are kept but @deprecated and no longer
+// imported. tokens/index.scss imports only this file.
+// ============================================================
+
+// ───────────────────────── _colors.scss ─────────────────────────
+:root {
+  // ====================== ref (primitive palettes) ======================
+
+  // ---- Primary palette (Flutter soonPrimary — dark slate/navy) ----
+  --ff-ref-color-primary-50: #e3e4ec;
+  --ff-ref-color-primary-100: #c6c8d9;
+  --ff-ref-color-primary-200: #afb1c7;
+  --ff-ref-color-primary-300: #9595ad;
+  --ff-ref-color-primary-400: #84869a;
+  --ff-ref-color-primary-500: #717287;
+  --ff-ref-color-primary-600: #303048;
+  --ff-ref-color-primary-700: #1f1f2e;
+  --ff-ref-color-primary-800: #13131d;
+  --ff-ref-color-primary-900: #0a0a0f;
+
+  // ---- Secondary palette (Flutter soonSecondary — lime green) ----
+  --ff-ref-color-secondary-50: #f5f9e8;
+  --ff-ref-color-secondary-100: #eaf3d2;
+  --ff-ref-color-secondary-200: #d5e6a5;
+  --ff-ref-color-secondary-300: #bfda79;
+  --ff-ref-color-secondary-400: #aad04c;
+  --ff-ref-color-secondary-500: #a0c635;
+  --ff-ref-color-secondary-600: #95c11f;
+  --ff-ref-color-secondary-700: #6b9a16;
+  --ff-ref-color-secondary-800: #3c4d0c;
+  --ff-ref-color-secondary-900: #2a3a08;
+
+  // ---- Tertiary palette (Flutter soonTertiary — indigo/violet) ----
+  --ff-ref-color-tertiary-50: #f0f3fe;
+  --ff-ref-color-tertiary-100: #e5eafc;
+  --ff-ref-color-tertiary-200: #c6d2fd;
+  --ff-ref-color-tertiary-300: #93aafd;
+  --ff-ref-color-tertiary-400: #5f82ff;
+  --ff-ref-color-tertiary-500: #4a3aff;
+  --ff-ref-color-tertiary-600: #3b2ecf;
+  --ff-ref-color-tertiary-700: #2d23a0;
+  --ff-ref-color-tertiary-800: #1e1770;
+  --ff-ref-color-tertiary-900: #140f55;
+
+  // ---- Neutral palette (Flutter soonNeutral — grey scale) ----
+  --ff-ref-color-neutral-50: #f9fafb;
+  --ff-ref-color-neutral-100: #f3f4f6;
+  --ff-ref-color-neutral-200: #e5e7eb;
+  --ff-ref-color-neutral-300: #d1d5db;
+  --ff-ref-color-neutral-400: #9ca3af;
+  --ff-ref-color-neutral-500: #6b7280;
+  --ff-ref-color-neutral-600: #4b5563;
+  --ff-ref-color-neutral-700: #374151;
+  --ff-ref-color-neutral-800: #1f2937;
+  --ff-ref-color-neutral-900: #111827;
+
+  // ---- Error palette (Flutter soonError) ----
+  --ff-ref-color-error-100: #fef2f2;
+  --ff-ref-color-error-200: #fee2e2;
+  --ff-ref-color-error-300: #fecaca;
+  --ff-ref-color-error-400: #f87171;
+  --ff-ref-color-error-500: #ef4444;
+  --ff-ref-color-error-600: #dc2626;
+  --ff-ref-color-error-700: #b91c1c;
+  --ff-ref-color-error-800: #991b1b;
+  --ff-ref-color-error-900: #7f1d1d;
+
+  // ---- Success palette (Flutter soonSuccess) ----
+  --ff-ref-color-success-100: #ecfdf5;
+  --ff-ref-color-success-200: #d1fae5;
+  --ff-ref-color-success-300: #a7f3d0;
+  --ff-ref-color-success-400: #6ee7b7;
+  --ff-ref-color-success-500: #10b981;
+  --ff-ref-color-success-600: #059669;
+  --ff-ref-color-success-700: #047857;
+  --ff-ref-color-success-800: #065f46;
+  --ff-ref-color-success-900: #064e3b;
+
+  // ---- Warning palette (Flutter soonWarning) ----
+  --ff-ref-color-warning-100: #fef3c7;
+  --ff-ref-color-warning-200: #fed7aa;
+  --ff-ref-color-warning-300: #fdba74;
+  --ff-ref-color-warning-400: #fb923c;
+  --ff-ref-color-warning-500: #f59e0b;
+  --ff-ref-color-warning-600: #d97706;
+  --ff-ref-color-warning-700: #b45309;
+  --ff-ref-color-warning-800: #92400e;
+  --ff-ref-color-warning-900: #78350f;
+
+  // ---- Info palette (Flutter soonInfo) ----
+  --ff-ref-color-info-100: #eff6ff;
+  --ff-ref-color-info-200: #dbeafe;
+  --ff-ref-color-info-300: #bfdbfe;
+  --ff-ref-color-info-400: #93c5fd;
+  --ff-ref-color-info-500: #3b82f6;
+  --ff-ref-color-info-600: #2563eb;
+  --ff-ref-color-info-700: #1d4ed8;
+  --ff-ref-color-info-800: #1e40af;
+  --ff-ref-color-info-900: #1e3a8a;
+
+  // ====================== sys (semantic) ======================
+
+  // ---- Surface & background ----
+  --ff-sys-color-surface: #ffffff;
+  --ff-sys-color-background: #f7f8f9;
+  --ff-sys-color-on-primary: #ffffff;
+  --ff-sys-color-on-surface: #111827;
+  --ff-sys-color-on-surface-variant: #4b5563;
+
+  // ---- Border ----
+  --ff-sys-color-border: #d1d5db;
+  --ff-sys-color-border-focus: #303048;
+
+  // ---- Overlay ----
+  --ff-sys-color-overlay: rgba(0, 0, 0, 0.5);
+
+  // ---- Semantic text colors (Flutter soonText) ----
+  --ff-sys-text-primary: #111827;
+  --ff-sys-text-secondary: #4b5563;
+  --ff-sys-text-muted: #6b7280;
+  --ff-sys-text-disabled: #9ca3af;
+
+  // ---- Semantic background colors (Flutter soonBackground) ----
+  --ff-sys-bg-primary: #ffffff;
+  --ff-sys-bg-secondary: #f7f8f9;
+  --ff-sys-bg-tertiary: #f1f2f4;
+
+  // ---- Status base aliases (backward compat from PASO 1.5) ----
+  --ff-sys-color-success: var(--ff-ref-color-success-500);
+  --ff-sys-color-success-light: var(--ff-ref-color-success-100);
+  --ff-sys-color-warning: var(--ff-ref-color-warning-500);
+  --ff-sys-color-warning-light: var(--ff-ref-color-warning-100);
+  --ff-sys-color-error: var(--ff-ref-color-error-500);
+  --ff-sys-color-error-light: var(--ff-ref-color-error-100);
+  --ff-sys-color-info: var(--ff-ref-color-info-500);
+  --ff-sys-color-info-light: var(--ff-ref-color-info-100);
+
+  // ---- Status subtle / border-subtle / emphasis (design-tokens.md §5.5) ----
+  // Reference the ref palette so dark mode adapts automatically (scales invert in _dark.scss).
+  --ff-sys-color-success-subtle: var(--ff-ref-color-success-100);
+  --ff-sys-color-success-border-subtle: var(--ff-ref-color-success-200);
+  --ff-sys-color-success-emphasis: var(--ff-ref-color-success-800);
+  --ff-sys-color-warning-subtle: var(--ff-ref-color-warning-100);
+  --ff-sys-color-warning-border-subtle: var(--ff-ref-color-warning-200);
+  --ff-sys-color-warning-emphasis: var(--ff-ref-color-warning-800);
+  --ff-sys-color-error-subtle: var(--ff-ref-color-error-100);
+  --ff-sys-color-error-border-subtle: var(--ff-ref-color-error-200);
+  --ff-sys-color-error-emphasis: var(--ff-ref-color-error-800);
+  --ff-sys-color-info-subtle: var(--ff-ref-color-info-100);
+  --ff-sys-color-info-border-subtle: var(--ff-ref-color-info-200);
+  --ff-sys-color-info-emphasis: var(--ff-ref-color-info-800);
+}
+
+// ───────────────────────── _spacing.scss ─────────────────────────
+:root {
+  --ff-ref-spacing-2xs: 2px;
+  --ff-ref-spacing-xs: 4px;
+  --ff-ref-spacing-sm: 8px;
+  --ff-ref-spacing-md: 16px;
+  --ff-ref-spacing-lg: 24px;
+  --ff-ref-spacing-xl: 32px;
+  --ff-ref-spacing-2xl: 48px;
+  --ff-ref-spacing-3xl: 64px;
+}
+
+// ───────────────────────── _radius.scss ─────────────────────────
+:root {
+  --ff-ref-radius-sm: 4px;
+  --ff-ref-radius-md: 8px;
+  --ff-ref-radius-lg: 12px;
+  --ff-ref-radius-full: 9999px;
+}
+
+// ───────────────────────── _typography.scss ─────────────────────────
+:root {
+  // ---- Font families ----
+  --ff-ref-font-family: 'Noto Sans', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ff-ref-font-family-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  // ---- Font sizes (modular scale) ----
+  --ff-ref-font-size-2xs: 0.625rem;  // 10px — Flutter bodyTiny
+  --ff-ref-font-size-xs: 0.75rem;    // 12px — Flutter bodySmall
+  --ff-ref-font-size-sm: 0.875rem;   // 14px — Flutter bodyMedium
+  --ff-ref-font-size-md: 1rem;       // 16px — Flutter bodyLarge
+  --ff-ref-font-size-lg: 1.25rem;    // 20px — Flutter h6
+  --ff-ref-font-size-xl: 1.5rem;     // 24px — Flutter h5
+  --ff-ref-font-size-2xl: 1.875rem;  // 30px
+  --ff-ref-font-size-3xl: 2.25rem;   // 36px
+  --ff-ref-font-size-4xl: 3rem;      // 48px — Flutter h3
+  --ff-ref-font-size-5xl: 3.75rem;   // 60px — Flutter h2
+
+  // ---- Font weights ----
+  --ff-ref-font-weight-normal: 400;
+  --ff-ref-font-weight-medium: 500;
+  --ff-ref-font-weight-semibold: 600;
+  --ff-ref-font-weight-bold: 700;
+
+  // ---- Line heights ----
+  --ff-ref-line-height-tight: 1.25;
+  --ff-ref-line-height-snug: 1.375;
+  --ff-ref-line-height-normal: 1.5;
+  --ff-ref-line-height-relaxed: 1.75;
+
+  // ---- Letter spacing ----
+  --ff-ref-letter-spacing-tight: -0.025em;
+  --ff-ref-letter-spacing-normal: 0;
+  --ff-ref-letter-spacing-wide: 0.025em;
+  --ff-ref-letter-spacing-wider: 0.05em;
+}
+
+// ───────────────────────── _shadows.scss ─────────────────────────
+:root {
+  --ff-ref-elevation-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --ff-ref-elevation-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --ff-ref-elevation-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+// ───────────────────────── _breakpoints.scss ─────────────────────────
+$ff-breakpoint-mobile: 770px;
+$ff-breakpoint-tablet: 1024px;
+$ff-breakpoint-desktop: 1200px;
+
+:root {
+  // ---- CSS custom properties (for JS/runtime access) — ref layer ----
+  // Deprecated flat aliases (--ff-breakpoint-*) live in _aliases.scss.
+  --ff-ref-breakpoint-mobile: 770px;
+  --ff-ref-breakpoint-tablet: 1024px;
+  --ff-ref-breakpoint-desktop: 1200px;
+}
+
+// ---- Responsive mixins ----
+
+// Mobile only: < 770px
+@mixin ff-mobile {
+  @media (max-width: #{$ff-breakpoint-mobile - 1}) {
+    @content;
+  }
+}
+
+// Tablet: 770px – 1023px
+@mixin ff-tablet {
+  @media (min-width: #{$ff-breakpoint-mobile}) and (max-width: #{$ff-breakpoint-tablet - 1}) {
+    @content;
+  }
+}
+
+// Desktop: 1024px – 1199px
+@mixin ff-desktop {
+  @media (min-width: #{$ff-breakpoint-tablet}) and (max-width: #{$ff-breakpoint-desktop - 1}) {
+    @content;
+  }
+}
+
+// Large: >= 1200px
+@mixin ff-large {
+  @media (min-width: #{$ff-breakpoint-desktop}) {
+    @content;
+  }
+}
+
+// ---- "Up" mixins (min-width) ----
+
+// Tablet and up: >= 770px
+@mixin ff-tablet-up {
+  @media (min-width: #{$ff-breakpoint-mobile}) {
+    @content;
+  }
+}
+
+// Desktop and up: >= 1024px
+@mixin ff-desktop-up {
+  @media (min-width: #{$ff-breakpoint-tablet}) {
+    @content;
+  }
+}
+
+// Large and up: >= 1200px
+@mixin ff-large-up {
+  @media (min-width: #{$ff-breakpoint-desktop}) {
+    @content;
+  }
+}
+
+// ---- "Down" mixins (max-width) ----
+
+// Mobile and down: < 770px
+@mixin ff-mobile-down {
+  @media (max-width: #{$ff-breakpoint-mobile - 1}) {
+    @content;
+  }
+}
+
+// Tablet and down: < 1024px
+@mixin ff-tablet-down {
+  @media (max-width: #{$ff-breakpoint-tablet - 1}) {
+    @content;
+  }
+}
+
+// Desktop and down: < 1200px
+@mixin ff-desktop-down {
+  @media (max-width: #{$ff-breakpoint-desktop - 1}) {
+    @content;
+  }
+}
+
+// ───────────────────────── _zindex.scss ─────────────────────────
+:root {
+  --ff-sys-z-dropdown: 1000;
+  --ff-sys-z-sticky: 1020;
+  --ff-sys-z-fixed: 1030;
+  --ff-sys-z-modal-backdrop: 1040;
+  --ff-sys-z-modal: 1050;
+  --ff-sys-z-popover: 1060;
+  --ff-sys-z-tooltip: 1070;
+  --ff-sys-z-toast: 1080;
+}
+
+// ───────────────────────── _opacity.scss ─────────────────────────
+:root {
+  --ff-sys-opacity-0: 0;
+  --ff-sys-opacity-25: 0.25;
+  --ff-sys-opacity-50: 0.5;
+  --ff-sys-opacity-75: 0.75;
+  --ff-sys-opacity-100: 1;
+  --ff-sys-opacity-disabled: 0.5;
+}
+
+// ───────────────────────── _motion.scss ─────────────────────────
+:root {
+  // ---- Durations ----
+  --ff-sys-duration-fast: 150ms;
+  --ff-sys-duration-base: 200ms;
+  --ff-sys-duration-slow: 300ms;
+
+  // ---- Easings ----
+  --ff-sys-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  // ---- Ready-made transitions ----
+  --ff-sys-transition-fast: all var(--ff-sys-duration-fast) var(--ff-sys-ease-standard);
+  --ff-sys-transition-base: all var(--ff-sys-duration-base) var(--ff-sys-ease-standard);
+  --ff-sys-transition-slow: all var(--ff-sys-duration-slow) var(--ff-sys-ease-standard);
+  --ff-sys-transition-fade: opacity var(--ff-sys-duration-fast) linear;
+}
+
+// ───────────────────────── _a11y.scss ─────────────────────────
+:root {
+  --ff-sys-focus-ring-width: 2px;
+  --ff-sys-focus-ring-color: var(--ff-sys-color-border-focus);
+  --ff-sys-focus-ring-offset: 2px;
+
+  // Minimum interactive target size (WCAG 2.5.5).
+  --ff-sys-hit-area-min: 44px;
+
+  // Documentation constant — minimum text contrast ratio (WCAG 1.4.3).
+  --ff-sys-contrast-text-min: 4.5;
+}
+
+// ───────────────────────── _dark.scss ─────────────────────────
+@mixin ff-dark-tokens {
+  // ---- Primary palette (Flutter soonPrimary dark — inverted scale) ----
+  --ff-ref-color-primary-50: #374151;
+  --ff-ref-color-primary-100: #4b5563;
+  --ff-ref-color-primary-200: #5d6374;
+  --ff-ref-color-primary-300: #6b7280;
+  --ff-ref-color-primary-400: #7c8394;
+  --ff-ref-color-primary-500: #9ca3af;
+  --ff-ref-color-primary-600: #e5e7eb;
+  --ff-ref-color-primary-700: #f3f4f6;
+  --ff-ref-color-primary-800: #f9fafb;
+  --ff-ref-color-primary-900: #ffffff;
+
+  // ---- Secondary palette (Flutter soonSecondary dark — inverted scale) ----
+  --ff-ref-color-secondary-50: #1a2e05;
+  --ff-ref-color-secondary-100: #365314;
+  --ff-ref-color-secondary-200: #3f5a0f;
+  --ff-ref-color-secondary-300: #4d7c0f;
+  --ff-ref-color-secondary-400: #65a30d;
+  --ff-ref-color-secondary-500: #7cb518;
+  --ff-ref-color-secondary-600: #84cc16;
+  --ff-ref-color-secondary-700: #9acd32;
+  --ff-ref-color-secondary-800: #a3e635;
+  --ff-ref-color-secondary-900: #bee532;
+
+  // ---- Tertiary palette (Flutter soonTertiary dark — inverted scale) ----
+  --ff-ref-color-tertiary-50: #0f0a40;
+  --ff-ref-color-tertiary-100: #1e1770;
+  --ff-ref-color-tertiary-200: #2d23a0;
+  --ff-ref-color-tertiary-300: #3b2ecf;
+  --ff-ref-color-tertiary-400: #4a3aff;
+  --ff-ref-color-tertiary-500: #5f82ff;
+  --ff-ref-color-tertiary-600: #93aafd;
+  --ff-ref-color-tertiary-700: #c6d2fd;
+  --ff-ref-color-tertiary-800: #e5eafc;
+  --ff-ref-color-tertiary-900: #f0f3fe;
+
+  // ---- Neutral palette (Flutter soonNeutral dark — inverted scale) ----
+  --ff-ref-color-neutral-50: #000000;
+  --ff-ref-color-neutral-100: #111827;
+  --ff-ref-color-neutral-200: #374151;
+  --ff-ref-color-neutral-300: #4b5563;
+  --ff-ref-color-neutral-400: #6b7280;
+  --ff-ref-color-neutral-500: #9ca3af;
+  --ff-ref-color-neutral-600: #d1d5db;
+  --ff-ref-color-neutral-700: #e5e7eb;
+  --ff-ref-color-neutral-800: #f3f4f6;
+  --ff-ref-color-neutral-900: #f9fafb;
+
+  // ---- Error palette (inverted scale for dark backgrounds) ----
+  --ff-ref-color-error-100: #7f1d1d;
+  --ff-ref-color-error-200: #991b1b;
+  --ff-ref-color-error-300: #b91c1c;
+  --ff-ref-color-error-400: #dc2626;
+  --ff-ref-color-error-500: #ef4444;
+  --ff-ref-color-error-600: #f87171;
+  --ff-ref-color-error-700: #fecaca;
+  --ff-ref-color-error-800: #fee2e2;
+  --ff-ref-color-error-900: #fef2f2;
+
+  // ---- Success palette (inverted scale for dark backgrounds) ----
+  --ff-ref-color-success-100: #064e3b;
+  --ff-ref-color-success-200: #065f46;
+  --ff-ref-color-success-300: #047857;
+  --ff-ref-color-success-400: #059669;
+  --ff-ref-color-success-500: #10b981;
+  --ff-ref-color-success-600: #6ee7b7;
+  --ff-ref-color-success-700: #a7f3d0;
+  --ff-ref-color-success-800: #d1fae5;
+  --ff-ref-color-success-900: #ecfdf5;
+
+  // ---- Warning palette (inverted scale for dark backgrounds) ----
+  --ff-ref-color-warning-100: #78350f;
+  --ff-ref-color-warning-200: #92400e;
+  --ff-ref-color-warning-300: #b45309;
+  --ff-ref-color-warning-400: #d97706;
+  --ff-ref-color-warning-500: #f59e0b;
+  --ff-ref-color-warning-600: #fb923c;
+  --ff-ref-color-warning-700: #fdba74;
+  --ff-ref-color-warning-800: #fed7aa;
+  --ff-ref-color-warning-900: #fef3c7;
+
+  // ---- Info palette (inverted scale for dark backgrounds) ----
+  --ff-ref-color-info-100: #1e3a8a;
+  --ff-ref-color-info-200: #1e40af;
+  --ff-ref-color-info-300: #1d4ed8;
+  --ff-ref-color-info-400: #2563eb;
+  --ff-ref-color-info-500: #3b82f6;
+  --ff-ref-color-info-600: #93c5fd;
+  --ff-ref-color-info-700: #bfdbfe;
+  --ff-ref-color-info-800: #dbeafe;
+  --ff-ref-color-info-900: #eff6ff;
+
+  // ---- Surface & background ----
+  --ff-sys-color-surface: #1f2937;
+  --ff-sys-color-background: #111827;
+  --ff-sys-color-on-primary: #111827;
+  --ff-sys-color-on-surface: #f9fafb;
+  --ff-sys-color-on-surface-variant: #d1d5db;
+
+  // ---- Semantic text colors (Flutter soonText dark) ----
+  --ff-sys-text-primary: #f9fafb;
+  --ff-sys-text-secondary: #e5e7eb;
+  --ff-sys-text-muted: #d1d5db;
+  --ff-sys-text-disabled: #6b7280;
+
+  // ---- Semantic background colors ----
+  --ff-sys-bg-primary: #1f2937;
+  --ff-sys-bg-secondary: #111827;
+  --ff-sys-bg-tertiary: #0a0a0f;
+
+  // ---- Border ----
+  --ff-sys-color-border: #374151;
+  --ff-sys-color-border-focus: #e5e7eb;
+
+  // ---- Overlay ----
+  --ff-sys-color-overlay: rgba(0, 0, 0, 0.7);
+
+  // ---- Status base aliases (lightened for WCAG AA on dark backgrounds) ----
+  --ff-sys-color-success: #10b981;
+  --ff-sys-color-success-light: #065f46;
+  --ff-sys-color-warning: #f59e0b;
+  --ff-sys-color-warning-light: #92400e;
+  --ff-sys-color-info: #60a5fa;
+  --ff-sys-color-info-light: #1e40af;
+  --ff-sys-color-error: #f87171;
+  --ff-sys-color-error-light: #991b1b;
+
+  // ---- Shadows (higher opacity on dark backgrounds) ----
+  --ff-ref-elevation-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --ff-ref-elevation-md: 0 4px 6px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --ff-ref-elevation-lg: 0 10px 15px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+// ---- Dark mode overrides (attribute-based) ----
+:root[data-theme="dark"] {
+  @include ff-dark-tokens;
+}
+
+// ---- OS preference fallback (when no [data-theme] attribute is set) ----
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @include ff-dark-tokens;
+  }
+}
+
+// ───────────────────────── _aliases.scss ─────────────────────────
+:root {
+  // ---------- Palettes → ref ----------
+  --ff-color-primary-50: var(--ff-ref-color-primary-50);
+  --ff-color-primary-100: var(--ff-ref-color-primary-100);
+  --ff-color-primary-200: var(--ff-ref-color-primary-200);
+  --ff-color-primary-300: var(--ff-ref-color-primary-300);
+  --ff-color-primary-400: var(--ff-ref-color-primary-400);
+  --ff-color-primary-500: var(--ff-ref-color-primary-500);
+  --ff-color-primary-600: var(--ff-ref-color-primary-600);
+  --ff-color-primary-700: var(--ff-ref-color-primary-700);
+  --ff-color-primary-800: var(--ff-ref-color-primary-800);
+  --ff-color-primary-900: var(--ff-ref-color-primary-900);
+
+  --ff-color-secondary-50: var(--ff-ref-color-secondary-50);
+  --ff-color-secondary-100: var(--ff-ref-color-secondary-100);
+  --ff-color-secondary-200: var(--ff-ref-color-secondary-200);
+  --ff-color-secondary-300: var(--ff-ref-color-secondary-300);
+  --ff-color-secondary-400: var(--ff-ref-color-secondary-400);
+  --ff-color-secondary-500: var(--ff-ref-color-secondary-500);
+  --ff-color-secondary-600: var(--ff-ref-color-secondary-600);
+  --ff-color-secondary-700: var(--ff-ref-color-secondary-700);
+  --ff-color-secondary-800: var(--ff-ref-color-secondary-800);
+  --ff-color-secondary-900: var(--ff-ref-color-secondary-900);
+
+  --ff-color-tertiary-50: var(--ff-ref-color-tertiary-50);
+  --ff-color-tertiary-100: var(--ff-ref-color-tertiary-100);
+  --ff-color-tertiary-200: var(--ff-ref-color-tertiary-200);
+  --ff-color-tertiary-300: var(--ff-ref-color-tertiary-300);
+  --ff-color-tertiary-400: var(--ff-ref-color-tertiary-400);
+  --ff-color-tertiary-500: var(--ff-ref-color-tertiary-500);
+  --ff-color-tertiary-600: var(--ff-ref-color-tertiary-600);
+  --ff-color-tertiary-700: var(--ff-ref-color-tertiary-700);
+  --ff-color-tertiary-800: var(--ff-ref-color-tertiary-800);
+  --ff-color-tertiary-900: var(--ff-ref-color-tertiary-900);
+
+  --ff-color-neutral-50: var(--ff-ref-color-neutral-50);
+  --ff-color-neutral-100: var(--ff-ref-color-neutral-100);
+  --ff-color-neutral-200: var(--ff-ref-color-neutral-200);
+  --ff-color-neutral-300: var(--ff-ref-color-neutral-300);
+  --ff-color-neutral-400: var(--ff-ref-color-neutral-400);
+  --ff-color-neutral-500: var(--ff-ref-color-neutral-500);
+  --ff-color-neutral-600: var(--ff-ref-color-neutral-600);
+  --ff-color-neutral-700: var(--ff-ref-color-neutral-700);
+  --ff-color-neutral-800: var(--ff-ref-color-neutral-800);
+  --ff-color-neutral-900: var(--ff-ref-color-neutral-900);
+
+  --ff-color-error-100: var(--ff-ref-color-error-100);
+  --ff-color-error-200: var(--ff-ref-color-error-200);
+  --ff-color-error-300: var(--ff-ref-color-error-300);
+  --ff-color-error-400: var(--ff-ref-color-error-400);
+  --ff-color-error-500: var(--ff-ref-color-error-500);
+  --ff-color-error-600: var(--ff-ref-color-error-600);
+  --ff-color-error-700: var(--ff-ref-color-error-700);
+  --ff-color-error-800: var(--ff-ref-color-error-800);
+  --ff-color-error-900: var(--ff-ref-color-error-900);
+
+  --ff-color-success-100: var(--ff-ref-color-success-100);
+  --ff-color-success-200: var(--ff-ref-color-success-200);
+  --ff-color-success-300: var(--ff-ref-color-success-300);
+  --ff-color-success-400: var(--ff-ref-color-success-400);
+  --ff-color-success-500: var(--ff-ref-color-success-500);
+  --ff-color-success-600: var(--ff-ref-color-success-600);
+  --ff-color-success-700: var(--ff-ref-color-success-700);
+  --ff-color-success-800: var(--ff-ref-color-success-800);
+  --ff-color-success-900: var(--ff-ref-color-success-900);
+
+  --ff-color-warning-100: var(--ff-ref-color-warning-100);
+  --ff-color-warning-200: var(--ff-ref-color-warning-200);
+  --ff-color-warning-300: var(--ff-ref-color-warning-300);
+  --ff-color-warning-400: var(--ff-ref-color-warning-400);
+  --ff-color-warning-500: var(--ff-ref-color-warning-500);
+  --ff-color-warning-600: var(--ff-ref-color-warning-600);
+  --ff-color-warning-700: var(--ff-ref-color-warning-700);
+  --ff-color-warning-800: var(--ff-ref-color-warning-800);
+  --ff-color-warning-900: var(--ff-ref-color-warning-900);
+
+  --ff-color-info-100: var(--ff-ref-color-info-100);
+  --ff-color-info-200: var(--ff-ref-color-info-200);
+  --ff-color-info-300: var(--ff-ref-color-info-300);
+  --ff-color-info-400: var(--ff-ref-color-info-400);
+  --ff-color-info-500: var(--ff-ref-color-info-500);
+  --ff-color-info-600: var(--ff-ref-color-info-600);
+  --ff-color-info-700: var(--ff-ref-color-info-700);
+  --ff-color-info-800: var(--ff-ref-color-info-800);
+  --ff-color-info-900: var(--ff-ref-color-info-900);
+
+  // ---------- Status base aliases → sys ----------
+  --ff-color-success: var(--ff-sys-color-success);
+  --ff-color-success-light: var(--ff-sys-color-success-light);
+  --ff-color-warning: var(--ff-sys-color-warning);
+  --ff-color-warning-light: var(--ff-sys-color-warning-light);
+  --ff-color-error: var(--ff-sys-color-error);
+  --ff-color-error-light: var(--ff-sys-color-error-light);
+  --ff-color-info: var(--ff-sys-color-info);
+  --ff-color-info-light: var(--ff-sys-color-info-light);
+
+  // ---------- Surface / border / overlay → sys ----------
+  --ff-color-surface: var(--ff-sys-color-surface);
+  --ff-color-background: var(--ff-sys-color-background);
+  --ff-color-on-primary: var(--ff-sys-color-on-primary);
+  --ff-color-on-surface: var(--ff-sys-color-on-surface);
+  --ff-color-on-surface-variant: var(--ff-sys-color-on-surface-variant);
+  --ff-color-border: var(--ff-sys-color-border);
+  --ff-color-border-focus: var(--ff-sys-color-border-focus);
+  --ff-color-overlay: var(--ff-sys-color-overlay);
+
+  // ---------- Text / background → sys ----------
+  --ff-text-primary: var(--ff-sys-text-primary);
+  --ff-text-secondary: var(--ff-sys-text-secondary);
+  --ff-text-muted: var(--ff-sys-text-muted);
+  --ff-text-disabled: var(--ff-sys-text-disabled);
+  --ff-bg-primary: var(--ff-sys-bg-primary);
+  --ff-bg-secondary: var(--ff-sys-bg-secondary);
+  --ff-bg-tertiary: var(--ff-sys-bg-tertiary);
+
+  // ---------- Spacing → ref ----------
+  --ff-spacing-xs: var(--ff-ref-spacing-xs);
+  --ff-spacing-sm: var(--ff-ref-spacing-sm);
+  --ff-spacing-md: var(--ff-ref-spacing-md);
+  --ff-spacing-lg: var(--ff-ref-spacing-lg);
+  --ff-spacing-xl: var(--ff-ref-spacing-xl);
+
+  // ---------- Radius → ref ----------
+  --ff-radius-sm: var(--ff-ref-radius-sm);
+  --ff-radius-md: var(--ff-ref-radius-md);
+  --ff-radius-lg: var(--ff-ref-radius-lg);
+  --ff-radius-full: var(--ff-ref-radius-full);
+
+  // ---------- Typography → ref ----------
+  --ff-font-family: var(--ff-ref-font-family);
+  --ff-font-family-mono: var(--ff-ref-font-family-mono);
+  --ff-font-size-2xs: var(--ff-ref-font-size-2xs);
+  --ff-font-size-xs: var(--ff-ref-font-size-xs);
+  --ff-font-size-sm: var(--ff-ref-font-size-sm);
+  --ff-font-size-md: var(--ff-ref-font-size-md);
+  --ff-font-size-lg: var(--ff-ref-font-size-lg);
+  --ff-font-size-xl: var(--ff-ref-font-size-xl);
+  --ff-font-size-2xl: var(--ff-ref-font-size-2xl);
+  --ff-font-size-3xl: var(--ff-ref-font-size-3xl);
+  --ff-font-size-4xl: var(--ff-ref-font-size-4xl);
+  --ff-font-size-5xl: var(--ff-ref-font-size-5xl);
+  --ff-font-weight-normal: var(--ff-ref-font-weight-normal);
+  --ff-font-weight-medium: var(--ff-ref-font-weight-medium);
+  --ff-font-weight-semibold: var(--ff-ref-font-weight-semibold);
+  --ff-font-weight-bold: var(--ff-ref-font-weight-bold);
+  --ff-line-height-tight: var(--ff-ref-line-height-tight);
+  --ff-line-height-snug: var(--ff-ref-line-height-snug);
+  --ff-line-height-normal: var(--ff-ref-line-height-normal);
+  --ff-line-height-relaxed: var(--ff-ref-line-height-relaxed);
+  --ff-letter-spacing-tight: var(--ff-ref-letter-spacing-tight);
+  --ff-letter-spacing-normal: var(--ff-ref-letter-spacing-normal);
+  --ff-letter-spacing-wide: var(--ff-ref-letter-spacing-wide);
+  --ff-letter-spacing-wider: var(--ff-ref-letter-spacing-wider);
+
+  // ---------- Elevation → ref ----------
+  --ff-elevation-sm: var(--ff-ref-elevation-sm);
+  --ff-elevation-md: var(--ff-ref-elevation-md);
+  --ff-elevation-lg: var(--ff-ref-elevation-lg);
+
+  // ---------- Breakpoints → ref ----------
+  --ff-breakpoint-mobile: var(--ff-ref-breakpoint-mobile);
+  --ff-breakpoint-tablet: var(--ff-ref-breakpoint-tablet);
+  --ff-breakpoint-desktop: var(--ff-ref-breakpoint-desktop);
+}
+
+// ───────────────────────── _ng-hub-ui-bridge.scss ─────────────────────────
+:root {
+  // ---- Surfaces & text ----
+  --hub-sys-surface-page: var(--ff-sys-color-surface);
+  --hub-sys-surface-elevated: var(--ff-sys-bg-secondary);
+  --hub-sys-text-primary: var(--ff-sys-text-primary);
+  --hub-sys-text-muted: var(--ff-sys-text-muted);
+  --hub-sys-link-color: var(--ff-ref-color-primary-500);
+  --hub-sys-link-hover-color: var(--ff-ref-color-primary-600);
+
+  // ---- Borders & shadows ----
+  --hub-sys-border-color-default: var(--ff-sys-color-border);
+  --hub-sys-shadow-sm: var(--ff-ref-elevation-sm);
+  --hub-sys-shadow: var(--ff-ref-elevation-md);
+  --hub-sys-shadow-lg: var(--ff-ref-elevation-lg);
+
+  // ---- Brand & status (with subtle / emphasis steps) ----
+  --hub-sys-color-primary: var(--ff-ref-color-primary-500);
+  --hub-sys-color-primary-subtle: var(--ff-ref-color-primary-50);
+  --hub-sys-color-primary-border-subtle: var(--ff-ref-color-primary-200);
+  --hub-sys-color-primary-emphasis: var(--ff-ref-color-primary-700);
+  --hub-sys-color-secondary: var(--ff-ref-color-secondary-500);
+  --hub-sys-color-success: var(--ff-sys-color-success);
+  --hub-sys-color-success-subtle: var(--ff-sys-color-success-subtle);
+  --hub-sys-color-success-emphasis: var(--ff-sys-color-success-emphasis);
+  --hub-sys-color-danger: var(--ff-sys-color-error);
+  --hub-sys-color-danger-subtle: var(--ff-sys-color-error-subtle);
+  --hub-sys-color-danger-emphasis: var(--ff-sys-color-error-emphasis);
+  --hub-sys-color-warning: var(--ff-sys-color-warning);
+  --hub-sys-color-warning-subtle: var(--ff-sys-color-warning-subtle);
+  --hub-sys-color-warning-emphasis: var(--ff-sys-color-warning-emphasis);
+  --hub-sys-color-info: var(--ff-sys-color-info);
+  --hub-sys-color-info-subtle: var(--ff-sys-color-info-subtle);
+  --hub-sys-color-info-emphasis: var(--ff-sys-color-info-emphasis);
+
+  // ---- Interaction states ----
+  --hub-sys-state-hover-bg: var(--ff-sys-bg-secondary);
+  --hub-sys-state-active-bg: var(--ff-sys-bg-tertiary);
+  --hub-sys-state-striped-bg: var(--ff-sys-bg-secondary);
+
+  // ---- Focus ----
+  --hub-sys-focus-ring-color: var(--ff-sys-focus-ring-color);
+  --hub-sys-focus-ring-width: var(--ff-sys-focus-ring-width);
+
+  // ---- Scalar ref tokens consumed by components ----
+  --hub-ref-color-white: var(--ff-sys-color-surface);
+  --hub-ref-surface-2: var(--ff-sys-bg-secondary);
+  --hub-ref-border-width: 1px;
+  --hub-ref-icon-size: 1em;
+  --hub-ref-font-family: var(--ff-ref-font-family);
+  --hub-ref-font-family-base: var(--ff-ref-font-family);
+  --hub-ref-font-size-base: var(--ff-ref-font-size-md);
+  --hub-ref-font-size-sm: var(--ff-ref-font-size-sm);
+  --hub-ref-font-size-lg: var(--ff-ref-font-size-lg);
+  --hub-ref-radius-sm: var(--ff-ref-radius-sm);
+  --hub-ref-radius-md: var(--ff-ref-radius-md);
+  --hub-ref-radius-lg: var(--ff-ref-radius-lg);
+  --hub-ref-space-0: 0;
+  --hub-ref-space-1: var(--ff-ref-spacing-xs);
+  --hub-ref-space-2: var(--ff-ref-spacing-sm);
+  --hub-ref-space-3: var(--ff-ref-spacing-md);
+  --hub-ref-space-4: var(--ff-ref-spacing-lg);
+  --hub-ref-space-5: var(--ff-ref-spacing-xl);
+}

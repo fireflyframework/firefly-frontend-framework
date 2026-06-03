@@ -1,11 +1,22 @@
-# config
+# @fireflyframework/config
 
-This library was generated with [Nx](https://nx.dev).
+Shared configuration package for Firefly framework tooling.
 
-## Building
+## Current status
 
-Run `nx build config` to build the library.
+This package is still scaffold-level. The current public API exports a placeholder `config()` function from `src/lib/config.ts`.
 
-## Running unit tests
+Do not treat this package as a stable consumer-facing API until its purpose and contract are finalized.
 
-Run `nx test config` to execute the unit tests via [Vitest](https://vitest.dev/).
+## Expected documentation before stabilization
+
+- What configuration is centralized here.
+- Which packages or products consume it.
+- Whether it is runtime configuration, build configuration, lint/test configuration, or generator configuration.
+- Migration path for consumers once the real API replaces the placeholder.
+
+## Commands
+
+```bash
+nx build config
+```

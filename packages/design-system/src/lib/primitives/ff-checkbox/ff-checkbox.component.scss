@@ -1,19 +1,19 @@
 .ff-checkbox {
   // Component tokens
-  --ff-checkbox-border: var(--ff-color-neutral-400);
-  --ff-checkbox-bg: var(--ff-color-surface);
-  --ff-checkbox-checked-bg: var(--ff-color-primary-500);
-  --ff-checkbox-checked-border: var(--ff-color-primary-500);
-  --ff-checkbox-check-color: var(--ff-color-on-primary);
-  --ff-checkbox-label-color: var(--ff-color-neutral-900);
-  --ff-checkbox-focus-ring: var(--ff-color-border-focus);
+  --ff-checkbox-border: var(--ff-ref-color-neutral-400);
+  --ff-checkbox-bg: var(--ff-sys-color-surface);
+  --ff-checkbox-bg-checked: var(--ff-ref-color-primary-500);
+  --ff-checkbox-border-checked: var(--ff-ref-color-primary-500);
+  --ff-checkbox-check-color: var(--ff-sys-color-on-primary);
+  --ff-checkbox-label-color: var(--ff-ref-color-neutral-900);
+  --ff-checkbox-focus-ring: var(--ff-sys-color-border-focus);
 
   display: inline-flex;
 
   &__wrapper {
     display: inline-flex;
     align-items: center;
-    gap: var(--ff-spacing-sm);
+    gap: var(--ff-ref-spacing-sm);
     cursor: pointer;
   }
 
@@ -32,9 +32,9 @@
     width: 18px;
     height: 18px;
     border: 2px solid var(--ff-checkbox-border);
-    border-radius: var(--ff-radius-sm);
+    border-radius: var(--ff-ref-radius-sm);
     background-color: var(--ff-checkbox-bg);
-    transition: background-color 0.15s, border-color 0.15s;
+    transition: background-color var(--ff-sys-duration-fast), border-color var(--ff-sys-duration-fast);
     flex-shrink: 0;
 
     &::after {
@@ -44,16 +44,16 @@
   }
 
   &__label {
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-md);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-md);
     color: var(--ff-checkbox-label-color);
     user-select: none;
   }
 
   // Checked state
   &--checked .ff-checkbox__box {
-    background-color: var(--ff-checkbox-checked-bg);
-    border-color: var(--ff-checkbox-checked-border);
+    background-color: var(--ff-checkbox-bg-checked);
+    border-color: var(--ff-checkbox-border-checked);
 
     &::after {
       display: block;
@@ -67,8 +67,8 @@
 
   // Indeterminate state
   &--indeterminate .ff-checkbox__box {
-    background-color: var(--ff-checkbox-checked-bg);
-    border-color: var(--ff-checkbox-checked-border);
+    background-color: var(--ff-checkbox-bg-checked);
+    border-color: var(--ff-checkbox-border-checked);
 
     &::after {
       display: block;
@@ -82,7 +82,7 @@
 
   // Focus ring
   &__native:focus-visible ~ .ff-checkbox__box {
-    outline: 2px solid var(--ff-checkbox-focus-ring);
+    outline: var(--ff-sys-focus-ring-width) solid var(--ff-checkbox-focus-ring);
     outline-offset: 2px;
   }
 

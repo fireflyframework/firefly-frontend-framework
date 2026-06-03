@@ -1,12 +1,12 @@
 .ff-avatar {
   // Component tokens
-  --ff-avatar-bg: var(--ff-color-primary-100);
-  --ff-avatar-color: var(--ff-color-primary-700);
+  --ff-avatar-bg: var(--ff-ref-color-primary-100);
+  --ff-avatar-color: var(--ff-ref-color-primary-700);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--ff-radius-full);
+  border-radius: var(--ff-ref-radius-full);
   background-color: var(--ff-avatar-bg);
   color: var(--ff-avatar-color);
   overflow: hidden;
@@ -20,8 +20,8 @@
   }
 
   &__initials {
-    font-family: var(--ff-font-family);
-    font-weight: var(--ff-font-weight-medium);
+    font-family: var(--ff-ref-font-family);
+    font-weight: var(--ff-ref-font-weight-medium);
     line-height: 1;
     user-select: none;
   }
@@ -34,7 +34,7 @@
   }
 
   &--sm .ff-avatar__initials {
-    font-size: var(--ff-font-size-xs);
+    font-size: var(--ff-ref-font-size-xs);
   }
 
   &--md {
@@ -43,7 +43,7 @@
   }
 
   &--md .ff-avatar__initials {
-    font-size: var(--ff-font-size-sm);
+    font-size: var(--ff-ref-font-size-sm);
   }
 
   &--lg {
@@ -52,6 +52,6 @@
   }
 
   &--lg .ff-avatar__initials {
-    font-size: var(--ff-font-size-md);
+    font-size: var(--ff-ref-font-size-md);
   }
 }

@@ -1,11 +1,23 @@
-# generators
+# @fireflyframework/generators
 
-This library was generated with [Nx](https://nx.dev).
+Generator package for Firefly code generation.
 
-## Building
+## Current status
 
-Run `nx build generators` to build the library.
+This package is still scaffold-level. The current public API exports a placeholder `generators()` function from `src/lib/generators.ts`.
 
-## Running unit tests
+Do not treat this package as a stable generator API until actual generator entry points are implemented and documented.
 
-Run `nx test generators` to execute the unit tests via [Vitest](https://vitest.dev/).
+## Expected documentation before stabilization
+
+- Available generators and command names.
+- Input schema, probably based on `@fireflyframework/schema-types`.
+- Generated file layout.
+- Idempotency and overwrite rules.
+- Relationship with the agentic skills repository.
+
+## Commands
+
+```bash
+nx build generators
+```

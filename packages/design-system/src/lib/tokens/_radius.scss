@@ -1,10 +1,12 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
 // ============================================================
-// Firefly Design System — Border Radius Tokens
+// Firefly Design System — Border Radius Tokens (ref layer)
+// Deprecated flat aliases (--ff-radius-*) live in _aliases.scss.
 // ============================================================
 
 :root {
-  --ff-radius-sm: 4px;
-  --ff-radius-md: 8px;
-  --ff-radius-lg: 12px;
-  --ff-radius-full: 9999px;
+  --ff-ref-radius-sm: 4px;
+  --ff-ref-radius-md: 8px;
+  --ff-ref-radius-lg: 12px;
+  --ff-ref-radius-full: 9999px;
 }

@@ -1,16 +1,16 @@
 .ff-select {
   // Component tokens
-  --ff-select-bg: var(--ff-color-surface);
-  --ff-select-border: var(--ff-color-neutral-300);
-  --ff-select-color: var(--ff-color-neutral-900);
-  --ff-select-placeholder: var(--ff-color-neutral-400);
-  --ff-select-hover-border: var(--ff-color-primary-500);
-  --ff-select-focus-ring: var(--ff-color-border-focus);
-  --ff-select-dropdown-bg: var(--ff-color-surface);
-  --ff-select-dropdown-border: var(--ff-color-neutral-200);
-  --ff-select-option-hover-bg: var(--ff-color-neutral-100);
-  --ff-select-option-selected-color: var(--ff-color-primary-500);
-  --ff-select-radius: var(--ff-radius-sm);
+  --ff-select-bg: var(--ff-sys-color-surface);
+  --ff-select-border: var(--ff-ref-color-neutral-300);
+  --ff-select-color: var(--ff-ref-color-neutral-900);
+  --ff-select-placeholder: var(--ff-ref-color-neutral-400);
+  --ff-select-border-hover: var(--ff-ref-color-primary-500);
+  --ff-select-focus-ring: var(--ff-sys-color-border-focus);
+  --ff-select-dropdown-bg: var(--ff-sys-color-surface);
+  --ff-select-dropdown-border: var(--ff-ref-color-neutral-200);
+  --ff-select-option-bg-hover: var(--ff-ref-color-neutral-100);
+  --ff-select-option-color-selected: var(--ff-ref-color-primary-500);
+  --ff-select-radius: var(--ff-ref-radius-sm);
 
   display: inline-block;
   position: relative;
@@ -22,22 +22,22 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: var(--ff-spacing-sm) var(--ff-spacing-md);
+    padding: var(--ff-ref-spacing-sm) var(--ff-ref-spacing-md);
     background-color: var(--ff-select-bg);
     border: 1px solid var(--ff-select-border);
     border-radius: var(--ff-select-radius);
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-md);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-md);
     color: var(--ff-select-color);
     cursor: pointer;
-    transition: border-color 0.15s;
+    transition: border-color var(--ff-sys-duration-fast);
 
     &:hover:not(:disabled) {
-      border-color: var(--ff-select-hover-border);
+      border-color: var(--ff-select-border-hover);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-select-focus-ring);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-select-focus-ring);
       outline-offset: 2px;
     }
 
@@ -63,10 +63,10 @@
   // Arrow indicator
   &__arrow {
     flex-shrink: 0;
-    margin-left: var(--ff-spacing-sm);
+    margin-left: var(--ff-ref-spacing-sm);
     font-size: 10px;
-    color: var(--ff-color-neutral-500);
-    transition: transform 0.15s;
+    color: var(--ff-ref-color-neutral-500);
+    transition: transform var(--ff-sys-duration-fast);
   }
 
   &--open .ff-select__arrow {
@@ -79,7 +79,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: var(--ff-sys-z-dropdown);
     margin-top: 4px;
     background-color: var(--ff-select-dropdown-bg);
     border: 1px solid var(--ff-select-dropdown-border);
@@ -93,11 +93,11 @@
   &__search {
     display: block;
     width: 100%;
-    padding: var(--ff-spacing-sm) var(--ff-spacing-md);
+    padding: var(--ff-ref-spacing-sm) var(--ff-ref-spacing-md);
     border: none;
     border-bottom: 1px solid var(--ff-select-dropdown-border);
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-md);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-md);
     color: var(--ff-select-color);
     outline: none;
     box-sizing: border-box;
@@ -109,24 +109,24 @@
 
   // Option item
   &__option {
-    padding: var(--ff-spacing-sm) var(--ff-spacing-md);
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-md);
+    padding: var(--ff-ref-spacing-sm) var(--ff-ref-spacing-md);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-md);
     color: var(--ff-select-color);
     cursor: pointer;
-    transition: background-color 0.1s;
+    transition: background-color var(--ff-sys-duration-fast);
 
     &:hover:not(&--disabled) {
-      background-color: var(--ff-select-option-hover-bg);
+      background-color: var(--ff-select-option-bg-hover);
     }
 
     &--active {
-      background-color: var(--ff-select-option-hover-bg);
+      background-color: var(--ff-select-option-bg-hover);
     }
 
     &--selected {
-      color: var(--ff-select-option-selected-color);
-      font-weight: var(--ff-font-weight-semibold);
+      color: var(--ff-select-option-color-selected);
+      font-weight: var(--ff-ref-font-weight-semibold);
     }
 
     &--disabled {
@@ -137,10 +137,10 @@
 
   // Empty state
   &__empty {
-    padding: var(--ff-spacing-md);
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-sm);
-    color: var(--ff-color-neutral-400);
+    padding: var(--ff-ref-spacing-md);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-sm);
+    color: var(--ff-ref-color-neutral-400);
     text-align: center;
   }
 }

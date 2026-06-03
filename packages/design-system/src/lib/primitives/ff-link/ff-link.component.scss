@@ -1,27 +1,27 @@
 .ff-link {
   // Component tokens
-  --ff-link-color: var(--ff-color-info-600);
-  --ff-link-hover-color: var(--ff-color-info-700);
-  --ff-link-focus-ring: var(--ff-color-border-focus);
+  --ff-link-color: var(--ff-ref-color-info-600);
+  --ff-link-color-hover: var(--ff-ref-color-info-700);
+  --ff-link-focus-ring: var(--ff-sys-color-border-focus);
 
   display: inline;
 
   &__anchor {
     color: var(--ff-link-color);
-    font-family: var(--ff-font-family);
+    font-family: var(--ff-ref-font-family);
     font-size: inherit;
     text-decoration: none;
     cursor: pointer;
-    transition: color 0.15s;
+    transition: color var(--ff-sys-duration-fast);
 
     &:hover {
-      color: var(--ff-link-hover-color);
+      color: var(--ff-link-color-hover);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-link-focus-ring);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-link-focus-ring);
       outline-offset: 2px;
-      border-radius: var(--ff-radius-sm);
+      border-radius: var(--ff-ref-radius-sm);
     }
   }
 
@@ -42,8 +42,8 @@
   &--standalone .ff-link__anchor {
     display: inline-flex;
     align-items: center;
-    gap: var(--ff-spacing-xs);
-    font-weight: var(--ff-font-weight-medium);
+    gap: var(--ff-ref-spacing-xs);
+    font-weight: var(--ff-ref-font-weight-medium);
   }
 
   // --- Disabled ---

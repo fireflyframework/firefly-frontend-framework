@@ -51,7 +51,6 @@
   },
   "release": {
     "projects": [
-      "api",
       "design-system-contract",
       "utils",
       "generators",

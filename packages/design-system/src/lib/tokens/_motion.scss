@@ -1,0 +1,22 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
+// ============================================================
+// Firefly Design System — Motion / Transition Tokens (sys layer)
+// Durations, easings and ready-made transitions.
+// See firefly-docs/reference/design-tokens.md §5.3.
+// ============================================================
+
+:root {
+  // ---- Durations ----
+  --ff-sys-duration-fast: 150ms;
+  --ff-sys-duration-base: 200ms;
+  --ff-sys-duration-slow: 300ms;
+
+  // ---- Easings ----
+  --ff-sys-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  // ---- Ready-made transitions ----
+  --ff-sys-transition-fast: all var(--ff-sys-duration-fast) var(--ff-sys-ease-standard);
+  --ff-sys-transition-base: all var(--ff-sys-duration-base) var(--ff-sys-ease-standard);
+  --ff-sys-transition-slow: all var(--ff-sys-duration-slow) var(--ff-sys-ease-standard);
+  --ff-sys-transition-fade: opacity var(--ff-sys-duration-fast) linear;
+}

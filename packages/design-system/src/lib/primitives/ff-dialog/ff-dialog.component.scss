@@ -1,10 +1,10 @@
 .ff-dialog {
   // Component tokens
-  --ff-dialog-bg: var(--ff-color-surface);
-  --ff-dialog-radius: var(--ff-radius-lg);
-  --ff-dialog-border: var(--ff-color-neutral-200);
-  --ff-dialog-title-color: var(--ff-color-neutral-900);
-  --ff-dialog-body-color: var(--ff-color-neutral-700);
+  --ff-dialog-bg: var(--ff-sys-color-surface);
+  --ff-dialog-radius: var(--ff-ref-radius-lg);
+  --ff-dialog-border: var(--ff-ref-color-neutral-200);
+  --ff-dialog-title-color: var(--ff-ref-color-neutral-900);
+  --ff-dialog-body-color: var(--ff-ref-color-neutral-700);
   --ff-dialog-backdrop: rgba(0, 0, 0, 0.4);
 
   display: contents;
@@ -12,7 +12,7 @@
   &__backdrop {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: var(--ff-sys-z-modal);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,14 +29,14 @@
     background-color: var(--ff-dialog-bg);
     border-radius: var(--ff-dialog-radius);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    font-family: var(--ff-font-family);
+    font-family: var(--ff-ref-font-family);
   }
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--ff-spacing-lg);
+    padding: var(--ff-ref-spacing-lg);
     border-bottom: 1px solid var(--ff-dialog-border);
   }
 
@@ -48,45 +48,45 @@
     height: 32px;
     margin-left: auto;
     border: none;
-    border-radius: var(--ff-radius-sm);
+    border-radius: var(--ff-ref-radius-sm);
     background: none;
-    color: var(--ff-color-neutral-500);
-    font-size: var(--ff-font-size-md);
+    color: var(--ff-ref-color-neutral-500);
+    font-size: var(--ff-ref-font-size-md);
     cursor: pointer;
     flex-shrink: 0;
 
     &:hover {
-      background-color: var(--ff-color-neutral-100);
-      color: var(--ff-color-neutral-900);
+      background-color: var(--ff-ref-color-neutral-100);
+      color: var(--ff-ref-color-neutral-900);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-sys-color-border-focus);
       outline-offset: 1px;
     }
   }
 
   &__title {
     margin: 0;
-    font-size: var(--ff-font-size-lg);
-    font-weight: var(--ff-font-weight-semibold);
+    font-size: var(--ff-ref-font-size-lg);
+    font-weight: var(--ff-ref-font-weight-semibold);
     color: var(--ff-dialog-title-color);
   }
 
   &__body {
-    padding: var(--ff-spacing-lg);
-    font-size: var(--ff-font-size-md);
+    padding: var(--ff-ref-spacing-lg);
+    font-size: var(--ff-ref-font-size-md);
     color: var(--ff-dialog-body-color);
     flex: 1;
     overflow-y: auto;
   }
 
   &__footer {
-    padding: var(--ff-spacing-md) var(--ff-spacing-lg);
+    padding: var(--ff-ref-spacing-md) var(--ff-ref-spacing-lg);
     border-top: 1px solid var(--ff-dialog-border);
     display: flex;
     justify-content: flex-end;
-    gap: var(--ff-spacing-sm);
+    gap: var(--ff-ref-spacing-sm);
 
     &:empty {
       display: none;
@@ -95,19 +95,19 @@
 
   // Variant styles — applied when [type] is set
   &--success {
-    --ff-dialog-accent: var(--ff-color-success);
+    --ff-dialog-accent: var(--ff-sys-color-success);
   }
 
   &--error {
-    --ff-dialog-accent: var(--ff-color-error);
+    --ff-dialog-accent: var(--ff-sys-color-error);
   }
 
   &--warning {
-    --ff-dialog-accent: var(--ff-color-warning);
+    --ff-dialog-accent: var(--ff-sys-color-warning);
   }
 
   &--info {
-    --ff-dialog-accent: var(--ff-color-info);
+    --ff-dialog-accent: var(--ff-sys-color-info);
   }
 
   &--success,

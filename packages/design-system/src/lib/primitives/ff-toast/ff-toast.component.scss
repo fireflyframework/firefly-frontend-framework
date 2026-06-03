@@ -1,49 +1,49 @@
 .ff-toast {
-  --ff-toast-bg: var(--ff-color-surface);
-  --ff-toast-border: var(--ff-color-neutral-200);
-  --ff-toast-text: var(--ff-color-neutral-900);
-  --ff-toast-icon-color: var(--ff-color-neutral-500);
-  --ff-toast-radius: var(--ff-radius-md);
+  --ff-toast-bg: var(--ff-sys-color-surface);
+  --ff-toast-border: var(--ff-ref-color-neutral-200);
+  --ff-toast-text: var(--ff-ref-color-neutral-900);
+  --ff-toast-icon-color: var(--ff-ref-color-neutral-500);
+  --ff-toast-radius: var(--ff-ref-radius-md);
 
   display: inline-flex;
   align-items: center;
-  gap: var(--ff-spacing-sm);
-  padding: var(--ff-spacing-sm) var(--ff-spacing-md);
+  gap: var(--ff-ref-spacing-sm);
+  padding: var(--ff-ref-spacing-sm) var(--ff-ref-spacing-md);
   background-color: var(--ff-toast-bg);
   border: 1px solid var(--ff-toast-border);
   border-radius: var(--ff-toast-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: var(--ff-font-family);
-  font-size: var(--ff-font-size-sm);
+  font-family: var(--ff-ref-font-family);
+  font-size: var(--ff-ref-font-size-sm);
   color: var(--ff-toast-text);
   min-width: 240px;
   max-width: 420px;
 
   // Variant overrides
   &--success {
-    --ff-toast-border: var(--ff-color-success-200);
-    --ff-toast-icon-color: var(--ff-color-success-600);
+    --ff-toast-border: var(--ff-ref-color-success-200);
+    --ff-toast-icon-color: var(--ff-ref-color-success-600);
   }
 
   &--error {
-    --ff-toast-border: var(--ff-color-error-200);
-    --ff-toast-icon-color: var(--ff-color-error-600);
+    --ff-toast-border: var(--ff-ref-color-error-200);
+    --ff-toast-icon-color: var(--ff-ref-color-error-600);
   }
 
   &--warning {
-    --ff-toast-border: var(--ff-color-warning-200);
-    --ff-toast-icon-color: var(--ff-color-warning-600);
+    --ff-toast-border: var(--ff-ref-color-warning-200);
+    --ff-toast-icon-color: var(--ff-ref-color-warning-600);
   }
 
   &--info {
-    --ff-toast-border: var(--ff-color-info-200);
-    --ff-toast-icon-color: var(--ff-color-info-600);
+    --ff-toast-border: var(--ff-ref-color-info-200);
+    --ff-toast-icon-color: var(--ff-ref-color-info-600);
   }
 
   &__icon {
     flex-shrink: 0;
     color: var(--ff-toast-icon-color);
-    font-size: var(--ff-font-size-md);
+    font-size: var(--ff-ref-font-size-md);
   }
 
   &__message {
@@ -59,19 +59,19 @@
     height: 24px;
     flex-shrink: 0;
     border: none;
-    border-radius: var(--ff-radius-sm);
+    border-radius: var(--ff-ref-radius-sm);
     background: none;
-    color: var(--ff-color-neutral-400);
-    font-size: var(--ff-font-size-xs);
+    color: var(--ff-ref-color-neutral-400);
+    font-size: var(--ff-ref-font-size-xs);
     cursor: pointer;
 
     &:hover {
-      background-color: var(--ff-color-neutral-100);
-      color: var(--ff-color-neutral-700);
+      background-color: var(--ff-ref-color-neutral-100);
+      color: var(--ff-ref-color-neutral-700);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-sys-color-border-focus);
       outline-offset: 1px;
     }
   }

@@ -1,40 +1,43 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
 // ============================================================
-// Firefly Design System — Typography Tokens
+// Firefly Design System — Typography Tokens (ref layer)
 // Mapped from Flutter theme_system text_config (PASO 1.8)
+// Deprecated flat aliases (--ff-font-*, --ff-line-height-*, --ff-letter-spacing-*)
+// live in _aliases.scss.
 // ============================================================
 
 :root {
   // ---- Font families ----
-  --ff-font-family: 'Noto Sans', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --ff-font-family-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --ff-ref-font-family: 'Noto Sans', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ff-ref-font-family-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   // ---- Font sizes (modular scale) ----
-  --ff-font-size-2xs: 0.625rem;  // 10px — Flutter bodyTiny
-  --ff-font-size-xs: 0.75rem;    // 12px — Flutter bodySmall
-  --ff-font-size-sm: 0.875rem;   // 14px — Flutter bodyMedium
-  --ff-font-size-md: 1rem;       // 16px — Flutter bodyLarge
-  --ff-font-size-lg: 1.25rem;    // 20px — Flutter h6
-  --ff-font-size-xl: 1.5rem;     // 24px — Flutter h5
-  --ff-font-size-2xl: 1.875rem;  // 30px
-  --ff-font-size-3xl: 2.25rem;   // 36px
-  --ff-font-size-4xl: 3rem;      // 48px — Flutter h3
-  --ff-font-size-5xl: 3.75rem;   // 60px — Flutter h2
+  --ff-ref-font-size-2xs: 0.625rem;  // 10px — Flutter bodyTiny
+  --ff-ref-font-size-xs: 0.75rem;    // 12px — Flutter bodySmall
+  --ff-ref-font-size-sm: 0.875rem;   // 14px — Flutter bodyMedium
+  --ff-ref-font-size-md: 1rem;       // 16px — Flutter bodyLarge
+  --ff-ref-font-size-lg: 1.25rem;    // 20px — Flutter h6
+  --ff-ref-font-size-xl: 1.5rem;     // 24px — Flutter h5
+  --ff-ref-font-size-2xl: 1.875rem;  // 30px
+  --ff-ref-font-size-3xl: 2.25rem;   // 36px
+  --ff-ref-font-size-4xl: 3rem;      // 48px — Flutter h3
+  --ff-ref-font-size-5xl: 3.75rem;   // 60px — Flutter h2
 
   // ---- Font weights ----
-  --ff-font-weight-normal: 400;
-  --ff-font-weight-medium: 500;
-  --ff-font-weight-semibold: 600;
-  --ff-font-weight-bold: 700;
+  --ff-ref-font-weight-normal: 400;
+  --ff-ref-font-weight-medium: 500;
+  --ff-ref-font-weight-semibold: 600;
+  --ff-ref-font-weight-bold: 700;
 
   // ---- Line heights ----
-  --ff-line-height-tight: 1.25;
-  --ff-line-height-snug: 1.375;
-  --ff-line-height-normal: 1.5;
-  --ff-line-height-relaxed: 1.75;
+  --ff-ref-line-height-tight: 1.25;
+  --ff-ref-line-height-snug: 1.375;
+  --ff-ref-line-height-normal: 1.5;
+  --ff-ref-line-height-relaxed: 1.75;
 
   // ---- Letter spacing ----
-  --ff-letter-spacing-tight: -0.025em;
-  --ff-letter-spacing-normal: 0;
-  --ff-letter-spacing-wide: 0.025em;
-  --ff-letter-spacing-wider: 0.05em;
+  --ff-ref-letter-spacing-tight: -0.025em;
+  --ff-ref-letter-spacing-normal: 0;
+  --ff-ref-letter-spacing-wide: 0.025em;
+  --ff-ref-letter-spacing-wider: 0.05em;
 }

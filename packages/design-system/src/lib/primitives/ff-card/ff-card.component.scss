@@ -1,9 +1,9 @@
 .ff-card {
   // Component tokens
-  --ff-card-bg: var(--ff-color-surface);
-  --ff-card-border: var(--ff-color-neutral-200);
-  --ff-card-radius: var(--ff-radius-md);
-  --ff-card-header-color: var(--ff-color-neutral-900);
+  --ff-card-bg: var(--ff-sys-color-surface);
+  --ff-card-border: var(--ff-ref-color-neutral-200);
+  --ff-card-radius: var(--ff-ref-radius-md);
+  --ff-card-header-color: var(--ff-ref-color-neutral-900);
 
   display: block;
   background-color: var(--ff-card-bg);
@@ -30,17 +30,17 @@
 
   // Header zone
   [ff-card-header] {
-    padding: var(--ff-spacing-md) var(--ff-spacing-lg);
+    padding: var(--ff-ref-spacing-md) var(--ff-ref-spacing-lg);
     border-bottom: 1px solid var(--ff-card-border);
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-lg);
-    font-weight: var(--ff-font-weight-semibold);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-lg);
+    font-weight: var(--ff-ref-font-weight-semibold);
     color: var(--ff-card-header-color);
   }
 
   // Footer zone
   [ff-card-footer] {
-    padding: var(--ff-spacing-md) var(--ff-spacing-lg);
+    padding: var(--ff-ref-spacing-md) var(--ff-ref-spacing-lg);
     border-top: 1px solid var(--ff-card-border);
   }
 }

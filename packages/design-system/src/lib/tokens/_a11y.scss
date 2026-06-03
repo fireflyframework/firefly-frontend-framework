@@ -1,0 +1,18 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
+// ============================================================
+// Firefly Design System — Accessibility Tokens (sys layer)
+// Focus ring, minimum hit area and contrast contract.
+// See firefly-docs/reference/design-tokens.md §5.4 / §9.
+// ============================================================
+
+:root {
+  --ff-sys-focus-ring-width: 2px;
+  --ff-sys-focus-ring-color: var(--ff-sys-color-border-focus);
+  --ff-sys-focus-ring-offset: 2px;
+
+  // Minimum interactive target size (WCAG 2.5.5).
+  --ff-sys-hit-area-min: 44px;
+
+  // Documentation constant — minimum text contrast ratio (WCAG 1.4.3).
+  --ff-sys-contrast-text-min: 4.5;
+}

@@ -1,24 +1,24 @@
 .ff-chip {
   // Component tokens
-  --ff-chip-bg: var(--ff-color-surface);
-  --ff-chip-border: var(--ff-color-border);
-  --ff-chip-color: var(--ff-color-neutral-700);
-  --ff-chip-selected-bg: var(--ff-color-primary-100);
-  --ff-chip-selected-border: var(--ff-color-primary-500);
-  --ff-chip-selected-color: var(--ff-color-primary-700);
-  --ff-chip-focus-ring: var(--ff-color-border-focus);
+  --ff-chip-bg: var(--ff-sys-color-surface);
+  --ff-chip-border: var(--ff-sys-color-border);
+  --ff-chip-color: var(--ff-ref-color-neutral-700);
+  --ff-chip-bg-selected: var(--ff-ref-color-primary-100);
+  --ff-chip-border-selected: var(--ff-ref-color-primary-500);
+  --ff-chip-color-selected: var(--ff-ref-color-primary-700);
+  --ff-chip-focus-ring: var(--ff-sys-color-border-focus);
 
   display: inline-flex;
   align-items: center;
-  border-radius: var(--ff-radius-full);
-  font-family: var(--ff-font-family);
-  transition: background-color 0.15s, border-color 0.15s;
+  border-radius: var(--ff-ref-radius-full);
+  font-family: var(--ff-ref-font-family);
+  transition: background-color var(--ff-sys-duration-fast), border-color var(--ff-sys-duration-fast);
 
   &__body {
     display: inline-flex;
     align-items: center;
     border: 1px solid var(--ff-chip-border);
-    border-radius: var(--ff-radius-full);
+    border-radius: var(--ff-ref-radius-full);
     background: var(--ff-chip-bg);
     color: var(--ff-chip-color);
     font-family: inherit;
@@ -27,7 +27,7 @@
     white-space: nowrap;
 
     &:focus-visible {
-      outline: 2px solid var(--ff-chip-focus-ring);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-chip-focus-ring);
       outline-offset: 1px;
     }
   }
@@ -38,21 +38,21 @@
     justify-content: center;
     border: none;
     background: none;
-    color: var(--ff-color-neutral-500);
+    color: var(--ff-ref-color-neutral-500);
     cursor: pointer;
     padding: 0;
     font-size: 0.75em;
     line-height: 1;
-    margin-left: var(--ff-spacing-xs);
-    margin-right: var(--ff-spacing-xs);
-    border-radius: var(--ff-radius-full);
+    margin-left: var(--ff-ref-spacing-xs);
+    margin-right: var(--ff-ref-spacing-xs);
+    border-radius: var(--ff-ref-radius-full);
 
     &:hover:not(:disabled) {
-      color: var(--ff-color-neutral-900);
+      color: var(--ff-ref-color-neutral-900);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-chip-focus-ring);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-chip-focus-ring);
       outline-offset: 1px;
     }
 
@@ -64,13 +64,13 @@
   // --- Sizes ---
 
   &--sm .ff-chip__body {
-    padding: 2px var(--ff-spacing-sm);
-    font-size: var(--ff-font-size-xs);
+    padding: 2px var(--ff-ref-spacing-sm);
+    font-size: var(--ff-ref-font-size-xs);
   }
 
   &--md .ff-chip__body {
-    padding: var(--ff-spacing-xs) var(--ff-spacing-md);
-    font-size: var(--ff-font-size-sm);
+    padding: var(--ff-ref-spacing-xs) var(--ff-ref-spacing-md);
+    font-size: var(--ff-ref-font-size-sm);
   }
 
   // --- Removable: border on host, children transparent ---
@@ -87,7 +87,7 @@
 
   &--removable .ff-chip__remove {
     margin-left: 0;
-    margin-right: var(--ff-spacing-xs);
+    margin-right: var(--ff-ref-spacing-xs);
     background: none;
   }
 
@@ -104,9 +104,9 @@
   // --- Filter variant: selected state ---
 
   &--filter.ff-chip--selected .ff-chip__body {
-    background-color: var(--ff-chip-selected-bg);
-    border-color: var(--ff-chip-selected-border);
-    color: var(--ff-chip-selected-color);
+    background-color: var(--ff-chip-bg-selected);
+    border-color: var(--ff-chip-border-selected);
+    color: var(--ff-chip-color-selected);
   }
 
   // --- Disabled ---

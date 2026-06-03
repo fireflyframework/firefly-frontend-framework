@@ -1,54 +1,54 @@
 .ff-banner {
-  --ff-banner-bg: var(--ff-color-info-50);
-  --ff-banner-border: var(--ff-color-info-200);
-  --ff-banner-text: var(--ff-color-neutral-900);
-  --ff-banner-icon-color: var(--ff-color-info-600);
-  --ff-banner-action-color: var(--ff-color-info-700);
+  --ff-banner-bg: var(--ff-ref-color-info-50);
+  --ff-banner-border: var(--ff-ref-color-info-200);
+  --ff-banner-text: var(--ff-ref-color-neutral-900);
+  --ff-banner-icon-color: var(--ff-ref-color-info-600);
+  --ff-banner-action-color: var(--ff-ref-color-info-700);
 
   display: flex;
   align-items: center;
-  gap: var(--ff-spacing-sm);
-  padding: var(--ff-spacing-sm) var(--ff-spacing-md);
+  gap: var(--ff-ref-spacing-sm);
+  padding: var(--ff-ref-spacing-sm) var(--ff-ref-spacing-md);
   background-color: var(--ff-banner-bg);
   border: 1px solid var(--ff-banner-border);
-  font-family: var(--ff-font-family);
-  font-size: var(--ff-font-size-sm);
+  font-family: var(--ff-ref-font-family);
+  font-size: var(--ff-ref-font-size-sm);
   color: var(--ff-banner-text);
   width: 100%;
 
   // Variant overrides
   &--success {
-    --ff-banner-bg: var(--ff-color-success-50);
-    --ff-banner-border: var(--ff-color-success-200);
-    --ff-banner-icon-color: var(--ff-color-success-600);
-    --ff-banner-action-color: var(--ff-color-success-700);
+    --ff-banner-bg: var(--ff-ref-color-success-50);
+    --ff-banner-border: var(--ff-ref-color-success-200);
+    --ff-banner-icon-color: var(--ff-ref-color-success-600);
+    --ff-banner-action-color: var(--ff-ref-color-success-700);
   }
 
   &--error {
-    --ff-banner-bg: var(--ff-color-error-50);
-    --ff-banner-border: var(--ff-color-error-200);
-    --ff-banner-icon-color: var(--ff-color-error-600);
-    --ff-banner-action-color: var(--ff-color-error-700);
+    --ff-banner-bg: var(--ff-ref-color-error-50);
+    --ff-banner-border: var(--ff-ref-color-error-200);
+    --ff-banner-icon-color: var(--ff-ref-color-error-600);
+    --ff-banner-action-color: var(--ff-ref-color-error-700);
   }
 
   &--warning {
-    --ff-banner-bg: var(--ff-color-warning-50);
-    --ff-banner-border: var(--ff-color-warning-200);
-    --ff-banner-icon-color: var(--ff-color-warning-600);
-    --ff-banner-action-color: var(--ff-color-warning-700);
+    --ff-banner-bg: var(--ff-ref-color-warning-50);
+    --ff-banner-border: var(--ff-ref-color-warning-200);
+    --ff-banner-icon-color: var(--ff-ref-color-warning-600);
+    --ff-banner-action-color: var(--ff-ref-color-warning-700);
   }
 
   &--info {
-    --ff-banner-bg: var(--ff-color-info-50);
-    --ff-banner-border: var(--ff-color-info-200);
-    --ff-banner-icon-color: var(--ff-color-info-600);
-    --ff-banner-action-color: var(--ff-color-info-700);
+    --ff-banner-bg: var(--ff-ref-color-info-50);
+    --ff-banner-border: var(--ff-ref-color-info-200);
+    --ff-banner-icon-color: var(--ff-ref-color-info-600);
+    --ff-banner-action-color: var(--ff-ref-color-info-700);
   }
 
   &__icon {
     flex-shrink: 0;
     color: var(--ff-banner-icon-color);
-    font-size: var(--ff-font-size-md);
+    font-size: var(--ff-ref-font-size-md);
   }
 
   &__message {
@@ -59,7 +59,7 @@
   &__actions {
     display: flex;
     align-items: center;
-    gap: var(--ff-spacing-sm);
+    gap: var(--ff-ref-spacing-sm);
     flex-shrink: 0;
   }
 
@@ -67,19 +67,19 @@
     border: none;
     background: none;
     color: var(--ff-banner-action-color);
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-sm);
-    font-weight: var(--ff-font-weight-semibold);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-sm);
+    font-weight: var(--ff-ref-font-weight-semibold);
     cursor: pointer;
-    padding: var(--ff-spacing-xs) var(--ff-spacing-sm);
-    border-radius: var(--ff-radius-sm);
+    padding: var(--ff-ref-spacing-xs) var(--ff-ref-spacing-sm);
+    border-radius: var(--ff-ref-radius-sm);
 
     &:hover {
       text-decoration: underline;
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-sys-color-border-focus);
       outline-offset: 1px;
     }
   }
@@ -92,19 +92,19 @@
     height: 24px;
     flex-shrink: 0;
     border: none;
-    border-radius: var(--ff-radius-sm);
+    border-radius: var(--ff-ref-radius-sm);
     background: none;
-    color: var(--ff-color-neutral-400);
-    font-size: var(--ff-font-size-xs);
+    color: var(--ff-ref-color-neutral-400);
+    font-size: var(--ff-ref-font-size-xs);
     cursor: pointer;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.05);
-      color: var(--ff-color-neutral-700);
+      color: var(--ff-ref-color-neutral-700);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-color-border-focus);
+      outline: var(--ff-sys-focus-ring-width) solid var(--ff-sys-color-border-focus);
       outline-offset: 1px;
     }
   }

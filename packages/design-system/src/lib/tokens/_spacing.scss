@@ -1,12 +1,17 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
 // ============================================================
-// Firefly Design System — Spacing Tokens
-// 5-value scale: xs(4) sm(8) md(16) lg(24) xl(32)
+// Firefly Design System — Spacing Tokens (ref layer)
+// Scale: 2xs(2) xs(4) sm(8) md(16) lg(24) xl(32) 2xl(48) 3xl(64)
+// Deprecated flat aliases (--ff-spacing-*) live in _aliases.scss.
 // ============================================================
 
 :root {
-  --ff-spacing-xs: 4px;
-  --ff-spacing-sm: 8px;
-  --ff-spacing-md: 16px;
-  --ff-spacing-lg: 24px;
-  --ff-spacing-xl: 32px;
+  --ff-ref-spacing-2xs: 2px;
+  --ff-ref-spacing-xs: 4px;
+  --ff-ref-spacing-sm: 8px;
+  --ff-ref-spacing-md: 16px;
+  --ff-ref-spacing-lg: 24px;
+  --ff-ref-spacing-xl: 32px;
+  --ff-ref-spacing-2xl: 48px;
+  --ff-ref-spacing-3xl: 64px;
 }

@@ -5,47 +5,47 @@
   &__label {
     display: inline-flex;
     align-items: center;
-    border-radius: var(--ff-radius-full);
-    font-family: var(--ff-font-family);
-    font-weight: var(--ff-font-weight-medium);
+    border-radius: var(--ff-ref-radius-full);
+    font-family: var(--ff-ref-font-family);
+    font-weight: var(--ff-ref-font-weight-medium);
     line-height: 1;
     white-space: nowrap;
   }
 
   // Sizes
   &--sm .ff-badge__label {
-    padding: 2px var(--ff-spacing-xs);
-    font-size: var(--ff-font-size-xs);
+    padding: 2px var(--ff-ref-spacing-xs);
+    font-size: var(--ff-ref-font-size-xs);
   }
 
   &--md .ff-badge__label {
-    padding: var(--ff-spacing-xs) var(--ff-spacing-sm);
-    font-size: var(--ff-font-size-sm);
+    padding: var(--ff-ref-spacing-xs) var(--ff-ref-spacing-sm);
+    font-size: var(--ff-ref-font-size-sm);
   }
 
   // Semantic variants
   &--success .ff-badge__label {
-    background-color: var(--ff-badge-success-bg, var(--ff-color-success-100));
-    color: var(--ff-badge-success-color, var(--ff-color-success-700));
+    background-color: var(--ff-badge-success-bg, var(--ff-ref-color-success-100));
+    color: var(--ff-badge-success-color, var(--ff-ref-color-success-700));
   }
 
   &--warning .ff-badge__label {
-    background-color: var(--ff-badge-warning-bg, var(--ff-color-warning-100));
-    color: var(--ff-badge-warning-color, var(--ff-color-warning-700));
+    background-color: var(--ff-badge-warning-bg, var(--ff-ref-color-warning-100));
+    color: var(--ff-badge-warning-color, var(--ff-ref-color-warning-700));
   }
 
   &--error .ff-badge__label {
-    background-color: var(--ff-badge-error-bg, var(--ff-color-error-100));
-    color: var(--ff-badge-error-color, var(--ff-color-error-700));
+    background-color: var(--ff-badge-error-bg, var(--ff-ref-color-error-100));
+    color: var(--ff-badge-error-color, var(--ff-ref-color-error-700));
   }
 
   &--info .ff-badge__label {
-    background-color: var(--ff-badge-info-bg, var(--ff-color-info-100));
-    color: var(--ff-badge-info-color, var(--ff-color-info-700));
+    background-color: var(--ff-badge-info-bg, var(--ff-ref-color-info-100));
+    color: var(--ff-badge-info-color, var(--ff-ref-color-info-700));
   }
 
   &--neutral .ff-badge__label {
-    background-color: var(--ff-badge-neutral-bg, var(--ff-color-neutral-100));
-    color: var(--ff-badge-neutral-color, var(--ff-color-neutral-700));
+    background-color: var(--ff-badge-neutral-bg, var(--ff-ref-color-neutral-100));
+    color: var(--ff-badge-neutral-color, var(--ff-ref-color-neutral-700));
   }
 }

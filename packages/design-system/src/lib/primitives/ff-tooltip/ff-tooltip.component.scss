@@ -1,27 +1,27 @@
 .ff-tooltip {
   // Component tokens
-  --ff-tooltip-bg: var(--ff-color-neutral-900);
-  --ff-tooltip-color: var(--ff-color-surface);
-  --ff-tooltip-radius: var(--ff-radius-sm);
+  --ff-tooltip-bg: var(--ff-ref-color-neutral-900);
+  --ff-tooltip-color: var(--ff-sys-color-surface);
+  --ff-tooltip-radius: var(--ff-ref-radius-sm);
 
   position: relative;
   display: inline-block;
 
   &__panel {
     position: absolute;
-    z-index: 1000;
-    padding: var(--ff-spacing-xs);
+    z-index: var(--ff-sys-z-tooltip);
+    padding: var(--ff-ref-spacing-xs);
     background-color: var(--ff-tooltip-bg);
     color: var(--ff-tooltip-color);
     border-radius: var(--ff-tooltip-radius);
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-xs);
+    font-family: var(--ff-ref-font-family);
+    font-size: var(--ff-ref-font-size-xs);
     line-height: 1.4;
     white-space: nowrap;
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
+    transition: opacity var(--ff-sys-duration-fast) ease-in-out, visibility var(--ff-sys-duration-fast) ease-in-out;
 
     &--visible {
       opacity: 1;
@@ -34,28 +34,28 @@
       bottom: 100%;
       left: 50%;
       transform: translateX(-50%);
-      margin-bottom: var(--ff-spacing-xs);
+      margin-bottom: var(--ff-ref-spacing-xs);
     }
 
     &--bottom {
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      margin-top: var(--ff-spacing-xs);
+      margin-top: var(--ff-ref-spacing-xs);
     }
 
     &--left {
       right: 100%;
       top: 50%;
       transform: translateY(-50%);
-      margin-right: var(--ff-spacing-xs);
+      margin-right: var(--ff-ref-spacing-xs);
     }
 
     &--right {
       left: 100%;
       top: 50%;
       transform: translateY(-50%);
-      margin-left: var(--ff-spacing-xs);
+      margin-left: var(--ff-ref-spacing-xs);
     }
   }
 }

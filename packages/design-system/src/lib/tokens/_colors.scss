@@ -1,135 +1,160 @@
+// @deprecated — superseded by _tokens.scss (consolidated). Kept for reference; NOT imported.
 // ============================================================
 // Firefly Design System — Color Tokens
 // Extracted from Flutter theme_system (PASO 1.8)
 // Source: soon_distribution_portal/packages/theme_system
 // Values: light-mode defaults — dark overrides in _dark.scss
+//
+// Layers (see firefly-docs/reference/design-tokens.md):
+//   ref  → raw palettes        (--ff-ref-color-*)
+//   sys  → semantic intent      (--ff-sys-color-*, --ff-sys-text-*, --ff-sys-bg-*)
+// Deprecated flat aliases (--ff-color-*, --ff-text-*, --ff-bg-*) live in _aliases.scss.
 // ============================================================
 
 :root {
+  // ====================== ref (primitive palettes) ======================
+
   // ---- Primary palette (Flutter soonPrimary — dark slate/navy) ----
-  --ff-color-primary-50: #e3e4ec;
-  --ff-color-primary-100: #c6c8d9;
-  --ff-color-primary-200: #afb1c7;
-  --ff-color-primary-300: #9595ad;
-  --ff-color-primary-400: #84869a;
-  --ff-color-primary-500: #717287;
-  --ff-color-primary-600: #303048;
-  --ff-color-primary-700: #1f1f2e;
-  --ff-color-primary-800: #13131d;
-  --ff-color-primary-900: #0a0a0f;
+  --ff-ref-color-primary-50: #e3e4ec;
+  --ff-ref-color-primary-100: #c6c8d9;
+  --ff-ref-color-primary-200: #afb1c7;
+  --ff-ref-color-primary-300: #9595ad;
+  --ff-ref-color-primary-400: #84869a;
+  --ff-ref-color-primary-500: #717287;
+  --ff-ref-color-primary-600: #303048;
+  --ff-ref-color-primary-700: #1f1f2e;
+  --ff-ref-color-primary-800: #13131d;
+  --ff-ref-color-primary-900: #0a0a0f;
 
   // ---- Secondary palette (Flutter soonSecondary — lime green) ----
-  --ff-color-secondary-50: #f5f9e8;
-  --ff-color-secondary-100: #eaf3d2;
-  --ff-color-secondary-200: #d5e6a5;
-  --ff-color-secondary-300: #bfda79;
-  --ff-color-secondary-400: #aad04c;
-  --ff-color-secondary-500: #a0c635;
-  --ff-color-secondary-600: #95c11f;
-  --ff-color-secondary-700: #6b9a16;
-  --ff-color-secondary-800: #3c4d0c;
-  --ff-color-secondary-900: #2a3a08;
+  --ff-ref-color-secondary-50: #f5f9e8;
+  --ff-ref-color-secondary-100: #eaf3d2;
+  --ff-ref-color-secondary-200: #d5e6a5;
+  --ff-ref-color-secondary-300: #bfda79;
+  --ff-ref-color-secondary-400: #aad04c;
+  --ff-ref-color-secondary-500: #a0c635;
+  --ff-ref-color-secondary-600: #95c11f;
+  --ff-ref-color-secondary-700: #6b9a16;
+  --ff-ref-color-secondary-800: #3c4d0c;
+  --ff-ref-color-secondary-900: #2a3a08;
 
   // ---- Tertiary palette (Flutter soonTertiary — indigo/violet) ----
-  --ff-color-tertiary-50: #f0f3fe;
-  --ff-color-tertiary-100: #e5eafc;
-  --ff-color-tertiary-200: #c6d2fd;
-  --ff-color-tertiary-300: #93aafd;
-  --ff-color-tertiary-400: #5f82ff;
-  --ff-color-tertiary-500: #4a3aff;
-  --ff-color-tertiary-600: #3b2ecf;
-  --ff-color-tertiary-700: #2d23a0;
-  --ff-color-tertiary-800: #1e1770;
-  --ff-color-tertiary-900: #140f55;
+  --ff-ref-color-tertiary-50: #f0f3fe;
+  --ff-ref-color-tertiary-100: #e5eafc;
+  --ff-ref-color-tertiary-200: #c6d2fd;
+  --ff-ref-color-tertiary-300: #93aafd;
+  --ff-ref-color-tertiary-400: #5f82ff;
+  --ff-ref-color-tertiary-500: #4a3aff;
+  --ff-ref-color-tertiary-600: #3b2ecf;
+  --ff-ref-color-tertiary-700: #2d23a0;
+  --ff-ref-color-tertiary-800: #1e1770;
+  --ff-ref-color-tertiary-900: #140f55;
 
   // ---- Neutral palette (Flutter soonNeutral — grey scale) ----
-  --ff-color-neutral-50: #f9fafb;
-  --ff-color-neutral-100: #f3f4f6;
-  --ff-color-neutral-200: #e5e7eb;
-  --ff-color-neutral-300: #d1d5db;
-  --ff-color-neutral-400: #9ca3af;
-  --ff-color-neutral-500: #6b7280;
-  --ff-color-neutral-600: #4b5563;
-  --ff-color-neutral-700: #374151;
-  --ff-color-neutral-800: #1f2937;
-  --ff-color-neutral-900: #111827;
+  --ff-ref-color-neutral-50: #f9fafb;
+  --ff-ref-color-neutral-100: #f3f4f6;
+  --ff-ref-color-neutral-200: #e5e7eb;
+  --ff-ref-color-neutral-300: #d1d5db;
+  --ff-ref-color-neutral-400: #9ca3af;
+  --ff-ref-color-neutral-500: #6b7280;
+  --ff-ref-color-neutral-600: #4b5563;
+  --ff-ref-color-neutral-700: #374151;
+  --ff-ref-color-neutral-800: #1f2937;
+  --ff-ref-color-neutral-900: #111827;
 
   // ---- Error palette (Flutter soonError) ----
-  --ff-color-error-100: #fef2f2;
-  --ff-color-error-200: #fee2e2;
-  --ff-color-error-300: #fecaca;
-  --ff-color-error-400: #f87171;
-  --ff-color-error-500: #ef4444;
-  --ff-color-error-600: #dc2626;
-  --ff-color-error-700: #b91c1c;
-  --ff-color-error-800: #991b1b;
-  --ff-color-error-900: #7f1d1d;
+  --ff-ref-color-error-100: #fef2f2;
+  --ff-ref-color-error-200: #fee2e2;
+  --ff-ref-color-error-300: #fecaca;
+  --ff-ref-color-error-400: #f87171;
+  --ff-ref-color-error-500: #ef4444;
+  --ff-ref-color-error-600: #dc2626;
+  --ff-ref-color-error-700: #b91c1c;
+  --ff-ref-color-error-800: #991b1b;
+  --ff-ref-color-error-900: #7f1d1d;
 
   // ---- Success palette (Flutter soonSuccess) ----
-  --ff-color-success-100: #ecfdf5;
-  --ff-color-success-200: #d1fae5;
-  --ff-color-success-300: #a7f3d0;
-  --ff-color-success-400: #6ee7b7;
-  --ff-color-success-500: #10b981;
-  --ff-color-success-600: #059669;
-  --ff-color-success-700: #047857;
-  --ff-color-success-800: #065f46;
-  --ff-color-success-900: #064e3b;
+  --ff-ref-color-success-100: #ecfdf5;
+  --ff-ref-color-success-200: #d1fae5;
+  --ff-ref-color-success-300: #a7f3d0;
+  --ff-ref-color-success-400: #6ee7b7;
+  --ff-ref-color-success-500: #10b981;
+  --ff-ref-color-success-600: #059669;
+  --ff-ref-color-success-700: #047857;
+  --ff-ref-color-success-800: #065f46;
+  --ff-ref-color-success-900: #064e3b;
 
   // ---- Warning palette (Flutter soonWarning) ----
-  --ff-color-warning-100: #fef3c7;
-  --ff-color-warning-200: #fed7aa;
-  --ff-color-warning-300: #fdba74;
-  --ff-color-warning-400: #fb923c;
-  --ff-color-warning-500: #f59e0b;
-  --ff-color-warning-600: #d97706;
-  --ff-color-warning-700: #b45309;
-  --ff-color-warning-800: #92400e;
-  --ff-color-warning-900: #78350f;
+  --ff-ref-color-warning-100: #fef3c7;
+  --ff-ref-color-warning-200: #fed7aa;
+  --ff-ref-color-warning-300: #fdba74;
+  --ff-ref-color-warning-400: #fb923c;
+  --ff-ref-color-warning-500: #f59e0b;
+  --ff-ref-color-warning-600: #d97706;
+  --ff-ref-color-warning-700: #b45309;
+  --ff-ref-color-warning-800: #92400e;
+  --ff-ref-color-warning-900: #78350f;
 
   // ---- Info palette (Flutter soonInfo) ----
-  --ff-color-info-100: #eff6ff;
-  --ff-color-info-200: #dbeafe;
-  --ff-color-info-300: #bfdbfe;
-  --ff-color-info-400: #93c5fd;
-  --ff-color-info-500: #3b82f6;
-  --ff-color-info-600: #2563eb;
-  --ff-color-info-700: #1d4ed8;
-  --ff-color-info-800: #1e40af;
-  --ff-color-info-900: #1e3a8a;
+  --ff-ref-color-info-100: #eff6ff;
+  --ff-ref-color-info-200: #dbeafe;
+  --ff-ref-color-info-300: #bfdbfe;
+  --ff-ref-color-info-400: #93c5fd;
+  --ff-ref-color-info-500: #3b82f6;
+  --ff-ref-color-info-600: #2563eb;
+  --ff-ref-color-info-700: #1d4ed8;
+  --ff-ref-color-info-800: #1e40af;
+  --ff-ref-color-info-900: #1e3a8a;
 
-  // ---- Semantic base aliases (backward compat from PASO 1.5) ----
-  --ff-color-success: #10b981;
-  --ff-color-success-light: #ecfdf5;
-  --ff-color-warning: #f59e0b;
-  --ff-color-warning-light: #fef3c7;
-  --ff-color-error: #ef4444;
-  --ff-color-error-light: #fef2f2;
-  --ff-color-info: #3b82f6;
-  --ff-color-info-light: #eff6ff;
+  // ====================== sys (semantic) ======================
 
   // ---- Surface & background ----
-  --ff-color-surface: #ffffff;
-  --ff-color-background: #f7f8f9;
-  --ff-color-on-primary: #ffffff;
-  --ff-color-on-surface: #111827;
-  --ff-color-on-surface-variant: #4b5563;
+  --ff-sys-color-surface: #ffffff;
+  --ff-sys-color-background: #f7f8f9;
+  --ff-sys-color-on-primary: #ffffff;
+  --ff-sys-color-on-surface: #111827;
+  --ff-sys-color-on-surface-variant: #4b5563;
 
   // ---- Border ----
-  --ff-color-border: #d1d5db;
-  --ff-color-border-focus: #303048;
+  --ff-sys-color-border: #d1d5db;
+  --ff-sys-color-border-focus: #303048;
 
   // ---- Overlay ----
-  --ff-color-overlay: rgba(0, 0, 0, 0.5);
+  --ff-sys-color-overlay: rgba(0, 0, 0, 0.5);
 
   // ---- Semantic text colors (Flutter soonText) ----
-  --ff-text-primary: #111827;
-  --ff-text-secondary: #4b5563;
-  --ff-text-muted: #6b7280;
-  --ff-text-disabled: #9ca3af;
+  --ff-sys-text-primary: #111827;
+  --ff-sys-text-secondary: #4b5563;
+  --ff-sys-text-muted: #6b7280;
+  --ff-sys-text-disabled: #9ca3af;
 
   // ---- Semantic background colors (Flutter soonBackground) ----
-  --ff-bg-primary: #ffffff;
-  --ff-bg-secondary: #f7f8f9;
-  --ff-bg-tertiary: #f1f2f4;
+  --ff-sys-bg-primary: #ffffff;
+  --ff-sys-bg-secondary: #f7f8f9;
+  --ff-sys-bg-tertiary: #f1f2f4;
+
+  // ---- Status base aliases (backward compat from PASO 1.5) ----
+  --ff-sys-color-success: var(--ff-ref-color-success-500);
+  --ff-sys-color-success-light: var(--ff-ref-color-success-100);
+  --ff-sys-color-warning: var(--ff-ref-color-warning-500);
+  --ff-sys-color-warning-light: var(--ff-ref-color-warning-100);
+  --ff-sys-color-error: var(--ff-ref-color-error-500);
+  --ff-sys-color-error-light: var(--ff-ref-color-error-100);
+  --ff-sys-color-info: var(--ff-ref-color-info-500);
+  --ff-sys-color-info-light: var(--ff-ref-color-info-100);
+
+  // ---- Status subtle / border-subtle / emphasis (design-tokens.md §5.5) ----
+  // Reference the ref palette so dark mode adapts automatically (scales invert in _dark.scss).
+  --ff-sys-color-success-subtle: var(--ff-ref-color-success-100);
+  --ff-sys-color-success-border-subtle: var(--ff-ref-color-success-200);
+  --ff-sys-color-success-emphasis: var(--ff-ref-color-success-800);
+  --ff-sys-color-warning-subtle: var(--ff-ref-color-warning-100);
+  --ff-sys-color-warning-border-subtle: var(--ff-ref-color-warning-200);
+  --ff-sys-color-warning-emphasis: var(--ff-ref-color-warning-800);
+  --ff-sys-color-error-subtle: var(--ff-ref-color-error-100);
+  --ff-sys-color-error-border-subtle: var(--ff-ref-color-error-200);
+  --ff-sys-color-error-emphasis: var(--ff-ref-color-error-800);
+  --ff-sys-color-info-subtle: var(--ff-ref-color-info-100);
+  --ff-sys-color-info-border-subtle: var(--ff-ref-color-info-200);
+  --ff-sys-color-info-emphasis: var(--ff-ref-color-info-800);
 }

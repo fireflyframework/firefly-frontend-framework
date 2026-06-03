@@ -1,12 +1,7 @@
 // ============================================================
 // Firefly Design System — Tokens Entry Point
-// Import this file to get all CSS custom properties on :root
+// Imports the single consolidated token file. All --ff-* and --hub-* variables
+// and their values live in _tokens.scss. See firefly-docs/reference/design-tokens.md.
 // ============================================================
 
-@import 'colors';
-@import 'spacing';
-@import 'radius';
-@import 'typography';
-@import 'shadows';
-@import 'breakpoints';
-@import 'dark';
+@import 'tokens';
