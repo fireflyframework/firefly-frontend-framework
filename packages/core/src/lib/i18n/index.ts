@@ -13,4 +13,8 @@ export {
   FfPercentagePipe,
   FfIbanPipe,
   FfNifPipe,
+  FfElapsedPipe,
+  FfRelativeDayPipe,
+  FfFileExtensionPipe,
+  FfShortIdPipe,
 } from './formatting';

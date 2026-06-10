@@ -3,3 +3,7 @@ export { FfDatePipe } from './ff-date.pipe';
 export { FfPercentagePipe } from './ff-percentage.pipe';
 export { FfIbanPipe } from './ff-iban.pipe';
 export { FfNifPipe } from './ff-nif.pipe';
+export { FfElapsedPipe } from './ff-elapsed.pipe';
+export { FfRelativeDayPipe } from './ff-relative-day.pipe';
+export { FfFileExtensionPipe } from './ff-file-extension.pipe';
+export { FfShortIdPipe } from './ff-short-id.pipe';
