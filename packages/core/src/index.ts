@@ -17,3 +17,4 @@ export * from './lib/files';
 export * from './lib/notifications';
 export * from './lib/event-bus';
 export * from './lib/cookies';
+export * from './lib/pages';
