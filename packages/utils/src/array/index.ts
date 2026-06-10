@@ -1,8 +1,11 @@
 export { groupBy } from './group-by';
+export { groupAndCount } from './group-and-count';
+export type { GroupedCount, GroupAndCountOptions } from './group-and-count';
 export { uniqueBy } from './unique-by';
 export { unique } from './unique';
 export { chunk } from './chunk';
 export { flatten } from './flatten';
 export { sortBy } from './sort-by';
+export { sortByPriorityDesc } from './sort-by-priority';
 export { partition } from './partition';
 export { keyBy } from './key-by';

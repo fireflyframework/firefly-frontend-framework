@@ -31,6 +31,26 @@
     "./formatting": {
       "types": "./src/formatting/index.d.ts",
       "default": "./src/formatting/index.js"
+    },
+    "./json": {
+      "types": "./src/json/index.d.ts",
+      "default": "./src/json/index.js"
+    },
+    "./version": {
+      "types": "./src/version/index.d.ts",
+      "default": "./src/version/index.js"
+    },
+    "./io": {
+      "types": "./src/io/index.d.ts",
+      "default": "./src/io/index.js"
+    },
+    "./transformations": {
+      "types": "./src/transformations/index.d.ts",
+      "default": "./src/transformations/index.js"
+    },
+    "./constants": {
+      "types": "./src/constants/index.d.ts",
+      "default": "./src/constants/index.js"
     }
   },
   "dependencies": {
