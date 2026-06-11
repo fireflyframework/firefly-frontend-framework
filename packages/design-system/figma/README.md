@@ -1,7 +1,7 @@
 # Firefly tokens → Figma variables
 
 Generated from the **source of truth**: `../src/lib/tokens/_tokens.scss`
-(see [firefly-docs/reference/design-tokens.md](../../../../firefly-docs/reference/design-tokens.md)).
+(see [firefly-frontend-playbook/reference/design-tokens.md](../../../../firefly-frontend-playbook/reference/design-tokens.md)).
 
 The Figma **Dev Mode MCP is read-only** (it can read variables/Code Connect but not create
 them), and the Variables **REST** write API is Enterprise-only — so these artifacts let you

@@ -4,7 +4,7 @@ TypeScript definitions for the Firefly DSL.
 
 This package describes product, feature, module, and component schemas used by Firefly generators, skills, and product templates. It is intentionally type-only: consumers import contracts, not runtime behavior.
 
-For ecosystem context, see `../../../firefly-docs/reference/framework-packages.md` from this package directory.
+For ecosystem context, see `../../../firefly-frontend-playbook/reference/framework-packages.md` from this package directory.
 
 ## Installation
 

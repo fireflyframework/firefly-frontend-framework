@@ -4,7 +4,7 @@ Angular infrastructure for Firefly products.
 
 This package contains the cross-cutting services, providers, guards, directives, interceptors, pipes, and runtime adapters used by Firefly applications.
 
-For ecosystem context, see `../../../firefly-docs/reference/framework-packages.md` from this package directory.
+For ecosystem context, see `../../../firefly-frontend-playbook/reference/framework-packages.md` from this package directory.
 
 ## Installation
 

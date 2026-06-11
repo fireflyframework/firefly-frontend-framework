@@ -4,11 +4,11 @@
 // ============================================================
 // Every token below is the OLD flat name kept as a `var()` alias to its new
 // canonical (ref/sys) token, so existing consumers keep working during the
-// migration. See firefly-docs/reference/design-tokens.md §2.4.
+// migration. See firefly-frontend-playbook/reference/design-tokens.md §2.4.
 //
 // ⚠️ DEPRECATED — do NOT reference these in new code. Use the canonical
 //    --ff-ref-* / --ff-sys-* names. Slated for removal in the next major
-//    (after ≥2 minor releases). Tracked in firefly-docs/TODO.md (B-11).
+//    (after ≥2 minor releases). Tracked in firefly-frontend-playbook/TODO.md (B-11).
 // ============================================================
 
 :root {

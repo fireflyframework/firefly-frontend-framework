@@ -4,7 +4,7 @@ Angular standalone primitives and design tokens for Firefly products.
 
 This package contains the reusable UI layer of the Firefly Frontend Framework. Use it for product-level screens, shared feature components, and showcase examples that need the official Firefly look and behavior.
 
-For ecosystem context, see `../../../firefly-docs/reference/framework-packages.md` from this package directory.
+For ecosystem context, see `../../../firefly-frontend-playbook/reference/framework-packages.md` from this package directory.
 
 ## Installation
 

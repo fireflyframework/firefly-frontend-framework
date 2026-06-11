@@ -4,7 +4,7 @@ Nx monorepo for the reusable frontend packages used by Firefly Angular products.
 
 This repository publishes packages under `@fireflyframework/*` and contains the framework code consumed by `firefly-showcase`, `firefly-product-template`, and product repositories.
 
-For ecosystem-level onboarding, see `../firefly-docs`.
+For ecosystem-level onboarding, see `../firefly-frontend-playbook`.
 
 ## Stack
 
@@ -81,8 +81,8 @@ Published package manifests are updated from `dist/{projectRoot}`.
 
 Start with:
 
-- `../firefly-docs/getting-started/onboarding.md`
-- `../firefly-docs/architecture/project-map.md`
-- `../firefly-docs/reference/framework-packages.md`
+- `../firefly-frontend-playbook/getting-started/onboarding.md`
+- `../firefly-frontend-playbook/architecture/project-map.md`
+- `../firefly-frontend-playbook/reference/framework-packages.md`
 
-When changing a public package API, update the package README in the same PR. When changing how projects relate to each other, update `firefly-docs`.
+When changing a public package API, update the package README in the same PR. When changing how projects relate to each other, update `firefly-frontend-playbook`.
