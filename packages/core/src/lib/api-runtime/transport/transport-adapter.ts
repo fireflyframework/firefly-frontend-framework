@@ -1,5 +1,10 @@
 import { Observable } from 'rxjs';
-import { TransportProtocol, TransportRequest, TransportResponse } from './transport-request';
+import {
+  TransportProgressEvent,
+  TransportProtocol,
+  TransportRequest,
+  TransportResponse,
+} from './transport-request';
 
 /**
  * Abstract base class that defines the contract for a transport adapter.
@@ -46,6 +51,26 @@ export abstract class TransportAdapter {
     throw new Error(
       `TransportAdapter [${this.name}] (protocol: ${this.protocol}) does not support streaming. ` +
         `Use an adapter that supports stream() (ws, sse, grpc) or use request() instead.`,
+    );
+  }
+
+  /**
+   * Execute a request-response operation while reporting transfer progress.
+   *
+   * Emits zero or more `progress` events (bytes loaded / total) followed by a
+   * single terminal `response` event. OPTIONAL — only adapters that can
+   * observe transfer progress (today: HTTP) implement it; the default throws
+   * so the caller knows this protocol can't report progress. Use `request()`
+   * when progress isn't needed.
+   *
+   * @param req - Protocol-agnostic request
+   * @returns Observable of protocol-neutral progress + response events
+   * @throws Error if the adapter does not support progress reporting
+   */
+  requestWithProgress<T>(req: TransportRequest): Observable<TransportProgressEvent<T>> {
+    throw new Error(
+      `TransportAdapter [${this.name}] (protocol: ${this.protocol}) does not support progress reporting. ` +
+        `Use an adapter that supports requestWithProgress() (http) or use request() instead.`,
     );
   }
 

@@ -1,9 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, HttpEventType } from '@angular/common/http';
 import { HttpTransportAdapter } from './http.adapter';
 import { TransportError } from '../../transport/transport-error';
-import { TransportRequest } from '../../transport/transport-request';
+import {
+  TransportProgressEvent,
+  TransportRequest,
+} from '../../transport/transport-request';
 
 describe('HttpTransportAdapter', () => {
   let adapter: HttpTransportAdapter;
@@ -233,6 +236,70 @@ describe('HttpTransportAdapter', () => {
       const result = await promise;
       expect(typeof result.durationMs).toBe('number');
       expect(result.durationMs).toBeGreaterThanOrEqual(0);
+    });
+  });
+
+  describe('requestWithProgress<T> (FW-017)', () => {
+    it('requests with reportProgress and translates events to neutral progress + response', () => {
+      const events: TransportProgressEvent<{ ok: boolean }>[] = [];
+      adapter
+        .requestWithProgress<{ ok: boolean }>({
+          ...baseReq,
+          method: 'POST',
+          body: { file: 'x' },
+        })
+        .subscribe((e) => events.push(e));
+
+      const req = httpTesting.expectOne('https://api.example.com/');
+      expect(req.request.method).toBe('POST');
+      expect(req.request.reportProgress).toBe(true);
+
+      // Simulate an upload-progress event, then complete with the response.
+      req.event({ type: HttpEventType.UploadProgress, loaded: 40, total: 80 });
+      req.flush({ ok: true });
+
+      const progress = events.find((e) => e.type === 'progress');
+      expect(progress).toEqual({
+        type: 'progress',
+        progress: { loaded: 40, total: 80 },
+      });
+
+      const response = events.find((e) => e.type === 'response');
+      expect(response?.type).toBe('response');
+      if (response?.type === 'response') {
+        expect(response.response.data).toEqual({ ok: true });
+        expect(response.response.status).toBe(200);
+      }
+    });
+
+    it('reports total as null when the progress event omits it', () => {
+      const events: TransportProgressEvent<unknown>[] = [];
+      adapter
+        .requestWithProgress({ ...baseReq, method: 'POST', body: {} })
+        .subscribe((e) => events.push(e));
+
+      const req = httpTesting.expectOne('https://api.example.com/');
+      req.event({ type: HttpEventType.UploadProgress, loaded: 10 });
+      req.flush(null);
+
+      const progress = events.find((e) => e.type === 'progress');
+      expect(progress).toEqual({
+        type: 'progress',
+        progress: { loaded: 10, total: null },
+      });
+    });
+
+    it('surfaces HTTP errors as TransportError', () => {
+      let caught: unknown;
+      adapter
+        .requestWithProgress({ ...baseReq, method: 'POST', body: {} })
+        .subscribe({ error: (e) => (caught = e) });
+
+      httpTesting
+        .expectOne('https://api.example.com/')
+        .flush('boom', { status: 500, statusText: 'Server Error' });
+
+      expect(caught).toBeInstanceOf(TransportError);
     });
   });
 });
