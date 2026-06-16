@@ -337,3 +337,49 @@ describe('AuthService', () => {
     });
   });
 });
+
+// ── loginBodyMapper (FW-016) ─────────────────────────────────
+describe('AuthService — loginBodyMapper (FW-016)', () => {
+  let service: AuthService;
+  let httpMock: HttpTestingController;
+
+  beforeEach(() => {
+    localStorage.clear();
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        provideAuth({
+          loginBodyMapper: ({ username, password }) => ({
+            email: username,
+            password,
+            tenantSlug: 'acme',
+          }),
+        }),
+        provideSession(),
+        provideUserContext(),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+    service = TestBed.inject(AuthService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+    localStorage.clear();
+  });
+
+  it('maps the login body through the configured mapper', async () => {
+    const promise = service.login({ username: 'user@x.com', password: 'pass' });
+
+    const req = httpMock.expectOne(`${API}/auth/login`);
+    expect(req.request.body).toEqual({
+      email: 'user@x.com',
+      password: 'pass',
+      tenantSlug: 'acme',
+    });
+    req.flush(MOCK_TOKENS);
+    await promise;
+  });
+});

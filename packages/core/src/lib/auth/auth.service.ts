@@ -1,13 +1,23 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { InjectionToken, Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { LoginCredentials, AuthTokens, AuthResult } from './auth.types';
+import { AuthConfig, LoginCredentials, AuthTokens, AuthResult } from './auth.types';
 import { SessionService } from '../session/session.service';
 import { UserContextService } from '../user-context/user-context.service';
 
 const TOKEN_STORAGE_KEY = 'ff_access_token';
 const REFRESH_STORAGE_KEY = 'ff_refresh_token';
 const AUTH_API_BASE = '/api/v1/experience/security';
+
+/**
+ * DI token holding the resolved {@link AuthConfig}. Defaults to an empty
+ * object so the auth module works without configuration; set it via
+ * `provideAuth(config)`.
+ */
+export const AUTH_CONFIG = new InjectionToken<AuthConfig>('FF_AUTH_CONFIG', {
+  providedIn: 'root',
+  factory: () => ({}),
+});
 
 /**
  * Core authentication service for the Firefly framework.
@@ -32,18 +42,26 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly sessionService = inject(SessionService);
   private readonly userContextService = inject(UserContextService);
+  private readonly config = inject(AUTH_CONFIG);
 
   /**
    * Authenticate with username/password credentials.
    * On success, stores tokens in localStorage and sets isAuthenticated to true.
+   *
+   * The request body is the raw credentials unless a `loginBodyMapper` was
+   * supplied to `provideAuth`, in which case the mapped value is sent — this
+   * is how a product adapts the framework login shape to its backend contract.
    *
    * @param credentials - Username, password, and optional deviceInfo
    * @returns AuthResult with success status and tokens or error message
    */
   async login(credentials: LoginCredentials): Promise<AuthResult> {
     try {
+      const body = this.config.loginBodyMapper
+        ? this.config.loginBodyMapper(credentials)
+        : credentials;
       const tokens = await firstValueFrom(
-        this.http.post<AuthTokens>(`${AUTH_API_BASE}/auth/login`, credentials),
+        this.http.post<AuthTokens>(`${AUTH_API_BASE}/auth/login`, body),
       );
       this.storeTokens(tokens);
       this.isAuthenticated.set(true);
