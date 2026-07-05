@@ -37,13 +37,24 @@ export const FORM_VALIDATION_NOTIFIER = new InjectionToken<(message: string) => 
 // once at bootstrap by `provideFormValidation()` and read here.
 let formValidationInjector: Injector | null = null;
 
-/** Wired by `provideFormValidation()` — gives `@validatesForm` access to its services. */
+/** Wired by `provideFormValidation()` — gives `@ValidatesForm` access to its services. */
 export function setFormValidationInjector(injector: Injector): void {
   formValidationInjector = injector;
 }
 
 /** i18n key for the single summary notification shown on an invalid submit attempt. */
 export const FORM_VALIDATION_SUMMARY_KEY = 'FORMS.VALIDATION.SUMMARY';
+
+/** Options for {@link ValidatesForm}. */
+export interface ValidatesFormOptions {
+  /**
+   * i18n key for the summary notification fired on an invalid submit. Defaults
+   * to {@link FORM_VALIDATION_SUMMARY_KEY}. Pass a form-specific key when the
+   * generic copy is too vague (e.g. a login box). Always an i18n key resolved
+   * through `I18nService`, never a raw string.
+   */
+  messageKey?: string;
+}
 
 /** Recursively mark a control (and its descendants) dirty. */
 function markDeepDirty(control: AbstractControl): void {
@@ -80,8 +91,14 @@ function markDeepDirty(control: AbstractControl): void {
  *
  * @param getForm Selector that returns the `FormGroup` to gate, given the component
  *   instance (`this`).
+ * @param options Optional overrides — {@link ValidatesFormOptions.messageKey} swaps
+ *   the default summary notification copy for a form-specific i18n key.
  */
-export function validatesForm<T>(getForm: (self: T) => FormGroup) {
+export function ValidatesForm<T>(
+  getForm: (self: T) => FormGroup,
+  options?: ValidatesFormOptions,
+) {
+  const messageKey = options?.messageKey ?? FORM_VALIDATION_SUMMARY_KEY;
   return function (
     _target: object,
     _propertyKey: string | symbol,
@@ -96,12 +113,10 @@ export function validatesForm<T>(getForm: (self: T) => FormGroup) {
         markDeepDirty(form);
         if (!formValidationInjector) {
           throw new Error(
-            '@validatesForm requires provideFormValidation() in the application providers.',
+            '@ValidatesForm requires provideFormValidation() in the application providers.',
           );
         }
-        const message = formValidationInjector
-          .get(I18nService)
-          .translate(FORM_VALIDATION_SUMMARY_KEY);
+        const message = formValidationInjector.get(I18nService).translate(messageKey);
         formValidationInjector.get(FORM_VALIDATION_NOTIFIER)(message);
         return isAsync ? Promise.resolve() : undefined;
       }
