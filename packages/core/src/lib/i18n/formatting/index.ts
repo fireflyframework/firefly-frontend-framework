@@ -7,3 +7,5 @@ export { FfElapsedPipe } from './ff-elapsed.pipe';
 export { FfRelativeDayPipe } from './ff-relative-day.pipe';
 export { FfFileExtensionPipe } from './ff-file-extension.pipe';
 export { FfShortIdPipe } from './ff-short-id.pipe';
+export { FfFileSizePipe } from './ff-file-size.pipe';
+export { FfInitialsPipe } from './ff-initials.pipe';
