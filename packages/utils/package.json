@@ -20,6 +20,10 @@
       "types": "./src/object/index.d.ts",
       "default": "./src/object/index.js"
     },
+    "./math": {
+      "types": "./src/math/index.d.ts",
+      "default": "./src/math/index.js"
+    },
     "./string": {
       "types": "./src/string/index.d.ts",
       "default": "./src/string/index.js"
