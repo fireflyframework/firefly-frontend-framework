@@ -21,4 +21,9 @@ export {
   FfShortIdPipe,
   FfFileSizePipe,
   FfInitialsPipe,
+  FfDateTimePipe,
+  FfRelativeTimePipe,
+  FfDeviceLabelPipe,
+  FfHumanizeLabelPipe,
+  FfHumanizeColumnPipe,
 } from './formatting';

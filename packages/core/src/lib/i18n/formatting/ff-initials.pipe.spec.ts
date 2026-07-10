@@ -28,4 +28,16 @@ describe('FfInitialsPipe', () => {
   it('honours a custom fallback', () => {
     expect(pipe.transform(null, '·')).toBe('·');
   });
+
+  it('also accepts the richer identity shape', () => {
+    expect(pipe.transform({ firstName: 'María', lastName: 'García' })).toBe('MG');
+    expect(pipe.transform({ firstName: 'María' })).toBe('MA');
+    expect(pipe.transform({ name: 'Luis' })).toBe('L');
+    expect(pipe.transform({ email: 'ana@example.io' })).toBe('AN');
+  });
+
+  it('returns the fallback when no identity fragment is usable', () => {
+    expect(pipe.transform({})).toBe('??');
+    expect(pipe.transform({ name: null }, '·')).toBe('·');
+  });
 });

@@ -9,3 +9,7 @@ export { FfFileExtensionPipe } from './ff-file-extension.pipe';
 export { FfShortIdPipe } from './ff-short-id.pipe';
 export { FfFileSizePipe } from './ff-file-size.pipe';
 export { FfInitialsPipe } from './ff-initials.pipe';
+export { FfDateTimePipe } from './ff-date-time.pipe';
+export { FfRelativeTimePipe } from './ff-relative-time.pipe';
+export { FfDeviceLabelPipe } from './ff-device-label.pipe';
+export { FfHumanizeLabelPipe, FfHumanizeColumnPipe } from './ff-humanize.pipe';

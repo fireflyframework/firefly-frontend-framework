@@ -5,3 +5,4 @@ export type {
   StorageType,
   StorageEntry,
 } from './storage.types';
+export { persistedSignal, type PersistedSignalOptions } from './persisted-signal';
