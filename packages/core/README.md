@@ -28,6 +28,7 @@ npm install @angular/core @angular/common @angular/router rxjs @jsverse/transloc
 | Alerts | `provideAlerts()` | `AlertService` | `ALERT_CONFIG` |
 | Tenant theming | `provideTenantTheming()` | `TenantThemeService` | `TENANT_THEMING_CONFIG` |
 | I18n | `provideI18n()` | `I18nService` | `FfTranslatePipe`, formatting pipes |
+| Pages | — | — | `ListPageBase`, `DetailPageBase`, `FormPageBase`, `DashboardPageBase`, `PageResource` |
 
 ## Quick start
 

@@ -27,3 +27,17 @@ export interface AuthResult {
   tokens?: AuthTokens;
   error?: string;
 }
+
+/**
+ * Optional configuration for the auth module (passed to `provideAuth`).
+ */
+export interface AuthConfig {
+  /**
+   * Maps the framework `LoginCredentials` (`{ username, password, deviceInfo? }`)
+   * to the request body the backend actually expects. Use this when the
+   * backend's login contract differs from the framework's (e.g. it wants
+   * `{ email, password, tenantSlug }`). When omitted, the credentials are
+   * sent as-is — existing integrations are unaffected.
+   */
+  loginBodyMapper?: (credentials: LoginCredentials) => unknown;
+}

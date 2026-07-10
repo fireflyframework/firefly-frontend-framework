@@ -55,6 +55,15 @@
       ],
       "@fireflyframework/utils/formatting": [
         "./packages/utils/src/formatting/index.ts"
+      ],
+      "@fireflyframework/utils/json": [
+        "./packages/utils/src/json/index.ts"
+      ],
+      "@fireflyframework/utils/storage": [
+        "./packages/utils/src/storage/index.ts"
+      ],
+      "@fireflyframework/utils/user-agent": [
+        "./packages/utils/src/user-agent/index.ts"
       ]
     },
     "baseUrl": "."

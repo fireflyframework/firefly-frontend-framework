@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { TransportRegistry } from './transport/transport-registry';
-import { TransportRequest } from './transport/transport-request';
+import { TransportProgressEvent, TransportRequest } from './transport/transport-request';
 import { TransportError } from './transport/transport-error';
 
 /**
@@ -78,5 +78,30 @@ export class ApiClient {
         return throwError(() => error);
       }),
     );
+  }
+
+  /**
+   * Execute a request-response operation while reporting transfer progress —
+   * for uploads/downloads that drive a progress bar.
+   *
+   * Emits protocol-neutral {@link TransportProgressEvent}s (interim `progress`
+   * with bytes loaded/total, then a terminal `response`). The underlying
+   * `HttpClient` stays hidden in the adapter, so feature code keeps the
+   * "never import HttpClient" rule even for uploads.
+   *
+   * @typeParam T - Type of the expected response data
+   * @param req - Request with service, operation, and optional body
+   * @returns Observable of progress + response events
+   * @throws TransportError if the resolved adapter can't report progress
+   */
+  requestWithProgress<T>(req: TransportRequest): Observable<TransportProgressEvent<T>> {
+    const { adapter, route } = this.registry.resolve(req.service);
+
+    return adapter
+      .requestWithProgress<T>({
+        ...req,
+        baseUrl: route.baseUrl,
+      } as TransportRequest & { baseUrl: string })
+      .pipe(catchError((error) => throwError(() => error)));
   }
 }

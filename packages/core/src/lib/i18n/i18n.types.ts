@@ -85,3 +85,21 @@ export interface I18nState {
   /** Last error message from a failed locale switch, or null. */
   readonly error: string | null;
 }
+
+// ---------------------------------------------------------------------------
+// Translatable references
+// ---------------------------------------------------------------------------
+
+/**
+ * A translatable reference: an i18n key plus optional interpolation params.
+ *
+ * Lets a component select WHICH key (state logic) and hand the template a
+ * single object to render via `FfTranslatePipe`:
+ * `{{ ref().key | ffTranslate: ref().params }}`.
+ */
+export interface I18nRef {
+  /** The i18n key to translate. */
+  readonly key: string;
+  /** Optional interpolation params passed to the translation. */
+  readonly params?: Record<string, unknown>;
+}

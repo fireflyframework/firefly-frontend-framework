@@ -1,9 +1,21 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpEventType,
+  HttpResponse,
+} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { Observable, catchError, filter, firstValueFrom, map, throwError } from 'rxjs';
 import { TransportAdapter } from '../../transport/transport-adapter';
 import { TransportError } from '../../transport/transport-error';
-import { TransportProtocol, TransportRequest, TransportResponse } from '../../transport/transport-request';
+import {
+  TransportProgressEvent,
+  TransportProtocol,
+  TransportRequest,
+  TransportResponse,
+} from '../../transport/transport-request';
 
 /**
  * HTTP adapter that wraps Angular HttpClient.
@@ -76,6 +88,97 @@ export class HttpTransportAdapter extends TransportAdapter {
         error,
       );
     }
+  }
+
+  /**
+   * Request-response with transfer progress, using HttpClient's
+   * `reportProgress` + `observe: 'events'` internally and translating each
+   * `HttpEvent` into a protocol-neutral {@link TransportProgressEvent}. The
+   * raw `HttpEvent` never leaves this adapter, so callers stay HttpClient-free.
+   */
+  override requestWithProgress<T>(
+    req: TransportRequest & { baseUrl: string },
+  ): Observable<TransportProgressEvent<T>> {
+    const url = this.buildUrl(req.baseUrl, req.path, req.params);
+    const method = req.method ?? 'POST';
+    const headers = this.buildHeaders(req.headers, req.metadata);
+    const startTime = performance.now();
+
+    return this.http
+      .request<T>(method, url, {
+        body: req.body,
+        headers,
+        reportProgress: true,
+        observe: 'events',
+      })
+      .pipe(
+        filter(
+          (event) =>
+            event.type === HttpEventType.UploadProgress ||
+            event.type === HttpEventType.DownloadProgress ||
+            event.type === HttpEventType.Response,
+        ),
+        map((event) => this.toProgressEvent<T>(event, startTime)),
+        catchError((error) =>
+          throwError(() => this.toTransportError(error, method, url, req)),
+        ),
+      );
+  }
+
+  /** Map an upload/download/response `HttpEvent` to a neutral progress event. */
+  private toProgressEvent<T>(
+    event: HttpEvent<T>,
+    startTime: number,
+  ): TransportProgressEvent<T> {
+    if (
+      event.type === HttpEventType.UploadProgress ||
+      event.type === HttpEventType.DownloadProgress
+    ) {
+      return {
+        type: 'progress',
+        progress: { loaded: event.loaded, total: event.total ?? null },
+      };
+    }
+
+    const response = event as HttpResponse<T>;
+    return {
+      type: 'response',
+      response: {
+        data: response.body as T,
+        status: response.status,
+        headers: this.headersToRecord(response.headers),
+        durationMs: Math.round(performance.now() - startTime),
+      },
+    };
+  }
+
+  /** Normalize an HttpClient error to a {@link TransportError}. */
+  private toTransportError(
+    error: unknown,
+    method: string,
+    url: string,
+    req: TransportRequest,
+  ): TransportError {
+    if (error instanceof HttpErrorResponse) {
+      return new TransportError(
+        `HTTP ${error.status} ${error.statusText} — ${method} ${url}`,
+        this.protocol,
+        this.name,
+        req.service,
+        req.operation,
+        error.status,
+        error,
+      );
+    }
+    return new TransportError(
+      `HTTP request failed — ${method} ${url}: ${String(error)}`,
+      this.protocol,
+      this.name,
+      req.service,
+      req.operation,
+      undefined,
+      error,
+    );
   }
 
   // stream<T>() inherits default from TransportAdapter (throws error).

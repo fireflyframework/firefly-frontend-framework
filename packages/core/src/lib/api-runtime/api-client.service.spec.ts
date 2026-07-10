@@ -4,7 +4,12 @@ import { ApiClient } from './api-client.service';
 import { TransportRegistry } from './transport/transport-registry';
 import { TransportAdapter } from './transport/transport-adapter';
 import { TransportError } from './transport/transport-error';
-import { TransportProtocol, TransportRequest, TransportResponse } from './transport/transport-request';
+import {
+  TransportProgressEvent,
+  TransportProtocol,
+  TransportRequest,
+  TransportResponse,
+} from './transport/transport-request';
 import { provideApiClient } from './provide-api-client';
 import { provideFireflyTransport } from './provide-firefly-transport';
 
@@ -15,6 +20,7 @@ class MockTransportAdapter extends TransportAdapter {
 
   requestSpy = vi.fn<[TransportRequest & { baseUrl: string }], Promise<TransportResponse<unknown>>>();
   streamSpy = vi.fn<[TransportRequest & { baseUrl: string }], Observable<unknown>>();
+  progressSpy = vi.fn<[TransportRequest & { baseUrl: string }], Observable<TransportProgressEvent<unknown>>>();
 
   override request<T>(req: TransportRequest): Promise<TransportResponse<T>> {
     return this.requestSpy(req as TransportRequest & { baseUrl: string }) as Promise<TransportResponse<T>>;
@@ -22,6 +28,12 @@ class MockTransportAdapter extends TransportAdapter {
 
   override stream<T>(req: TransportRequest): Observable<T> {
     return this.streamSpy(req as TransportRequest & { baseUrl: string }) as Observable<T>;
+  }
+
+  override requestWithProgress<T>(req: TransportRequest): Observable<TransportProgressEvent<T>> {
+    return this.progressSpy(
+      req as TransportRequest & { baseUrl: string },
+    ) as Observable<TransportProgressEvent<T>>;
   }
 }
 
@@ -214,6 +226,29 @@ describe('ApiClient', () => {
       expect(() =>
         apiClient.stream({ service: 'grpc-service', operation: 'events' }),
       ).toThrow(TransportError);
+    });
+  });
+
+  describe('requestWithProgress<T> (FW-017)', () => {
+    it('delegates to the resolved adapter and forwards baseUrl', () => {
+      mockAdapter.progressSpy.mockReturnValue(
+        of<TransportProgressEvent<unknown>>({
+          type: 'response',
+          response: { data: { ok: true }, status: 200, headers: {}, durationMs: 1 },
+        }),
+      );
+
+      const events: TransportProgressEvent<unknown>[] = [];
+      apiClient
+        .requestWithProgress({ service: 'lending-engine', operation: 'upload' })
+        .subscribe((e) => events.push(e));
+
+      expect(mockAdapter.progressSpy).toHaveBeenCalledTimes(1);
+      expect(mockAdapter.progressSpy.mock.calls[0][0].baseUrl).toBe(
+        'https://lending.api.com',
+      );
+      expect(events).toHaveLength(1);
+      expect(events[0].type).toBe('response');
     });
   });
 });

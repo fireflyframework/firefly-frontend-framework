@@ -81,3 +81,29 @@ export interface TransportResponse<T> {
   /** Response time in ms (measured by the adapter) */
   durationMs: number;
 }
+
+/**
+ * Protocol-agnostic transfer progress (bytes). The HTTP adapter derives it
+ * from Angular's upload/download progress events; other protocols may report
+ * it differently or not at all. `total` is `null` when the length is unknown.
+ */
+export interface TransportProgress {
+  /** Bytes transferred so far. */
+  loaded: number;
+  /** Total bytes, or `null` when the server didn't advertise a length. */
+  total: number | null;
+}
+
+/**
+ * Event emitted by `ApiClient.requestWithProgress` / `TransportAdapter.requestWithProgress`:
+ * zero or more interim `progress` events while the payload transfers, then a
+ * single terminal `response` event carrying the deserialized data.
+ *
+ * Intentionally protocol-neutral — it never exposes Angular's `HttpEvent`, so
+ * the "feature code never touches HttpClient" rule holds for uploads too.
+ *
+ * @typeParam T - Type of the deserialized response data
+ */
+export type TransportProgressEvent<T> =
+  | { type: 'progress'; progress: TransportProgress }
+  | { type: 'response'; response: TransportResponse<T> };
