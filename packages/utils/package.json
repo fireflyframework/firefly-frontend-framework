@@ -55,6 +55,14 @@
     "./constants": {
       "types": "./src/constants/index.d.ts",
       "default": "./src/constants/index.js"
+    },
+    "./storage": {
+      "types": "./src/storage/index.d.ts",
+      "default": "./src/storage/index.js"
+    },
+    "./user-agent": {
+      "types": "./src/user-agent/index.d.ts",
+      "default": "./src/user-agent/index.js"
     }
   },
   "dependencies": {
