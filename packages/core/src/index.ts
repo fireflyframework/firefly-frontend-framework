@@ -19,3 +19,4 @@ export * from './lib/event-bus';
 export * from './lib/cookies';
 export * from './lib/pages';
 export * from './lib/http';
+export * from './lib/confirm';
