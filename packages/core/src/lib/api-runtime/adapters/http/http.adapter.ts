@@ -96,7 +96,7 @@ export class HttpTransportAdapter extends TransportAdapter {
    * `HttpEvent` into a protocol-neutral {@link TransportProgressEvent}. The
    * raw `HttpEvent` never leaves this adapter, so callers stay HttpClient-free.
    */
-  requestWithProgress<T>(
+  override requestWithProgress<T>(
     req: TransportRequest & { baseUrl: string },
   ): Observable<TransportProgressEvent<T>> {
     const url = this.buildUrl(req.baseUrl, req.path, req.params);
