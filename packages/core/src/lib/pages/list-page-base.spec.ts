@@ -29,10 +29,10 @@ function makeResource<T>(initial: {
 
 @Component({ standalone: true, template: '' })
 class TestListPage extends ListPageBase<number> {
-  filtersActive = signal(false);
+  activeFilters = signal(false);
   protected override resource = makeResource<number[]>({ isLoading: true });
   protected override hasActiveFilters(): boolean {
-    return this.filtersActive();
+    return this.activeFilters();
   }
 
   // Test helpers — expose protected accessors.
@@ -89,7 +89,7 @@ describe('ListPageBase', () => {
 
   it("yields state='empty' on empty list with no active filters", () => {
     const c = mount();
-    c.filtersActive.set(false);
+    c.activeFilters.set(false);
     c.setResource([], false);
     expect(c.readState()).toBe('empty');
     expect(c.readIsEmpty()).toBe(true);
@@ -97,7 +97,7 @@ describe('ListPageBase', () => {
 
   it("yields state='filtered-empty' on empty list with active filters", () => {
     const c = mount();
-    c.filtersActive.set(true);
+    c.activeFilters.set(true);
     c.setResource([], false);
     expect(c.readState()).toBe('filtered-empty');
   });
