@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-07-17
+
+### Added
+- Files module: `PresignedUploadService` — backend-agnostic presigned upload orchestrator (`init` → direct PUT to storage → `complete`) with per-file progress, 403 re-init retry, optional pre-validation via `FileValidationService`, and a concurrency-capped `uploadMany`; the consumer supplies the `PresignedUploadAdapter` contract (`PresignedInitResult`, `PresignedUploadProgress`, `PresignedUploadPhase`, `PresignedUploadErrorCause`, `PresignedUploadOptions`)
+- Pages module: `ListPageBase`, `DetailPageBase`, `FormPageBase`, `DashboardPageBase` page-base classes with `PageResource` contract
+- Pages composables: `createListState()`, `createUrlSyncedFilters()`, `scrollMemory()`, `autoRefresh()` (polling), `createSort()`, `createSelection()`
+- Confirm module: `provideConfirm()`, `ConfirmService`, `@Confirm` method decorator (with `setConfirmInjector`), `[ffConfirm]` directive and confirm-guard contract
+- HTTP module: `provideHttpHeaders()` with `HTTP_HEADERS_CONFIG` token, config-driven `tenantIdInterceptor` and `idempotencyKeyInterceptor`
+- Forms: `ValidatesForm` decorator (FW-024) with `messageKey` option
+- Transport layer: `normaliseList()` and backend-error message resolution (`resolveBackendErrorMessage`)
+- `ApiClient`: protocol-neutral request progress for uploads
+- Auth: configurable login-body mapper
+- i18n: `toI18nSegment()` helper and `I18nRef` type
+- Pipes: `ff-date-time`, `ff-relative-time`, `ff-relative-day`, `ff-elapsed`, `ff-device-label`, `ff-humanize`, `ff-initials`, `ff-file-size`, `ff-file-extension`, `ff-short-id`
+- Signals: `persistedSignal()` (storage-backed signal)
+
+### Changed
+- New required peer dependency: `@angular/forms ^21.2.0`
+- Peer dependency `@fireflyframework/utils` raised to `>=0.2.0` (uses its new formatting, string, storage and user-agent APIs)
+
 ## [0.16.0] - 2026-05-26
 
 ### Added
@@ -236,7 +256,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User context module: `UserContextService`
 - API runtime module: `ApiClient`, `TransportRegistry`, `HttpTransportAdapter`
 
-[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.16.0...HEAD
+[Unreleased]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.17.0...HEAD
+[0.17.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.16.0...core@0.17.0
 [0.16.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.15.0...core@0.16.0
 [0.15.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.14.0...core@0.15.0
 [0.14.0]: https://github.com/fireflyframework/firefly-frontend-framework/compare/core@0.13.0...core@0.14.0

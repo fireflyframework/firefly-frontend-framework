@@ -10,6 +10,16 @@ export type {
 } from './file.types';
 export { FILES_CONFIG } from './file.types';
 
+// Presigned upload contract
+export type {
+  PresignedInitResult,
+  PresignedUploadAdapter,
+  PresignedUploadPhase,
+  PresignedUploadErrorCause,
+  PresignedUploadProgress,
+  PresignedUploadOptions,
+} from './presigned-upload.service';
+
 // Provider factory
 export { provideFiles } from './provide-files';
 
@@ -17,6 +27,7 @@ export { provideFiles } from './provide-files';
 export { FileValidationService } from './file-validation.service';
 export { FilePickerService } from './file-picker.service';
 export { FileUploadService } from './file-upload.service';
+export { PresignedUploadService } from './presigned-upload.service';
 export { FileDownloadService } from './file-download.service';
 export { FilePreviewService } from './file-preview.service';
 export { FileExportService } from './file-export.service';
