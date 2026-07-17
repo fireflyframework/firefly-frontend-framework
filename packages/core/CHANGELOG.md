@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.17.0] - 2026-07-17
 
 ### Added
+- Files module: `PresignedUploadService` — backend-agnostic presigned upload orchestrator (`init` → direct PUT to storage → `complete`) with per-file progress, 403 re-init retry, optional pre-validation via `FileValidationService`, and a concurrency-capped `uploadMany`; the consumer supplies the `PresignedUploadAdapter` contract (`PresignedInitResult`, `PresignedUploadProgress`, `PresignedUploadPhase`, `PresignedUploadErrorCause`, `PresignedUploadOptions`)
 - Pages module: `ListPageBase`, `DetailPageBase`, `FormPageBase`, `DashboardPageBase` page-base classes with `PageResource` contract
 - Pages composables: `createListState()`, `createUrlSyncedFilters()`, `scrollMemory()`, `autoRefresh()` (polling), `createSort()`, `createSelection()`
 - Confirm module: `provideConfirm()`, `ConfirmService`, `@Confirm` method decorator (with `setConfirmInjector`), `[ffConfirm]` directive and confirm-guard contract
