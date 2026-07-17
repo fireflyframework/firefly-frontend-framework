@@ -1,0 +1,23 @@
+name: Guard commit messages
+
+on:
+  pull_request:
+
+jobs:
+  no-ai-coauthors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+      - name: Reject AI co-author trailers
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch origin "$BASE_REF" --depth=200
+          if git log "origin/$BASE_REF..HEAD" --format='%B' \
+             | grep -qiE '^[[:space:]]*co-authored-by:.*(claude|anthropic)'; then
+            echo "::error::A commit in this PR credits Claude/Anthropic as co-author. Remove the 'Co-Authored-By' trailer and force-update the branch."
+            exit 1
+          fi
+          echo "OK — no AI co-author trailers found."

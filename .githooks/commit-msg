@@ -1,0 +1,10 @@
+#!/bin/sh
+# Reject commit messages that credit an AI assistant (Claude/Anthropic) as co-author.
+# Shared with the team via core.hooksPath (.githooks), wired by the root "prepare" script.
+# Server-side CI (.github/workflows/guard-commit-messages.yml) is the bypass-proof backstop
+# for anyone who commits with --no-verify or without running `pnpm install`.
+if grep -qiE '^[[:space:]]*co-authored-by:.*(claude|anthropic)' "$1"; then
+  echo "✖ commit-msg: commit messages must not credit Claude/Anthropic as co-author." >&2
+  echo "  Remove the 'Co-Authored-By: ... claude/anthropic ...' line and try again." >&2
+  exit 1
+fi
