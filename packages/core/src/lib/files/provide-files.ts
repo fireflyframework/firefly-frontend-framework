@@ -3,6 +3,7 @@ import { FILES_CONFIG, FilesConfig } from './file.types';
 import { FileValidationService } from './file-validation.service';
 import { FilePickerService } from './file-picker.service';
 import { FileUploadService } from './file-upload.service';
+import { PresignedUploadService } from './presigned-upload.service';
 import { FileDownloadService } from './file-download.service';
 import { FilePreviewService } from './file-preview.service';
 import { FileExportService } from './file-export.service';
@@ -42,6 +43,7 @@ export function provideFiles(
     FileValidationService,
     FilePickerService,
     FileUploadService,
+    PresignedUploadService,
     FileDownloadService,
     FilePreviewService,
     FileExportService,
