@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { I18nService } from '../i18n';
 import { AlertService } from './alert.service';
 import { provideAlerts } from './provide-alerts';
 
@@ -615,5 +616,135 @@ describe('AlertService — toasts & banners', () => {
       expect(dialog.options.confirmLabel).toBe('Delete');
       expect(dialog.options.cancelLabel).toBe('Keep');
     });
+  });
+});
+
+describe('AlertService — confirm(options) rich overload', () => {
+  let service: AlertService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({ providers: [provideAlerts()] });
+    service = TestBed.inject(AlertService);
+  });
+
+  it('opens one dialog with the mapped options', () => {
+    void service.confirm({
+      title: 'Delete file?',
+      message: 'This cannot be undone.',
+      confirm: { label: 'Delete', variant: 'danger' },
+      cancel: { label: 'Keep it' },
+      icon: 'trash',
+    });
+
+    const dialogs = service.activeDialogs();
+    expect(dialogs).toHaveLength(1);
+    expect(dialogs[0].options).toEqual({
+      type: 'destructive',
+      title: 'Delete file?',
+      message: 'This cannot be undone.',
+      confirmLabel: 'Delete',
+      cancelLabel: 'Keep it',
+      destructiveConfirmText: undefined,
+      icon: 'trash',
+    });
+  });
+
+  it('defaults the cancel label and the info type for a plain confirmation', () => {
+    void service.confirm({ title: 'T', message: 'M' });
+
+    const [dialog] = service.activeDialogs();
+    expect(dialog.options.type).toBe('info');
+    expect(dialog.options.cancelLabel).toBe('Cancel');
+    expect(dialog.options.confirmLabel).toBeUndefined();
+  });
+
+  it('maps the warning button variant to the warning dialog type', () => {
+    void service.confirm({
+      title: 'T',
+      message: 'M',
+      confirm: { variant: 'warning' },
+    });
+
+    expect(service.activeDialogs()[0].options.type).toBe('warning');
+  });
+
+  it('maps requireTypedWord to destructiveConfirmText and forces the destructive type', () => {
+    void service.confirm({
+      title: 'T',
+      message: 'M',
+      requireTypedWord: 'DELETE',
+    });
+
+    const [dialog] = service.activeDialogs();
+    expect(dialog.options.type).toBe('destructive');
+    expect(dialog.options.destructiveConfirmText).toBe('DELETE');
+  });
+
+  it('resolves true when the dialog is confirmed, and removes it', async () => {
+    const promise = service.confirm({ title: 'T', message: 'M' });
+
+    const [dialog] = service.activeDialogs();
+    service.resolveDialog(dialog.id, { confirmed: true });
+
+    await expect(promise).resolves.toBe(true);
+    expect(service.activeDialogs()).toHaveLength(0);
+  });
+
+  it('resolves false when the dialog is cancelled', async () => {
+    const promise = service.confirm({ title: 'T', message: 'M' });
+
+    const [dialog] = service.activeDialogs();
+    service.resolveDialog(dialog.id, { confirmed: false });
+
+    await expect(promise).resolves.toBe(false);
+  });
+
+  it('never rejects — an unexpected failure resolves to false', async () => {
+    vi.spyOn(service, 'dialog').mockRejectedValueOnce(new Error('boom'));
+
+    await expect(
+      service.confirm({ title: 'T', message: 'M' }),
+    ).resolves.toBe(false);
+  });
+
+  it('resolves i18n keys through I18nService when the app provides it', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        provideAlerts(),
+        {
+          provide: I18nService,
+          useValue: {
+            translate: (key: string, params?: Record<string, unknown>) =>
+              `${key}:${JSON.stringify(params ?? {})}`,
+          },
+        },
+      ],
+    });
+    const localService = TestBed.inject(AlertService);
+
+    void localService.confirm({
+      title: 'CONFIRM.TITLE',
+      message: 'CONFIRM.MESSAGE',
+      confirm: { label: 'CONFIRM.OK' },
+      params: { name: 'invoice' },
+    });
+
+    const [dialog] = localService.activeDialogs();
+    expect(dialog.options.title).toBe('CONFIRM.TITLE:{"name":"invoice"}');
+    expect(dialog.options.message).toBe('CONFIRM.MESSAGE:{"name":"invoice"}');
+    expect(dialog.options.confirmLabel).toBe('CONFIRM.OK:{"name":"invoice"}');
+  });
+
+  it('passes strings through unchanged when no I18nService is provided', () => {
+    void service.confirm({
+      title: 'Literal title',
+      message: 'Literal message',
+      params: { unused: true },
+    });
+
+    const [dialog] = service.activeDialogs();
+    expect(dialog.options.title).toBe('Literal title');
+    expect(dialog.options.message).toBe('Literal message');
   });
 });

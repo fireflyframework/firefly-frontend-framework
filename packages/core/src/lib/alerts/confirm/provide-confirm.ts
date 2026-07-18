@@ -7,23 +7,30 @@ import {
   type Type,
 } from '@angular/core';
 
-import { AlertConfirmService } from './alert-confirm.service';
 import { setConfirmInjector } from './confirm.decorator';
 import { ConfirmService } from './confirm.service';
 
 /**
- * Configure the confirm-guard module.
+ * Bind a product's own dialog-backed implementation to the legacy
+ * {@link ConfirmService} port. `@Confirm` and `[ffConfirm]` prefer it over
+ * their default `AlertService.confirm(options)` path, so an existing custom
+ * dialog integration keeps working unchanged.
  *
- * Binds the product's dialog-backed implementation to the abstract
- * {@link ConfirmService} token that `[ffConfirm]` injects, and captures the root
- * injector so the `@Confirm` decorator can reach the service from outside an
- * injection context.
+ * Also captures the root injector so the `@Confirm` decorator can reach the
+ * service from outside an injection context.
  *
  * ```ts
  * export const appConfig: ApplicationConfig = {
  *   providers: [provideConfirm(HubModalConfirmService)],
  * };
  * ```
+ *
+ * @deprecated The confirm lives in `AlertService` — this port is removed in
+ * the next minor. The presentation swap point is the dialog container, not the
+ * service: products with their own implementation migrate to rendering
+ * `AlertService.activeDialogs()` with their own container and resolving via
+ * `resolveDialog()`. With `provideAlerts()` alone, `@Confirm` / `[ffConfirm]`
+ * already work through `AlertService.confirm(options)`.
  *
  * @param implementation The product's concrete `ConfirmService`.
  */
@@ -34,25 +41,4 @@ export function provideConfirm(implementation: Type<ConfirmService>): Environmen
       setConfirmInjector(inject(EnvironmentInjector));
     }),
   ]);
-}
-
-/**
- * Configure the confirm-guard module with the framework's default
- * {@link AlertConfirmService}: confirmations render as Promise-based dialogs
- * of core's headless `AlertService` — no product-specific `ConfirmService`
- * needed. Sugar for `provideConfirm(AlertConfirmService)`; products with
- * their own dialog mechanism keep using {@link provideConfirm}.
- *
- * Requires `provideAlerts()` in the application providers, plus a dialog
- * presenter in the UI layer (e.g. the design system's `ff-dialog-container`)
- * bound to `alerts.activeDialogs()` / `alerts.resolveDialog()`.
- *
- * ```ts
- * export const appConfig: ApplicationConfig = {
- *   providers: [provideAlerts(), provideAlertConfirm()],
- * };
- * ```
- */
-export function provideAlertConfirm(): EnvironmentProviders {
-  return provideConfirm(AlertConfirmService);
 }

@@ -1,10 +1,11 @@
 import type { ConfirmOptions } from './confirm.types';
 
 /**
- * The contract `@Confirm` and `[ffConfirm]` consume, and the DI token products
- * bind their own dialog to. It is abstract on purpose: **the dialog is a product
- * concern** — it owns the modal mechanism, the button variants and the icon
- * registry, none of which belong in the framework.
+ * Legacy confirm port. `@Confirm` and `[ffConfirm]` now go through
+ * `AlertService.confirm(options)` by default; when a product binds its own
+ * implementation to this token (via {@link provideConfirm}), that
+ * implementation is still preferred — the existing custom-dialog scenario
+ * keeps working unchanged.
  *
  * An implementation must:
  *
@@ -14,11 +15,11 @@ import type { ConfirmOptions } from './confirm.types';
  *  3. resolve `true` when the user confirms and `false` on cancel or dismiss —
  *     **never reject**, so a guarded call can `await` it without a try/catch.
  *
- * Bind it with {@link provideConfirm}:
- *
- * ```ts
- * providers: [provideConfirm(HubModalConfirmService)]
- * ```
+ * @deprecated The confirm lives in `AlertService` — this port is removed in
+ * the next minor. The presentation swap point is the dialog container, not the
+ * service: products with their own implementation migrate to rendering
+ * `AlertService.activeDialogs()` with their own container and resolving via
+ * `resolveDialog()`.
  */
 export abstract class ConfirmService {
   /** Resolves `true` if the user confirms, `false` on cancel / dismiss. */

@@ -1,4 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { I18nService } from '../i18n';
+import { ALERT_CONFIG } from './alert-config.token';
 import {
   AlertFormat,
   AlertType,
@@ -12,7 +14,9 @@ import {
   Toast,
   ToastOptions,
 } from './alert.types';
-import { ALERT_CONFIG } from './provide-alerts';
+// Type-only on purpose: confirm/confirm.types.ts is a leaf module (no imports),
+// so alerts ← confirm/* stays acyclic even though confirm/* uses AlertService.
+import type { ConfirmOptions } from './confirm/confirm.types';
 
 const DEFAULT_TOAST_DURATION = 3000;
 const ERROR_TOAST_DURATION = 5000;
@@ -76,6 +80,8 @@ export class AlertService {
   readonly activeDialogs = this._dialogs.asReadonly();
 
   private readonly config = inject(ALERT_CONFIG, { optional: true });
+  /** Optional i18n — resolves confirm(options) keys when the app calls `provideI18n()`. */
+  private readonly i18n = inject(I18nService, { optional: true });
   private readonly timers = new Map<string, ReturnType<typeof setTimeout>>();
   /** Arming metadata per toast timer, used to compute remaining time on pause. */
   private readonly timerMeta = new Map<
@@ -361,17 +367,106 @@ export class AlertService {
    * @param options - Optional overrides for dialog configuration (type, labels)
    * @returns Promise that resolves to `true` if confirmed, `false` if cancelled
    */
+  confirm(message: string, options?: Partial<DialogOptions>): Promise<boolean>;
+  /**
+   * Show a rich, semantic confirmation dialog — the confirm contract that backs
+   * `@Confirm` and `[ffConfirm]`.
+   *
+   * Mapping from {@link ConfirmOptions} to {@link DialogOptions}:
+   * - `title` / `message` / button `label`s / `requireTypedWord` are resolved
+   *   through core's {@link I18nService} (with `params` interpolation) when the
+   *   application provides it (`provideI18n()`); otherwise the strings pass
+   *   through unchanged, so literal (non-key) copy keeps working.
+   * - `requireTypedWord` maps to `destructiveConfirmText` and forces the
+   *   `'destructive'` dialog type; otherwise the confirm button `variant`
+   *   drives the type (`'danger'`/`'destructive'` → `'destructive'`,
+   *   `'warning'` → `'warning'`, anything else → `'info'`).
+   * - A missing cancel button still yields a `cancelLabel` (`'Cancel'`): a
+   *   confirmation guard must always be cancellable.
+   *
+   * The returned Promise NEVER rejects — any unexpected failure resolves to
+   * `false` (the safe answer for a guard), so a guarded call can `await` it
+   * without a try/catch. Rendering stays in the UI layer: mount a dialog
+   * presenter (e.g. the design system's `ff-dialog-container`) bound to
+   * `activeDialogs()` / `resolveDialog()`.
+   *
+   * @param options - Semantic confirm options (title, message, buttons, typed-word gate)
+   * @returns Promise that resolves to `true` if confirmed, `false` on cancel / dismiss
+   */
+  confirm(options: ConfirmOptions): Promise<boolean>;
   confirm(
-    message: string,
+    messageOrOptions: string | ConfirmOptions,
     options?: Partial<DialogOptions>,
   ): Promise<boolean> {
-    return this.dialog({
-      type: 'info',
-      message,
-      confirmLabel: 'Confirm',
-      cancelLabel: 'Cancel',
-      ...options,
-    }).then((result) => result.confirmed);
+    if (typeof messageOrOptions === 'string') {
+      return this.dialog({
+        type: 'info',
+        message: messageOrOptions,
+        confirmLabel: 'Confirm',
+        cancelLabel: 'Cancel',
+        ...options,
+      }).then((result) => result.confirmed);
+    }
+    return this.confirmWithOptions(messageOrOptions);
+  }
+
+  /** Rich confirm path. Resolves the user's answer; never rejects. */
+  private async confirmWithOptions(options: ConfirmOptions): Promise<boolean> {
+    try {
+      const result = await this.dialog(this.toDialogOptions(options));
+      return result.confirmed;
+    } catch {
+      // Contract: never reject — an unexpected failure denies the action.
+      return false;
+    }
+  }
+
+  /** Maps semantic confirm options onto a dialog. */
+  private toDialogOptions(options: ConfirmOptions): DialogOptions {
+    return {
+      type: this.toDialogType(options),
+      title: this.translate(options.title, options.params),
+      message: this.translate(options.message, options.params),
+      confirmLabel: this.translate(options.confirm?.label, options.params),
+      cancelLabel:
+        this.translate(options.cancel?.label, options.params) ?? 'Cancel',
+      destructiveConfirmText: this.translate(
+        options.requireTypedWord,
+        options.params,
+      ),
+      icon: options.icon,
+    };
+  }
+
+  /** Derives the semantic dialog type from the typed-word gate / button variant. */
+  private toDialogType(options: ConfirmOptions): AlertType {
+    if (options.requireTypedWord !== undefined) {
+      return 'destructive';
+    }
+    switch (options.confirm?.variant) {
+      case 'danger':
+      case 'destructive':
+        return 'destructive';
+      case 'warning':
+        return 'warning';
+      default:
+        return 'info';
+    }
+  }
+
+  /**
+   * Resolves an i18n key through {@link I18nService} when available;
+   * otherwise (or for non-key literals, which translation leaves untouched)
+   * returns the text as-is.
+   */
+  private translate(
+    text: string | undefined,
+    params?: Record<string, unknown>,
+  ): string | undefined {
+    if (text === undefined) {
+      return undefined;
+    }
+    return this.i18n?.translate(text, params) ?? text;
   }
 
   // ---------------------------------------------------------------

@@ -132,8 +132,8 @@ export class DialogHostedDemo {
       </app-demo-section>
 
       <app-demo-section
-        heading="Confirm guard (ffConfirm + AlertConfirmService)"
-        description="provideAlertConfirm() backs the confirm guard with AlertService dialogs: the guarded action runs only after the user confirms."
+        heading="Confirm guard (ffConfirm + AlertService)"
+        description="provideAlerts() backs the confirm guard with AlertService.confirm(options) dialogs: the guarded action runs only after the user confirms."
         [code]="snippets.guard"
       >
         <ff-button
@@ -211,7 +211,7 @@ export class DialogPage {
   componentData: { name: 'Firefly' },
 });`,
     guard: `// app.config.ts
-providers: [provideAlerts(), provideAlertConfirm()]
+providers: [provideAlerts()]
 
 <button
   [ffConfirm]="{ title: 'Archive report?', message: '…', confirm: { label: 'Archive' } }"
