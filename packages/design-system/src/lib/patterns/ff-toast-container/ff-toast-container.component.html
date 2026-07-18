@@ -3,23 +3,23 @@
     [class]="'ff-toast-container__region ff-toast-container__region--' + position"
     aria-live="polite"
   >
-    @for (toast of grouped()[position]; track toast.id) {
+    @for (toast of grouped()[position]; track toast.item.id) {
       <div
         class="ff-toast-container__item"
         [attr.role]="toast.variant === 'error' ? 'alert' : null"
-        (mouseenter)="host.pause(toast.id)"
-        (mouseleave)="host.resume(toast.id)"
+        (mouseenter)="hoverStarted.emit(toast.item.id)"
+        (mouseleave)="hoverEnded.emit(toast.item.id)"
       >
         <ff-toast
-          [message]="toast.message"
+          [message]="toast.item.message"
           [type]="toast.variant"
           [dismissible]="toast.dismissible"
-          (dismissed)="host.dismiss(toast.id)"
+          (dismissed)="dismissed.emit(toast.item.id)"
         />
-        @if (toast.progressBar && toast.timeout > 0) {
+        @if (toast.progressBar && toast.duration > 0) {
           <div
             class="ff-toast-container__progress"
-            [style.animation-duration.ms]="toast.timeout"
+            [style.animation-duration.ms]="toast.duration"
           ></div>
         }
       </div>
