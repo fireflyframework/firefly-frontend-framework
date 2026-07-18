@@ -1,1 +1,212 @@
-/* You can add global styles to this file, and also import other style files */
+// ============================================================
+// Firefly Playground — Global styles
+// Loads the design-system tokens and the shared catalog layout.
+// ============================================================
+@use '../../../packages/design-system/src/lib/tokens/index' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--ff-color-background);
+  color: var(--ff-text-primary);
+  font-family: var(--ff-font-family);
+  font-size: var(--ff-font-size-md);
+  line-height: var(--ff-line-height-normal);
+}
+
+// ---- Shared page scaffold ----------------------------------
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ff-spacing-lg);
+  max-width: 960px;
+}
+
+.page__title {
+  margin: 0;
+  font-size: var(--ff-font-size-xl);
+  font-weight: var(--ff-font-weight-bold);
+}
+
+.page__lead {
+  margin: 0;
+  color: var(--ff-text-secondary);
+  font-size: var(--ff-font-size-sm);
+}
+
+// ---- Demo section (app-demo-section) -----------------------
+.demo-section {
+  background: var(--ff-color-surface);
+  border: 1px solid var(--ff-color-border);
+  border-radius: var(--ff-radius-lg);
+  padding: var(--ff-spacing-lg);
+}
+
+.demo-section__title {
+  margin: 0 0 var(--ff-spacing-xs);
+  font-size: var(--ff-font-size-lg);
+  font-weight: var(--ff-font-weight-semibold);
+}
+
+.demo-section__description {
+  margin: 0;
+  color: var(--ff-text-secondary);
+  font-size: var(--ff-font-size-sm);
+}
+
+.demo-section__stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ff-spacing-md);
+  padding: var(--ff-spacing-md) 0;
+}
+
+.demo-section__code {
+  margin: var(--ff-spacing-sm) 0 0;
+  padding: var(--ff-spacing-md);
+  background: var(--ff-bg-tertiary);
+  border-radius: var(--ff-radius-md);
+  overflow-x: auto;
+  font-family: var(--ff-font-family-mono);
+  font-size: var(--ff-font-size-xs);
+  color: var(--ff-text-secondary);
+}
+
+.demo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ff-spacing-md);
+  width: 100%;
+  max-width: 420px;
+}
+
+.demo-label {
+  font-size: var(--ff-font-size-xs);
+  color: var(--ff-text-muted);
+}
+
+// ---- Catalog index grid ------------------------------------
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--ff-spacing-md);
+}
+
+.catalog-grid__body {
+  margin: 0;
+  color: var(--ff-text-secondary);
+  font-size: var(--ff-font-size-sm);
+}
+
+// ---- Foundations -------------------------------------------
+.swatch-scale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ff-spacing-xs);
+  margin-bottom: var(--ff-spacing-md);
+}
+
+.swatch {
+  width: 88px;
+  border-radius: var(--ff-radius-md);
+  border: 1px solid var(--ff-color-border);
+  overflow: hidden;
+}
+
+.swatch__color {
+  height: 48px;
+}
+
+.swatch__meta {
+  padding: var(--ff-spacing-xs);
+  background: var(--ff-color-surface);
+  font-family: var(--ff-font-family-mono);
+  font-size: var(--ff-font-size-2xs);
+  color: var(--ff-text-secondary);
+  word-break: break-all;
+}
+
+.scale-title {
+  margin: 0 0 var(--ff-spacing-sm);
+  font-size: var(--ff-font-size-md);
+  font-weight: var(--ff-font-weight-semibold);
+  text-transform: capitalize;
+}
+
+.spacing-bar {
+  height: var(--ff-spacing-md);
+  background: var(--ff-color-primary-600);
+  border-radius: var(--ff-radius-sm);
+}
+
+.radius-box {
+  width: 96px;
+  height: 64px;
+  background: var(--ff-color-surface);
+  border: 2px solid var(--ff-color-primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-font-family-mono);
+  font-size: var(--ff-font-size-2xs);
+  color: var(--ff-text-secondary);
+}
+
+.shadow-box {
+  width: 140px;
+  height: 80px;
+  background: var(--ff-color-surface);
+  border-radius: var(--ff-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-font-family-mono);
+  font-size: var(--ff-font-size-2xs);
+  color: var(--ff-text-secondary);
+}
+
+// ---- Token inspector (theming) -----------------------------
+.token-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--ff-font-size-sm);
+}
+
+.token-table th,
+.token-table td {
+  text-align: left;
+  padding: var(--ff-spacing-sm);
+  border-bottom: 1px solid var(--ff-color-border);
+}
+
+.token-table th {
+  color: var(--ff-text-secondary);
+  font-weight: var(--ff-font-weight-semibold);
+}
+
+.token-table__name,
+.token-table__value {
+  font-family: var(--ff-font-family-mono);
+  font-size: var(--ff-font-size-xs);
+}
+
+.token-table__chip {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--ff-radius-sm);
+  border: 1px solid var(--ff-color-border);
+  vertical-align: middle;
+}
