@@ -5,7 +5,8 @@ import { Route } from '@angular/router';
  *
  * - `/foundations` — design tokens (color, spacing, radius, typography, shadows)
  * - `/theming`     — theming cascade + live token inspector
- * - `/catalog`     — one page per primitive (23)
+ * - `/catalog`     — one page per primitive (23) + ff-menu-button (pattern, kept here
+ *                    alongside its trigger primitive rather than under `/patterns`)
  * - `/patterns`    — composed patterns (ff-tab-bar) + backlog
  */
 export const appRoutes: Route[] = [
@@ -29,6 +30,11 @@ export const appRoutes: Route[] = [
     path: 'catalog/button',
     title: 'Button · Firefly DS',
     loadComponent: () => import('./pages/catalog/button-page').then((m) => m.ButtonPage),
+  },
+  {
+    path: 'catalog/menu-button',
+    title: 'Menu Button · Firefly DS',
+    loadComponent: () => import('./pages/catalog/menu-button-page').then((m) => m.MenuButtonPage),
   },
   {
     path: 'catalog/icon-button',
