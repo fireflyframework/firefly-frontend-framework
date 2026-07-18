@@ -11,7 +11,16 @@
   },
   "peerDependencies": {
     "@angular/common": "^21.2.0",
-    "@angular/core": "^21.2.0"
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0"
+  },
+  "exports": {
+    "./tokens": {
+      "sass": "./tokens/index.scss"
+    },
+    "./tokens/*": {
+      "sass": "./tokens/*"
+    }
   },
   "sideEffects": false
 }
