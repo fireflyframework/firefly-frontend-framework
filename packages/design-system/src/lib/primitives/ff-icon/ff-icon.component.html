@@ -1,0 +1,12 @@
+<svg
+  class="ff-icon__svg"
+  viewBox="0 0 24 24"
+  fill="currentColor"
+  [attr.role]="label() ? 'img' : null"
+  [attr.aria-label]="label() ?? null"
+  [attr.aria-hidden]="label() ? null : 'true'"
+>
+  @if (path(); as d) {
+    <path [attr.d]="d" />
+  }
+</svg>

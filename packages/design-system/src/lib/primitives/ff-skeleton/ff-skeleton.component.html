@@ -1,0 +1,15 @@
+@if (variant() === 'text') {
+  @for (line of lineItems(); track line) {
+    <span
+      class="ff-skeleton__line"
+      [style.width]="$last && !$first ? '60%' : resolvedWidth()"
+      [style.height]="resolvedHeight()"
+    ></span>
+  }
+} @else {
+  <span
+    class="ff-skeleton__line"
+    [style.width]="resolvedWidth()"
+    [style.height]="resolvedHeight()"
+  ></span>
+}

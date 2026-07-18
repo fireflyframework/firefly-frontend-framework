@@ -1,0 +1,53 @@
+.ff-empty-state {
+  // Component tokens (overridable by consumers)
+  --ff-empty-state-gap: var(--ff-spacing-sm);
+  --ff-empty-state-padding: var(--ff-spacing-xl);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ff-empty-state-gap);
+  padding: var(--ff-empty-state-padding);
+  text-align: center;
+  font-family: var(--ff-font-family);
+
+  // Icon/actions wrappers collapse when nothing is projected (comment-only
+  // anchors are ignored by :empty — see ff-panel for the full explanation).
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ff-text-muted);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--ff-font-size-lg);
+    font-weight: var(--ff-font-weight-semibold);
+    color: var(--ff-text-primary);
+  }
+
+  &__description {
+    margin: 0;
+    max-width: 40em;
+    font-size: var(--ff-font-size-sm);
+    line-height: var(--ff-line-height-normal);
+    color: var(--ff-text-secondary);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--ff-spacing-sm);
+    margin-top: var(--ff-spacing-sm);
+
+    &:empty {
+      display: none;
+    }
+  }
+}

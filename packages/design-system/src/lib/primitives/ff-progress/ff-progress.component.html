@@ -1,0 +1,13 @@
+<div
+  class="ff-progress__track"
+  role="progressbar"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  [attr.aria-valuenow]="clampedValue()"
+  [attr.aria-label]="label() ?? null"
+>
+  <div class="ff-progress__fill" [style.width.%]="clampedValue()"></div>
+</div>
+@if (showValue()) {
+  <span class="ff-progress__value">{{ displayValue() }}%</span>
+}

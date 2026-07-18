@@ -1,0 +1,18 @@
+<!--
+  Header/footer wrappers collapse via CSS :empty when unused:
+  Angular removes whitespace-only text nodes (preserveWhitespaces: false)
+  and @if / ng-content leave only comment anchors, which :empty ignores.
+-->
+<div class="ff-panel__header">
+  @if (heading()) {
+    <span class="ff-panel__heading">{{ heading() }}</span>
+  }
+  <ng-content select="[ff-panel-heading]" />
+  <ng-content select="[ff-panel-actions]" />
+</div>
+<div class="ff-panel__body">
+  <ng-content />
+</div>
+<div class="ff-panel__footer">
+  <ng-content select="[ff-panel-footer]" />
+</div>

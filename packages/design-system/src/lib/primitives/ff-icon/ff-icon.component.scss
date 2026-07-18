@@ -1,0 +1,27 @@
+.ff-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ff-icon-size, 20px);
+  height: var(--ff-icon-size, 20px);
+  color: var(--ff-icon-color, currentColor);
+
+  &__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  // Sizes
+  &--sm {
+    --ff-icon-size: 16px;
+  }
+
+  &--md {
+    --ff-icon-size: 20px;
+  }
+
+  &--lg {
+    --ff-icon-size: 24px;
+  }
+}

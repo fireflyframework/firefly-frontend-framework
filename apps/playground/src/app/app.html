@@ -1,2 +1,58 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<div class="shell">
+  <header class="shell__header">
+    <h1 class="shell__title">Firefly Design System</h1>
+    <ff-button variant="outline" size="sm" (clicked)="theme.toggle()">
+      {{ theme.dark() ? 'Light mode' : 'Dark mode' }}
+    </ff-button>
+  </header>
+
+  <div class="shell__body">
+    <nav class="shell__nav">
+      <span class="shell__nav-group">Foundations</span>
+      <a class="shell__nav-link" routerLink="/foundations" routerLinkActive="shell__nav-link--active">Foundations</a>
+      <a class="shell__nav-link" routerLink="/theming" routerLinkActive="shell__nav-link--active">Theming</a>
+
+      <ff-divider />
+
+      <span class="shell__nav-group">Primitives</span>
+      <a
+        class="shell__nav-link"
+        routerLink="/catalog"
+        routerLinkActive="shell__nav-link--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Overview</a
+      >
+      @for (c of components; track c.slug) {
+        <a
+          class="shell__nav-link"
+          [routerLink]="['/catalog', c.slug]"
+          routerLinkActive="shell__nav-link--active"
+          >{{ c.label }}</a
+        >
+      }
+
+      <ff-divider />
+
+      <span class="shell__nav-group">Patterns</span>
+      <a
+        class="shell__nav-link"
+        routerLink="/patterns"
+        routerLinkActive="shell__nav-link--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Overview</a
+      >
+      @for (p of patterns; track p.slug) {
+        <a
+          class="shell__nav-link"
+          [routerLink]="['/patterns', p.slug]"
+          routerLinkActive="shell__nav-link--active"
+          >{{ p.label }}</a
+        >
+      }
+    </nav>
+
+    <main class="shell__main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

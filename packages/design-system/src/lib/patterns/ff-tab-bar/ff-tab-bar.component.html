@@ -1,0 +1,23 @@
+<div class="ff-tab-bar__list" role="tablist">
+  @for (tab of tabs(); track tab.id) {
+    <button
+      type="button"
+      class="ff-tab-bar__tab"
+      role="tab"
+      [class.ff-tab-bar__tab--active]="tab.id === activeId()"
+      [attr.aria-selected]="tab.id === activeId()"
+      [attr.tabindex]="tab.id === activeId() ? 0 : -1"
+      [disabled]="tab.disabled || null"
+      (click)="select(tab)"
+      (keydown)="onKeydown($event)"
+    >
+      @if (tab.icon) {
+        <ff-icon [name]="tab.icon" size="sm" />
+      }
+      <span class="ff-tab-bar__label">{{ tab.label }}</span>
+      @if (tab.badge !== undefined) {
+        <ff-badge size="sm">{{ tab.badge }}</ff-badge>
+      }
+    </button>
+  }
+</div>
