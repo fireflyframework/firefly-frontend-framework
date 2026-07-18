@@ -49,9 +49,10 @@ describe('FfMenuButtonComponent', () => {
     return Array.from(document.querySelectorAll('[role="menuitem"]'));
   }
 
-  /** Structural view of the component's protected `activeIndex` signal, for assertions only. */
+  /** Structural view of the component's protected signals, for assertions only. */
   interface TestableMenuButton {
     activeIndex: { (): number; set(value: number): void };
+    open: { (): boolean };
   }
 
   function internals(): TestableMenuButton {
@@ -78,7 +79,7 @@ describe('FfMenuButtonComponent', () => {
     trigger().click();
     fixture.detectChanges();
 
-    expect(component.open()).toBe(true);
+    expect(internals().open()).toBe(true);
     expect(trigger().getAttribute('aria-expanded')).toBe('true');
     expect(menuItems().length).toBe(ITEMS.length);
   });
@@ -100,7 +101,7 @@ describe('FfMenuButtonComponent', () => {
     trigger().click();
     fixture.detectChanges();
 
-    expect(component.open()).toBe(false);
+    expect(internals().open()).toBe(false);
     expect(menuItems().length).toBe(0);
   });
 
@@ -115,7 +116,7 @@ describe('FfMenuButtonComponent', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledWith(ITEMS[0]);
-    expect(component.open()).toBe(false);
+    expect(internals().open()).toBe(false);
   });
 
   it('does not activate a disabled entry', () => {
@@ -129,7 +130,7 @@ describe('FfMenuButtonComponent', () => {
     fixture.detectChanges();
 
     expect(spy).not.toHaveBeenCalled();
-    expect(component.open()).toBe(true);
+    expect(internals().open()).toBe(true);
   });
 
   it('does not open when disabled', () => {
@@ -137,7 +138,7 @@ describe('FfMenuButtonComponent', () => {
     trigger().click();
     fixture.detectChanges();
 
-    expect(component.open()).toBe(false);
+    expect(internals().open()).toBe(false);
     expect(menuItems().length).toBe(0);
   });
 
@@ -146,7 +147,7 @@ describe('FfMenuButtonComponent', () => {
     trigger().dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     fixture.detectChanges();
 
-    expect(component.open()).toBe(true);
+    expect(internals().open()).toBe(true);
     expect(component.items()[internals().activeIndex()]).toEqual(ITEMS[0]);
   });
 
@@ -155,7 +156,7 @@ describe('FfMenuButtonComponent', () => {
     trigger().dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }));
     fixture.detectChanges();
 
-    expect(component.open()).toBe(true);
+    expect(internals().open()).toBe(true);
     expect(component.items()[internals().activeIndex()]).toEqual(ITEMS[2]);
   });
 
@@ -196,7 +197,7 @@ describe('FfMenuButtonComponent', () => {
     panel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     fixture.detectChanges();
 
-    expect(component.open()).toBe(false);
+    expect(internals().open()).toBe(false);
     expect(document.activeElement).toBe(trigger());
   });
 
@@ -224,6 +225,6 @@ describe('FfMenuButtonComponent', () => {
     document.body.click();
     fixture.detectChanges();
 
-    expect(component.open()).toBe(false);
+    expect(internals().open()).toBe(false);
   });
 });

@@ -88,7 +88,7 @@ export class ButtonPage {
 
   protected readonly snippets = {
     axes: `<ff-button variant="solid" color="primary" (clicked)="save()">Save</ff-button>
-<ff-button variant="outline" color="danger">Delete</ff-button>
+<ff-button variant="outline" color="error">Delete</ff-button>
 <ff-button variant="ghost" color="neutral">Cancel</ff-button>`,
     legacy: `<!-- soft-deprecated, still supported: maps to solid + matching color -->
 <ff-button variant="primary">Save</ff-button>

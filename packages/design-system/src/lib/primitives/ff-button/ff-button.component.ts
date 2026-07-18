@@ -56,7 +56,7 @@ export type FfButtonSize = 'sm' | 'md' | 'lg';
  *   Save
  * </ff-button>
  *
- * <ff-button variant="outline" color="danger" [loading]="isDeleting">
+ * <ff-button variant="outline" color="error" [loading]="isDeleting">
  *   Delete
  * </ff-button>
  *

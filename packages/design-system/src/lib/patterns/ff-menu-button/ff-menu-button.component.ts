@@ -145,8 +145,9 @@ export class FfMenuButtonComponent implements OnDestroy {
     // The trigger's `aria-haspopup`/`aria-expanded` must live on `ff-button`'s
     // own native `<button>` (the element that actually receives focus) —
     // setting them on the `<ff-menu-button>` host would not reach the
-    // ARIA computation for the focused descendant. Owned imperatively, the
-    // same pattern `ff-badge` uses for its host `title` attribute.
+    // ARIA computation for the focused descendant. `.ff-button__native` is
+    // not part of ff-button's public contract, so this coupling breaks
+    // silently if that primitive restructures its template.
     effect(() => {
       const trigger = this.host.nativeElement.querySelector<HTMLButtonElement>(
         '.ff-button__native'
