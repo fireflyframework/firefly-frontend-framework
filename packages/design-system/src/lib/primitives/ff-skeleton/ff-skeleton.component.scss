@@ -1,0 +1,50 @@
+.ff-skeleton {
+  // Component tokens (overridable by consumers)
+  --ff-skeleton-bg: var(--ff-color-neutral-200);
+  --ff-skeleton-highlight: var(--ff-color-neutral-100);
+  --ff-skeleton-radius: var(--ff-radius-sm);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--ff-spacing-sm);
+
+  &__line {
+    display: block;
+    background-color: var(--ff-skeleton-bg);
+    border-radius: var(--ff-skeleton-radius);
+  }
+
+  &--circle .ff-skeleton__line {
+    border-radius: var(--ff-radius-full);
+  }
+
+  // Shimmer (CSS-only)
+  &--animated .ff-skeleton__line {
+    background-image: linear-gradient(
+      90deg,
+      var(--ff-skeleton-bg) 25%,
+      var(--ff-skeleton-highlight) 50%,
+      var(--ff-skeleton-bg) 75%
+    );
+    background-size: 200% 100%;
+    animation: ff-skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+
+  // Respect user motion preferences: fall back to a static placeholder.
+  @media (prefers-reduced-motion: reduce) {
+    &--animated .ff-skeleton__line {
+      animation: none;
+      background-image: none;
+    }
+  }
+}
+
+@keyframes ff-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

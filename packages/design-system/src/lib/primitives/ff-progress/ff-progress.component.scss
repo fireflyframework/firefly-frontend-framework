@@ -1,0 +1,58 @@
+.ff-progress {
+  // Component tokens (overridable by consumers)
+  --ff-progress-track-bg: var(--ff-color-neutral-200);
+  --ff-progress-fill-bg: var(--ff-color-primary-600);
+
+  display: flex;
+  align-items: center;
+  gap: var(--ff-spacing-sm);
+
+  &__track {
+    flex: 1 1 auto;
+    background-color: var(--ff-progress-track-bg);
+    border-radius: var(--ff-radius-full);
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    background-color: var(--ff-progress-fill-bg);
+    border-radius: var(--ff-radius-full);
+    transition: width 0.2s ease;
+  }
+
+  &__value {
+    flex: 0 0 auto;
+    font-family: var(--ff-font-family);
+    font-size: var(--ff-font-size-xs);
+    font-weight: var(--ff-font-weight-medium);
+    color: var(--ff-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Sizes (track height)
+  &--sm .ff-progress__track {
+    height: var(--ff-progress-height-sm, 4px);
+  }
+
+  &--md .ff-progress__track {
+    height: var(--ff-progress-height-md, 8px);
+  }
+
+  // Semantic variants
+  &--primary {
+    --ff-progress-fill-bg: var(--ff-color-primary-600);
+  }
+
+  &--success {
+    --ff-progress-fill-bg: var(--ff-color-success-500);
+  }
+
+  &--warning {
+    --ff-progress-fill-bg: var(--ff-color-warning-500);
+  }
+
+  &--error {
+    --ff-progress-fill-bg: var(--ff-color-error-500);
+  }
+}

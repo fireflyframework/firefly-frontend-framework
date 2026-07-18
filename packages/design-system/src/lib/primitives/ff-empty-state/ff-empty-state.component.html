@@ -1,0 +1,10 @@
+<div class="ff-empty-state__icon">
+  <ng-content select="[ff-empty-state-icon]" />
+</div>
+<h3 class="ff-empty-state__title">{{ title() }}</h3>
+@if (description()) {
+  <p class="ff-empty-state__description">{{ description() }}</p>
+}
+<div class="ff-empty-state__actions">
+  <ng-content />
+</div>
