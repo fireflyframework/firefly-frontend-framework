@@ -138,6 +138,126 @@ describe('AlertService — toasts & banners', () => {
   });
 
   // ---------------------------------------------------------------
+  // pauseToast() / resumeToast()
+  // ---------------------------------------------------------------
+
+  describe('pauseToast() / resumeToast()', () => {
+    it('should freeze auto-dismiss while paused', () => {
+      service.toast('Pausable', 'info', { duration: 3000 });
+      const id = service.activeToasts()[0].id;
+
+      vi.advanceTimersByTime(1000);
+      service.pauseToast(id);
+
+      // Way beyond the original duration — must not close while paused
+      vi.advanceTimersByTime(60_000);
+      expect(service.activeToasts()).toHaveLength(1);
+    });
+
+    it('should close after the exact remaining time on resume', () => {
+      service.toast('Resumable', 'info', { duration: 3000 });
+      const id = service.activeToasts()[0].id;
+
+      vi.advanceTimersByTime(1000);
+      service.pauseToast(id);
+      vi.advanceTimersByTime(10_000);
+
+      service.resumeToast(id);
+
+      vi.advanceTimersByTime(1999);
+      expect(service.activeToasts()).toHaveLength(1);
+
+      vi.advanceTimersByTime(1);
+      expect(service.activeToasts()).toHaveLength(0);
+    });
+
+    it('pauseToast() should be a no-op for unknown IDs', () => {
+      service.toast('A', 'info');
+      service.pauseToast('nonexistent');
+
+      vi.advanceTimersByTime(3000);
+      expect(service.activeToasts()).toHaveLength(0);
+    });
+
+    it('resumeToast() should be a no-op for unknown IDs', () => {
+      service.toast('A', 'info');
+      service.resumeToast('nonexistent');
+
+      vi.advanceTimersByTime(3000);
+      expect(service.activeToasts()).toHaveLength(0);
+    });
+
+    it('pausing twice should keep the remaining time of the first pause', () => {
+      service.toast('Twice', 'info', { duration: 3000 });
+      const id = service.activeToasts()[0].id;
+
+      vi.advanceTimersByTime(1000);
+      service.pauseToast(id);
+
+      vi.advanceTimersByTime(500);
+      service.pauseToast(id); // no-op — already paused
+
+      service.resumeToast(id);
+
+      vi.advanceTimersByTime(1999);
+      expect(service.activeToasts()).toHaveLength(1);
+
+      vi.advanceTimersByTime(1);
+      expect(service.activeToasts()).toHaveLength(0);
+    });
+
+    it('resumeToast() without a previous pause should not alter the active timer', () => {
+      service.toast('Untouched', 'info', { duration: 3000 });
+      const id = service.activeToasts()[0].id;
+
+      service.resumeToast(id); // no-op — never paused
+
+      vi.advanceTimersByTime(2999);
+      expect(service.activeToasts()).toHaveLength(1);
+
+      vi.advanceTimersByTime(1);
+      expect(service.activeToasts()).toHaveLength(0);
+    });
+
+    it('dismiss() during pause should clean the pause state', () => {
+      service.toast('Dismissed while paused', 'info', { duration: 3000 });
+      const id = service.activeToasts()[0].id;
+
+      vi.advanceTimersByTime(1000);
+      service.pauseToast(id);
+      service.dismiss(id);
+
+      expect(service.activeToasts()).toHaveLength(0);
+
+      // Resume after dismiss must be a no-op and never re-arm anything
+      service.resumeToast(id);
+      vi.advanceTimersByTime(10_000);
+      expect(service.activeToasts()).toHaveLength(0);
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // progressBar option
+  // ---------------------------------------------------------------
+
+  describe('progressBar option', () => {
+    it('should travel in the toast entry options', () => {
+      service.toast('With progress', 'info', {
+        duration: 3000,
+        progressBar: true,
+      });
+
+      expect(service.activeToasts()[0].options.progressBar).toBe(true);
+    });
+
+    it('should be undefined when not provided', () => {
+      service.toast('No progress', 'info');
+
+      expect(service.activeToasts()[0].options.progressBar).toBeUndefined();
+    });
+  });
+
+  // ---------------------------------------------------------------
   // Banners
   // ---------------------------------------------------------------
 
