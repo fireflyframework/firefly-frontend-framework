@@ -16,8 +16,13 @@
   position: relative;
   min-width: 180px;
 
-  // Trigger button
-  &__trigger {
+  &__control {
+    position: relative;
+  }
+
+  // Trigger button / inline search input share the same chrome
+  &__trigger,
+  &__search {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -47,6 +52,14 @@
     }
   }
 
+  &__search {
+    cursor: text;
+  }
+
+  &__search::placeholder {
+    color: var(--ff-select-placeholder);
+  }
+
   // Value / placeholder
   &__value {
     flex: 1;
@@ -73,14 +86,9 @@
     transform: rotate(180deg);
   }
 
-  // Dropdown panel
+  // Dropdown panel content (portaled through the CDK overlay; positioning
+  // and width matching are the overlay's own, this only styles the surface).
   &__dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    margin-top: 4px;
     background-color: var(--ff-select-dropdown-bg);
     border: 1px solid var(--ff-select-dropdown-border);
     border-radius: var(--ff-select-radius);
@@ -89,26 +97,11 @@
     overflow-y: auto;
   }
 
-  // Search input
-  &__search {
-    display: block;
-    width: 100%;
-    padding: var(--ff-spacing-sm) var(--ff-spacing-md);
-    border: none;
-    border-bottom: 1px solid var(--ff-select-dropdown-border);
-    font-family: var(--ff-font-family);
-    font-size: var(--ff-font-size-md);
-    color: var(--ff-select-color);
-    outline: none;
-    box-sizing: border-box;
-
-    &::placeholder {
-      color: var(--ff-select-placeholder);
-    }
-  }
-
   // Option item
   &__option {
+    display: flex;
+    align-items: center;
+    gap: var(--ff-spacing-sm);
     padding: var(--ff-spacing-sm) var(--ff-spacing-md);
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
@@ -135,6 +128,10 @@
     }
   }
 
+  &__checkbox {
+    flex-shrink: 0;
+  }
+
   // Empty state
   &__empty {
     padding: var(--ff-spacing-md);
@@ -143,4 +140,56 @@
     color: var(--ff-color-neutral-400);
     text-align: center;
   }
+}
+
+// The options panel is portaled outside `.ff-select` into the CDK overlay
+// container, so its width/position come from the `matchWidth` connected
+// position strategy rather than local absolute positioning.
+.ff-select__overlay-pane {
+  .ff-select__dropdown {
+    width: 100%;
+  }
+}
+
+// Structural CSS the CDK overlay needs to portal and position panels
+// correctly. Normally shipped as `@angular/cdk/overlay-prebuilt.css` and
+// imported once by the consuming app; bundled here instead (this
+// stylesheet already ships globally via `ViewEncapsulation.None`) so any
+// product consuming `ff-select` gets a working portaled panel without
+// having to remember a separate CDK stylesheet import.
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 1000;
+}
+
+.cdk-overlay-container:empty {
+  display: none;
+}
+
+.cdk-overlay-pane {
+  position: absolute;
+  pointer-events: auto;
+  box-sizing: border-box;
+  display: flex;
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 1000;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: 1px;
+  min-height: 1px;
+  z-index: 1000;
 }

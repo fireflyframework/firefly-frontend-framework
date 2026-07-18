@@ -22,8 +22,16 @@ export type {
 } from './lib/primitives/ff-radio';
 export { FfCardComponent } from './lib/primitives/ff-card';
 export type { FfCardShadow } from './lib/primitives/ff-card';
-export { FfSelectComponent } from './lib/primitives/ff-select';
-export type { FfSelectOption } from './lib/primitives/ff-select';
+export {
+  FfSelectComponent,
+  FfSelectOptionTemplateDirective,
+  FfSelectLabelTemplateDirective,
+} from './lib/primitives/ff-select';
+export type {
+  FfSelectOption,
+  FfSelectOptionLike,
+  FfSelectTemplateContext,
+} from './lib/primitives/ff-select';
 export { FfDialogComponent } from './lib/primitives/ff-dialog';
 export type { FfDialogVariant } from './lib/primitives/ff-dialog';
 export { FfToastComponent } from './lib/primitives/ff-toast';

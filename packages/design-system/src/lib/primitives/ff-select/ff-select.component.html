@@ -1,49 +1,105 @@
-<button
-  class="ff-select__trigger"
-  type="button"
-  [disabled]="effectiveDisabled()"
-  [attr.aria-expanded]="open()"
-  aria-haspopup="listbox"
-  (click)="toggle()"
-  (keydown)="onKeydown($event)"
->
-  <span class="ff-select__value" [class.ff-select__value--placeholder]="!displayLabel()">
-    {{ displayLabel() || placeholder() }}
-  </span>
-  <span class="ff-select__arrow" aria-hidden="true">&#9662;</span>
-</button>
-
-@if (open()) {
-  <div class="ff-select__dropdown" role="listbox" tabindex="-1" (keydown)="onKeydown($event)">
-    @if (searchable()) {
-      <input
-        #searchInput
-        class="ff-select__search"
-        type="text"
-        placeholder="Search..."
-        [value]="search()"
-        (input)="onSearchInput($event)"
-        (keydown)="onKeydown($event)"
-      />
+<div class="ff-select__control" cdkOverlayOrigin #origin="cdkOverlayOrigin">
+  <button
+    #triggerButton
+    type="button"
+    class="ff-select__trigger"
+    [hidden]="searchable() && open()"
+    [disabled]="effectiveDisabled()"
+    aria-haspopup="listbox"
+    [attr.aria-expanded]="open()"
+    [attr.aria-owns]="panelId"
+    [attr.aria-controls]="panelId"
+    [attr.aria-activedescendant]="activeOptionId()"
+    (click)="toggle()"
+    (keydown)="onKeydown($event)"
+  >
+    @if (!multiple() && labelTemplate(); as tpl) {
+      @if (selectedOption(); as opt) {
+        <span class="ff-select__value">
+          <ng-container [ngTemplateOutlet]="tpl.templateRef" [ngTemplateOutletContext]="{ $implicit: opt }" />
+        </span>
+      } @else {
+        <span class="ff-select__value ff-select__value--placeholder">{{ placeholder() }}</span>
+      }
+    } @else {
+      <span class="ff-select__value" [class.ff-select__value--placeholder]="!displayLabel()">
+        {{ displayLabel() || placeholder() }}
+      </span>
     }
-    @for (option of filteredOptions(); track option.value; let i = $index) {
+    <span class="ff-select__arrow" aria-hidden="true">&#9662;</span>
+  </button>
+
+  @if (searchable()) {
+    <input
+      #searchInput
+      type="text"
+      class="ff-select__search"
+      role="combobox"
+      [hidden]="!open()"
+      [disabled]="effectiveDisabled()"
+      aria-haspopup="listbox"
+      [attr.aria-expanded]="open()"
+      [attr.aria-owns]="panelId"
+      [attr.aria-controls]="panelId"
+      [attr.aria-activedescendant]="activeOptionId()"
+      placeholder="Search..."
+      [value]="search()"
+      (input)="onSearchInput($event)"
+      (keydown)="onKeydown($event)"
+    />
+  }
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayPositions]="positions"
+  [cdkConnectedOverlayScrollStrategy]="scrollStrategy"
+  [cdkConnectedOverlayMatchWidth]="true"
+  cdkConnectedOverlayPanelClass="ff-select__overlay-pane"
+  (overlayOutsideClick)="onOverlayOutsideClick()"
+>
+  <div
+    [id]="panelId"
+    class="ff-select__dropdown"
+    role="listbox"
+    tabindex="-1"
+    [attr.aria-multiselectable]="multiple() || null"
+  >
+    @for (option of filteredOptions(); track optionValue(option); let i = $index) {
       <div
+        [id]="optionDomId(i)"
         class="ff-select__option"
         role="option"
-        tabindex="0"
+        tabindex="-1"
         [class.ff-select__option--active]="i === activeIndex()"
-        [class.ff-select__option--selected]="option.value === effectiveValue()"
+        [class.ff-select__option--selected]="isOptionSelected(option)"
         [class.ff-select__option--disabled]="isOptionDisabled(option)"
-        [attr.aria-selected]="option.value === effectiveValue()"
+        [attr.aria-selected]="isOptionSelected(option)"
         [attr.aria-disabled]="isOptionDisabled(option)"
+        (mousedown)="onOptionMouseDown($event)"
         (click)="selectOption(option)"
         (keydown.enter)="selectOption(option)"
       >
-        {{ option.label }}
+        @if (multiple()) {
+          <input
+            type="checkbox"
+            class="ff-select__checkbox"
+            tabindex="-1"
+            [checked]="isOptionSelected(option)"
+            [disabled]="isOptionDisabled(option)"
+          />
+        }
+        @if (optionTemplate(); as tpl) {
+          <ng-container [ngTemplateOutlet]="tpl.templateRef" [ngTemplateOutletContext]="{ $implicit: option }" />
+        } @else {
+          {{ optionLabel(option) }}
+        }
       </div>
     }
     @if (filteredOptions().length === 0) {
       <div class="ff-select__empty">No results</div>
     }
   </div>
-}
+</ng-template>
