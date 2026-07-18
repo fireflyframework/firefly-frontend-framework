@@ -1,0 +1,114 @@
+.ff-toast-container {
+  display: contents;
+
+  &__region {
+    position: fixed;
+    z-index: var(--ff-toast-z, 1000);
+    display: flex;
+    flex-direction: column;
+    gap: var(--ff-spacing-sm, 8px);
+    padding: var(--ff-spacing-md, 16px);
+    max-width: 100vw;
+    box-sizing: border-box;
+    pointer-events: none;
+
+    &--top-left {
+      top: 0;
+      left: 0;
+      align-items: flex-start;
+    }
+
+    &--top-center {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      align-items: center;
+    }
+
+    &--top-right {
+      top: 0;
+      right: 0;
+      align-items: flex-end;
+    }
+
+    &--bottom-left {
+      bottom: 0;
+      left: 0;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+
+    &--bottom-center {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+
+    &--bottom-right {
+      bottom: 0;
+      right: 0;
+      flex-direction: column-reverse;
+      align-items: flex-end;
+    }
+  }
+
+  &__item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--ff-toast-radius, var(--ff-radius-md, 8px));
+    pointer-events: auto;
+    animation: ff-toast-container-enter var(--ff-toast-enter-duration, 0.2s)
+      ease-out;
+  }
+
+  &__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: var(--ff-toast-progress-height, 3px);
+    width: 100%;
+    background-color: var(--ff-toast-progress-color, currentColor);
+    opacity: 0.35;
+    animation-name: ff-toast-container-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  &__item:hover &__progress {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes ff-toast-container-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ff-toast-container-progress {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ff-toast-container__item {
+    animation: none;
+  }
+
+  .ff-toast-container__progress {
+    animation: none;
+  }
+}
