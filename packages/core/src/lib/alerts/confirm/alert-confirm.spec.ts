@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { AlertService } from '../alerts/alert.service';
-import { provideAlerts } from '../alerts/provide-alerts';
-import { I18nService } from '../i18n';
+import { AlertService } from '../alert.service';
+import { provideAlerts } from '../provide-alerts';
+import { I18nService } from '../../i18n';
 import { AlertConfirmService } from './alert-confirm.service';
 import { Confirm, setConfirmInjector } from './confirm.decorator';
 import { ConfirmService } from './confirm.service';

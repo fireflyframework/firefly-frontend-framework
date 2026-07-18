@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 
-import { AlertService } from '../alerts/alert.service';
-import type { AlertType, DialogOptions } from '../alerts/alert.types';
-import { I18nService } from '../i18n';
+import { AlertService } from '../alert.service';
+import type { AlertType, DialogOptions } from '../alert.types';
+import { I18nService } from '../../i18n';
 import { ConfirmService } from './confirm.service';
 import type { ConfirmOptions } from './confirm.types';
 
