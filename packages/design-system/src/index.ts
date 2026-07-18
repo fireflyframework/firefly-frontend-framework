@@ -23,6 +23,14 @@ export { FfDialogComponent } from './lib/primitives/ff-dialog';
 export type { FfDialogVariant } from './lib/primitives/ff-dialog';
 export { FfToastComponent } from './lib/primitives/ff-toast';
 export type { FfToastVariant } from './lib/primitives/ff-toast';
+export { FfToastService, provideFfToasts } from './lib/primitives/ff-toast';
+export type {
+  FfToastPosition,
+  FfToastOptions,
+  FfToastShowOptions,
+  FfToastGlobalConfig,
+  FfToastEntry,
+} from './lib/primitives/ff-toast';
 export { FfBannerComponent } from './lib/primitives/ff-banner';
 export type { FfBannerVariant } from './lib/primitives/ff-banner';
 export { FfBottomSheetComponent } from './lib/primitives/ff-bottom-sheet';
