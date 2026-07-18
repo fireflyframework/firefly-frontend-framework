@@ -1,0 +1,77 @@
+@if (top(); as dialog) {
+  <div class="ff-dialog-container__overlay">
+    <div
+      class="ff-dialog-container__backdrop"
+      aria-hidden="true"
+      (click)="cancel(dialog.id)"
+    ></div>
+    <div
+      class="ff-dialog-container__panel"
+      (keydown.escape)="cancel(dialog.id)"
+      [class.ff-dialog-container__panel--success]="accent() === 'success'"
+      [class.ff-dialog-container__panel--error]="accent() === 'error'"
+      [class.ff-dialog-container__panel--warning]="accent() === 'warning'"
+      [class.ff-dialog-container__panel--info]="accent() === 'info'"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-labelledby]="dialog.options.title ? titleId(dialog.id) : null"
+      [attr.aria-describedby]="dialog.options.message ? messageId(dialog.id) : null"
+      cdkTrapFocus
+      [cdkTrapFocusAutoCapture]="true"
+    >
+      @if (hostedComponent(); as hosted) {
+        <ng-container
+          [ngComponentOutlet]="hosted"
+          [ngComponentOutletInputs]="hostedInputs()"
+        />
+      } @else {
+        @if (dialog.options.title || dialog.options.icon) {
+          <header class="ff-dialog-container__header">
+            @if (dialog.options.icon; as icon) {
+              <ff-icon class="ff-dialog-container__icon" [name]="icon" />
+            }
+            @if (dialog.options.title; as title) {
+              <h2 class="ff-dialog-container__title" [id]="titleId(dialog.id)">
+                {{ title }}
+              </h2>
+            }
+          </header>
+        }
+        @if (dialog.options.message; as message) {
+          <p class="ff-dialog-container__message" [id]="messageId(dialog.id)">
+            {{ message }}
+          </p>
+        }
+        @if (dialog.options.destructiveConfirmText; as gate) {
+          <ff-input
+            class="ff-dialog-container__gate"
+            labelType="hidden"
+            [label]="gate"
+            [placeholder]="gate"
+            [value]="typed()"
+            (valueChange)="typed.set($event)"
+          />
+        }
+        <footer class="ff-dialog-container__actions">
+          @if (dialog.options.cancelLabel; as cancelLabel) {
+            <ff-button
+              class="ff-dialog-container__cancel"
+              variant="secondary"
+              (clicked)="cancel(dialog.id)"
+            >
+              {{ cancelLabel }}
+            </ff-button>
+          }
+          <ff-button
+            class="ff-dialog-container__confirm"
+            variant="primary"
+            [disabled]="confirmDisabled()"
+            (clicked)="confirm(dialog)"
+          >
+            {{ dialog.options.confirmLabel || 'Confirm' }}
+          </ff-button>
+        </footer>
+      }
+    </div>
+  </div>
+}

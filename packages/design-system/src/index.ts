@@ -63,3 +63,8 @@ export { FfTabBarComponent } from './lib/patterns/ff-tab-bar';
 export type { FfTab, FfTabBarVariant } from './lib/patterns/ff-tab-bar';
 export { FfToastContainerComponent } from './lib/patterns/ff-toast-container';
 export type { FfToastItem } from './lib/patterns/ff-toast-container';
+export { FfDialogContainerComponent } from './lib/patterns/ff-dialog-container';
+export type {
+  FfDialogItem,
+  FfDialogResolution,
+} from './lib/patterns/ff-dialog-container';
