@@ -1,11 +1,22 @@
 {
   "name": "@fireflyframework/design-system-contract",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "tslib": "^2.3.0",
+    "tslib": "^2.3.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fireflyframework/firefly-frontend-framework.git",
+    "directory": "packages/design-system-contract"
+  },
+  "sideEffects": false,
+  "devDependencies": {
     "vitest": "4.0.9",
     "@nx/vite": "22.6.5"
   }
