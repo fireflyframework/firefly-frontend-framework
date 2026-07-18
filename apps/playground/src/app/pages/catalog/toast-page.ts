@@ -1,43 +1,58 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { AlertService, AlertType } from '@fireflyframework/core';
 import {
   FfButtonComponent,
   FfSelectComponent,
   FfSelectOption,
   FfToastComponent,
-  FfToastPosition,
-  FfToastService,
+  FfToastContainerComponent,
   FfToastVariant,
 } from '@fireflyframework/design-system';
 
 import { DemoSection } from '../../shared/demo-section';
 
-/** Catalog page for `ff-toast` and the imperative `FfToastService`. */
+/** Toast position values accepted by core's `ToastOptions`. */
+type ToastPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+
+/**
+ * Catalog page for `ff-toast` and the `ff-toast-container` pattern, wired
+ * to core's headless `AlertService`: the service owns the queue and the
+ * timers, the container renders `activeToasts()` and reports dismiss/hover
+ * back (hover pauses and resumes the auto-dismiss timer).
+ */
 @Component({
   selector: 'app-toast-page',
-  imports: [DemoSection, FfButtonComponent, FfSelectComponent, FfToastComponent],
+  imports: [
+    DemoSection,
+    FfButtonComponent,
+    FfSelectComponent,
+    FfToastComponent,
+    FfToastContainerComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="page">
       <h2 class="page__title">Toast</h2>
       <p class="page__lead">
-        <code>&lt;ff-toast&gt;</code> — compact notification. Use it inline, or let
-        <code>FfToastService</code> (registered via <code>provideFfToasts</code>) queue,
-        position and auto-dismiss toasts imperatively with zero markup.
+        <code>&lt;ff-toast&gt;</code> — compact notification. Place the
+        <code>&lt;ff-toast-container&gt;</code> pattern once in your shell and let the
+        headless <code>AlertService</code> from <code>&#64;fireflyframework/core</code>
+        (registered via <code>provideAlerts()</code>) queue and auto-dismiss toasts.
       </p>
 
       <app-demo-section
         heading="Imperative API"
-        description="FfToastService shortcuts: one toast per variant, default position (top-right) and timeout (4000ms)."
+        description="AlertService shortcuts render through ff-toast-container: one toast per semantic type; destructive maps to the error variant."
         [code]="snippets.imperative"
       >
-        @for (v of variants; track v) {
-          <ff-button variant="outline" (clicked)="showVariant(v)">{{ v }}</ff-button>
+        @for (t of types; track t) {
+          <ff-button variant="outline" (clicked)="showType(t)">{{ t }}</ff-button>
         }
       </app-demo-section>
 
       <app-demo-section
         heading="Positions"
-        description="Every FfToastPosition value; pick a region and fire a toast into it."
+        description="Every core ToastOptions position; pick a region and fire a toast into it."
         [code]="snippets.positions"
       >
         <ff-select
@@ -49,8 +64,8 @@ import { DemoSection } from '../../shared/demo-section';
       </app-demo-section>
 
       <app-demo-section
-        heading="Progress bar"
-        description="progressBar renders a linear CSS countdown, paused on hover (auto-dismiss pauses too)."
+        heading="Progress bar + hover pause"
+        description="progressBar renders a linear CSS countdown tied to duration. Hovering pauses the bar visually and, via hoverStarted/hoverEnded, pauses and resumes the AlertService timer."
         [code]="snippets.progress"
       >
         <ff-button variant="outline" (clicked)="showWithProgress()">
@@ -59,17 +74,7 @@ import { DemoSection } from '../../shared/demo-section';
         <ff-button variant="outline" (clicked)="showWithoutProgress()">
           Without progress bar
         </ff-button>
-      </app-demo-section>
-
-      <app-demo-section
-        heading="Persistent (timeout 0)"
-        description="timeout: 0 disables auto-dismiss; the toast stays until dismissed manually."
-        [code]="snippets.persistent"
-      >
-        <ff-button variant="outline" (clicked)="showPersistent()">
-          Show persistent toast
-        </ff-button>
-        <ff-button variant="secondary" (clicked)="toasts.clear()">Clear all</ff-button>
+        <ff-button variant="secondary" (clicked)="alerts.dismissAll()">Clear all</ff-button>
       </app-demo-section>
 
       <app-demo-section
@@ -85,10 +90,25 @@ import { DemoSection } from '../../shared/demo-section';
         </div>
       </app-demo-section>
     </div>
+
+    <ff-toast-container
+      [toasts]="alerts.activeToasts()"
+      (dismissed)="alerts.dismiss($event)"
+      (hoverStarted)="alerts.pauseToast($event)"
+      (hoverEnded)="alerts.resumeToast($event)"
+    />
   `,
 })
 export class ToastPage {
-  protected readonly toasts = inject(FfToastService);
+  protected readonly alerts = inject(AlertService);
+
+  protected readonly types: readonly AlertType[] = [
+    'success',
+    'error',
+    'warning',
+    'info',
+    'destructive',
+  ];
 
   protected readonly variants: readonly FfToastVariant[] = [
     'success',
@@ -97,56 +117,56 @@ export class ToastPage {
     'info',
   ];
 
-  protected readonly position = signal<FfToastPosition>('top-right');
+  protected readonly position = signal<ToastPosition>('top-right');
 
   protected readonly positionOptions: FfSelectOption[] = [
     { label: 'top-right', value: 'top-right' },
     { label: 'top-left', value: 'top-left' },
-    { label: 'top-center', value: 'top-center' },
     { label: 'bottom-right', value: 'bottom-right' },
     { label: 'bottom-left', value: 'bottom-left' },
-    { label: 'bottom-center', value: 'bottom-center' },
   ];
 
   protected readonly snippets = {
-    imperative: `const toasts = inject(FfToastService);
-toasts.success('Document saved');
-toasts.error('Upload failed');`,
-    positions: `toasts.info('Over here!', { position: 'bottom-center' });`,
-    progress: `toasts.success('Uploaded', { timeout: 6000, progressBar: true });`,
-    persistent: `const id = toasts.warning('Syncing…', { timeout: 0 });
-// later
-toasts.dismiss(id);
-toasts.clear();`,
+    imperative: `const alerts = inject(AlertService);
+alerts.success('Document saved');
+alerts.error('Upload failed');
+alerts.toast('Item deleted', 'destructive');`,
+    positions: `alerts.toast('Over here!', 'info', { position: 'bottom-left' });`,
+    progress: `alerts.toast('Uploaded', 'success', { duration: 6000, progressBar: true });
+
+<ff-toast-container
+  [toasts]="alerts.activeToasts()"
+  (dismissed)="alerts.dismiss($event)"
+  (hoverStarted)="alerts.pauseToast($event)"
+  (hoverEnded)="alerts.resumeToast($event)"
+/>`,
     inline: `<ff-toast message="Saved!" type="success" (dismissed)="remove()" />`,
   };
 
-  protected showVariant(variant: FfToastVariant): void {
-    this.toasts[variant](`This is a ${variant} toast`);
+  protected showType(type: AlertType): void {
+    this.alerts.toast(`This is a ${type} toast`, type);
   }
 
   protected onPositionChange(value: string): void {
-    this.position.set(value as FfToastPosition);
+    this.position.set(value as ToastPosition);
   }
 
   protected showAtPosition(): void {
-    this.toasts.info(`Toast at ${this.position()}`, {
+    this.alerts.toast(`Toast at ${this.position()}`, 'info', {
       position: this.position(),
     });
   }
 
   protected showWithProgress(): void {
-    this.toasts.success('Uploaded with progress', {
-      timeout: 6000,
+    this.alerts.toast('Uploaded with progress', 'success', {
+      duration: 6000,
       progressBar: true,
     });
   }
 
   protected showWithoutProgress(): void {
-    this.toasts.success('Uploaded without progress', { timeout: 6000 });
-  }
-
-  protected showPersistent(): void {
-    this.toasts.warning('I stay until you close me', { timeout: 0 });
+    this.alerts.toast('Uploaded without progress', 'success', {
+      duration: 6000,
+    });
   }
 }

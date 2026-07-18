@@ -3,7 +3,8 @@ import {
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideFfIcons, provideFfToasts } from '@fireflyframework/design-system';
+import { provideAlerts } from '@fireflyframework/core';
+import { provideFfIcons } from '@fireflyframework/design-system';
 
 import { appRoutes } from './app.routes';
 import { PLAYGROUND_ICONS } from './shared/icons';
@@ -13,6 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
     provideFfIcons(PLAYGROUND_ICONS),
-    provideFfToasts(),
+    provideAlerts(),
   ],
 };
