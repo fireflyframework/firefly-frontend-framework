@@ -77,6 +77,13 @@ export class AlertService {
 
   private readonly config = inject(ALERT_CONFIG, { optional: true });
   private readonly timers = new Map<string, ReturnType<typeof setTimeout>>();
+  /** Arming metadata per toast timer, used to compute remaining time on pause. */
+  private readonly timerMeta = new Map<
+    string,
+    { armedAt: number; duration: number }
+  >();
+  /** Paused toasts and the remaining auto-dismiss time to re-arm on resume. */
+  private readonly pausedToasts = new Map<string, { remaining: number }>();
   private readonly dialogResolvers = new Map<
     string,
     (result: DialogResult) => void
@@ -123,7 +130,68 @@ export class AlertService {
       return updated;
     });
 
-    this.timers.set(id, setTimeout(() => this.dismiss(id), duration));
+    this.armToastTimer(id, duration);
+  }
+
+  /**
+   * Pause the auto-dismiss timer of a toast.
+   * The remaining time is preserved and re-armed on `resumeToast()`.
+   *
+   * Safe no-op when the ID does not exist, has no active timer,
+   * or is already paused.
+   *
+   * @param id - Toast identifier from `activeToasts` signal
+   *
+   * @example
+   * ```typescript
+   * // UI layer: freeze auto-close while the user hovers the toast
+   * onMouseEnter(toast: Toast): void {
+   *   this.alerts.pauseToast(toast.id);
+   * }
+   * ```
+   */
+  pauseToast(id: string): void {
+    if (this.pausedToasts.has(id)) {
+      return;
+    }
+    const meta = this.timerMeta.get(id);
+    const timer = this.timers.get(id);
+    if (meta === undefined || timer === undefined) {
+      return;
+    }
+
+    const elapsed = Date.now() - meta.armedAt;
+    const remaining = Math.max(0, meta.duration - elapsed);
+
+    clearTimeout(timer);
+    this.timers.delete(id);
+    this.timerMeta.delete(id);
+    this.pausedToasts.set(id, { remaining });
+  }
+
+  /**
+   * Resume the auto-dismiss timer of a previously paused toast.
+   * Re-arms the timeout with the remaining time saved by `pauseToast()`.
+   *
+   * Safe no-op when the ID does not exist or was not paused.
+   *
+   * @param id - Toast identifier from `activeToasts` signal
+   *
+   * @example
+   * ```typescript
+   * // UI layer: restart the countdown when the user stops hovering
+   * onMouseLeave(toast: Toast): void {
+   *   this.alerts.resumeToast(toast.id);
+   * }
+   * ```
+   */
+  resumeToast(id: string): void {
+    const paused = this.pausedToasts.get(id);
+    if (paused === undefined) {
+      return;
+    }
+    this.pausedToasts.delete(id);
+    this.armToastTimer(id, paused.remaining);
   }
 
   // ---------------------------------------------------------------
@@ -345,6 +413,8 @@ export class AlertService {
   dismissAll(): void {
     this.timers.forEach((timer) => clearTimeout(timer));
     this.timers.clear();
+    this.timerMeta.clear();
+    this.pausedToasts.clear();
     this._toasts.set([]);
     this._banners.set([]);
     this._bottomSheets.set([]);
@@ -396,7 +466,20 @@ export class AlertService {
   }
 
   /**
-   * Clear and remove an auto-dismiss timer.
+   * Arm (or re-arm) the auto-dismiss timer of a toast, recording the
+   * arming timestamp so `pauseToast()` can compute the remaining time.
+   *
+   * @param id - Toast identifier
+   * @param duration - Time in ms until auto-dismiss
+   */
+  private armToastTimer(id: string, duration: number): void {
+    this.timerMeta.set(id, { armedAt: Date.now(), duration });
+    this.timers.set(id, setTimeout(() => this.dismiss(id), duration));
+  }
+
+  /**
+   * Clear and remove an auto-dismiss timer, along with any arming
+   * metadata or pause state associated with the alert.
    *
    * @param id - Alert identifier whose timer should be cleared
    */
@@ -406,5 +489,7 @@ export class AlertService {
       clearTimeout(timer);
       this.timers.delete(id);
     }
+    this.timerMeta.delete(id);
+    this.pausedToasts.delete(id);
   }
 }

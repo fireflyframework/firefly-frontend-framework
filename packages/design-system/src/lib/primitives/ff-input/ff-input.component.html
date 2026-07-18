@@ -1,34 +1,46 @@
-@if (label()) {
+@if (label() && labelType() !== 'hidden') {
   <label class="ff-input__label" [for]="inputId">{{ label() }}</label>
 }
 
-@if (type() === 'textarea') {
-  <textarea
-    class="ff-input__native"
-    [id]="inputId"
-    [placeholder]="placeholder()"
-    [value]="effectiveValue()"
-    [disabled]="effectiveDisabled()"
-    [rows]="rows()"
-    [attr.aria-invalid]="!!error()"
-    [attr.aria-describedby]="error() ? inputId + '-error' : hint() ? inputId + '-hint' : null"
-    (input)="onInput($event)"
-    (blur)="onBlur()"
-  ></textarea>
-} @else {
-  <input
-    class="ff-input__native"
-    [id]="inputId"
-    [type]="type()"
-    [placeholder]="placeholder()"
-    [value]="effectiveValue()"
-    [disabled]="effectiveDisabled()"
-    [attr.aria-invalid]="!!error()"
-    [attr.aria-describedby]="error() ? inputId + '-error' : hint() ? inputId + '-hint' : null"
-    (input)="onInput($event)"
-    (blur)="onBlur()"
-  />
-}
+<!--
+  Affix wrappers collapse via CSS :empty when unused:
+  Angular strips whitespace-only text nodes from the template
+  and ng-content leaves only comment anchors, which :empty ignores.
+-->
+<div class="ff-input__field">
+  <span class="ff-input__prefix"><ng-content select="[ff-input-prefix]" /></span>
+  @if (type() === 'textarea') {
+    <textarea
+      class="ff-input__native"
+      [id]="inputId"
+      [placeholder]="placeholder()"
+      [value]="effectiveValue()"
+      [disabled]="effectiveDisabled()"
+      [rows]="rows()"
+      [attr.aria-label]="effectiveAriaLabel()"
+      [attr.aria-invalid]="!!error()"
+      [attr.aria-describedby]="error() ? inputId + '-error' : hint() ? inputId + '-hint' : null"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+    ></textarea>
+  } @else {
+    <input
+      class="ff-input__native"
+      [id]="inputId"
+      [type]="type()"
+      [placeholder]="placeholder()"
+      [value]="effectiveValue()"
+      [disabled]="effectiveDisabled()"
+      [attr.aria-label]="effectiveAriaLabel()"
+      [attr.aria-invalid]="!!error()"
+      [attr.aria-describedby]="error() ? inputId + '-error' : hint() ? inputId + '-hint' : null"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+      (keydown.enter)="onEnter($event)"
+    />
+  }
+  <span class="ff-input__suffix"><ng-content select="[ff-input-suffix]" /></span>
+</div>
 
 @if (error()) {
   <span class="ff-input__error" [id]="inputId + '-error'" role="alert">{{ error() }}</span>
