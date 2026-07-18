@@ -11,13 +11,14 @@ export type FfToastVariant = 'success' | 'error' | 'warning' | 'info';
 /**
  * Firefly toast atom.
  *
- * Compact notification rendered inline. The consumer is responsible
- * for positioning (e.g. fixed container in a corner) and iterating
- * over active toasts from AlertService.
+ * Compact notification rendered inline. Most consumers should not
+ * render it by hand: `FfToastService` (with `provideFfToasts()`) queues,
+ * positions and auto-dismisses toasts through its own container. Use the
+ * atom directly only for fully custom hosting.
  *
  * @example
  * ```html
- * @for (t of alerts.activeToasts(); track t.id) {
+ * @for (t of toastService.toasts(); track t.id) {
  *   <ff-toast
  *     [message]="t.message"
  *     [type]="t.type"
