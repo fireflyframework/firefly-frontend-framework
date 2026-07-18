@@ -1,0 +1,42 @@
+<ff-button
+  [variant]="variant()"
+  [color]="color()"
+  [size]="size()"
+  [disabled]="disabled()"
+  (clicked)="toggle()"
+  (keydown)="onTriggerKeydown($event)"
+>
+  <ng-content>{{ triggerLabel() }}</ng-content>
+  <ff-icon
+    ffButtonSuffix
+    name="chevron-down"
+    size="sm"
+    class="ff-menu-button__chevron"
+    [class.ff-menu-button__chevron--open]="open()"
+  />
+</ff-button>
+
+<ng-template #menuTpl>
+  <div
+    class="ff-menu-button__panel"
+    role="menu"
+    tabindex="-1"
+    (keydown)="onMenuKeydown($event)"
+  >
+    @for (item of items(); track item.value; let i = $index) {
+      <button
+        type="button"
+        role="menuitem"
+        class="ff-menu-button__item"
+        [class.ff-menu-button__item--active]="i === activeIndex()"
+        [disabled]="item.disabled || null"
+        [attr.aria-disabled]="item.disabled || null"
+        tabindex="-1"
+        (click)="selectItem(item)"
+        (mouseenter)="activeIndex.set(i)"
+      >
+        {{ item.label }}
+      </button>
+    }
+  </div>
+</ng-template>
