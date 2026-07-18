@@ -15,5 +15,9 @@
     "url": "https://github.com/fireflyframework/firefly-frontend-framework.git",
     "directory": "packages/design-system-contract"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "devDependencies": {
+    "vitest": "4.0.9",
+    "@nx/vite": "22.6.5"
+  }
 }
