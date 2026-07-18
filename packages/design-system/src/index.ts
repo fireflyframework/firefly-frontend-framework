@@ -8,7 +8,7 @@ export type { FfBadgeVariant, FfBadgeSize } from './lib/primitives/ff-badge';
 export { FfLoaderComponent } from './lib/primitives/ff-loader';
 export type { FfLoaderVariant, FfLoaderSize } from './lib/primitives/ff-loader';
 export { FfInputComponent } from './lib/primitives/ff-input';
-export type { FfInputType } from './lib/primitives/ff-input';
+export type { FfInputLabelType, FfInputType } from './lib/primitives/ff-input';
 export { FfCheckboxComponent } from './lib/primitives/ff-checkbox';
 export { FfRadioGroupComponent } from './lib/primitives/ff-radio';
 export type {
