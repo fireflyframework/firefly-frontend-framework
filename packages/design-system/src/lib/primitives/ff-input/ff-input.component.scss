@@ -11,6 +11,7 @@
   --ff-input-error-color: var(--ff-color-error-600);
   --ff-input-error-border: var(--ff-color-error-500);
   --ff-input-error-ring: var(--ff-color-error-200);
+  --ff-input-affix-color: var(--ff-color-neutral-500);
   --ff-input-radius: var(--ff-radius-md);
 
   display: flex;
@@ -24,27 +25,63 @@
     color: var(--ff-input-label-color);
   }
 
+  // Field wrapper: carries the box (border, background, focus ring) so the
+  // projected prefix/suffix affixes render inside the bordered field.
+  &__field {
+    display: flex;
+    align-items: center;
+    background-color: var(--ff-input-bg);
+    border: 1px solid var(--ff-input-border);
+    border-radius: var(--ff-input-radius);
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus-within {
+      border-color: var(--ff-input-focus-border);
+      box-shadow: 0 0 0 2px var(--ff-input-focus-ring);
+    }
+  }
+
+  // Affix slots. :empty collapses unused slots: Angular strips
+  // whitespace-only text nodes from the template and ng-content anchors are
+  // comment nodes, which :empty ignores — so a slot without projected
+  // content renders as an empty element and takes no space.
+  &__prefix,
+  &__suffix {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--ff-input-affix-color);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__prefix {
+    padding-inline-start: var(--ff-spacing-md);
+  }
+
+  &__suffix {
+    padding-inline-end: var(--ff-spacing-md);
+  }
+
   &__native {
     display: block;
+    flex: 1 1 auto;
+    min-width: 0;
     width: 100%;
     padding: var(--ff-spacing-sm) var(--ff-spacing-md);
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
     line-height: var(--ff-line-height-normal);
     color: var(--ff-input-color);
-    background-color: var(--ff-input-bg);
-    border: 1px solid var(--ff-input-border);
+    background-color: transparent;
+    border: none;
     border-radius: var(--ff-input-radius);
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
 
     &::placeholder {
       color: var(--ff-input-placeholder);
-    }
-
-    &:focus {
-      border-color: var(--ff-input-focus-border);
-      box-shadow: 0 0 0 2px var(--ff-input-focus-ring);
     }
 
     &:disabled {
@@ -70,11 +107,28 @@
     resize: vertical;
   }
 
+  // Floating label: the label sits over the field's top border, notch-style.
+  &--label-floating {
+    position: relative;
+
+    .ff-input__label {
+      position: absolute;
+      top: 0;
+      left: var(--ff-spacing-sm);
+      transform: translateY(-50%);
+      padding: 0 var(--ff-spacing-xs);
+      font-size: var(--ff-font-size-xs);
+      line-height: 1;
+      background-color: var(--ff-input-bg);
+      z-index: 1;
+    }
+  }
+
   // Error state
-  &--error .ff-input__native {
+  &--error .ff-input__field {
     border-color: var(--ff-input-error-border);
 
-    &:focus {
+    &:focus-within {
       box-shadow: 0 0 0 2px var(--ff-input-error-ring);
     }
   }
@@ -86,5 +140,9 @@
   // Disabled state
   &--disabled .ff-input__label {
     opacity: 0.5;
+  }
+
+  &--disabled .ff-input__field {
+    cursor: not-allowed;
   }
 }
