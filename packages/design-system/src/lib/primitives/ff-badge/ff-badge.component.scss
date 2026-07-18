@@ -12,7 +12,17 @@
     white-space: nowrap;
   }
 
+  &__dot {
+    flex: none;
+    border-radius: var(--ff-radius-full);
+  }
+
   // Sizes
+  &--xs .ff-badge__label {
+    padding: 1px var(--ff-spacing-xs);
+    font-size: var(--ff-font-size-2xs);
+  }
+
   &--sm .ff-badge__label {
     padding: 2px var(--ff-spacing-xs);
     font-size: var(--ff-font-size-xs);
@@ -23,10 +33,47 @@
     font-size: var(--ff-font-size-sm);
   }
 
-  // Semantic variants
+  &--xs .ff-badge__dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  &--sm .ff-badge__dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  &--md .ff-badge__dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  // Palettes (used by both the `variant` and the `color` axes)
+  &--primary .ff-badge__label {
+    background-color: var(--ff-badge-primary-bg, var(--ff-color-primary-100));
+    color: var(--ff-badge-primary-color, var(--ff-color-primary-700));
+  }
+
+  &--primary .ff-badge__dot {
+    background-color: var(--ff-badge-primary-color, var(--ff-color-primary-700));
+  }
+
+  &--secondary .ff-badge__label {
+    background-color: var(--ff-badge-secondary-bg, var(--ff-color-secondary-100));
+    color: var(--ff-badge-secondary-color, var(--ff-color-secondary-700));
+  }
+
+  &--secondary .ff-badge__dot {
+    background-color: var(--ff-badge-secondary-color, var(--ff-color-secondary-700));
+  }
+
   &--success .ff-badge__label {
     background-color: var(--ff-badge-success-bg, var(--ff-color-success-100));
     color: var(--ff-badge-success-color, var(--ff-color-success-700));
+  }
+
+  &--success .ff-badge__dot {
+    background-color: var(--ff-badge-success-color, var(--ff-color-success-700));
   }
 
   &--warning .ff-badge__label {
@@ -34,9 +81,17 @@
     color: var(--ff-badge-warning-color, var(--ff-color-warning-700));
   }
 
+  &--warning .ff-badge__dot {
+    background-color: var(--ff-badge-warning-color, var(--ff-color-warning-700));
+  }
+
   &--error .ff-badge__label {
     background-color: var(--ff-badge-error-bg, var(--ff-color-error-100));
     color: var(--ff-badge-error-color, var(--ff-color-error-700));
+  }
+
+  &--error .ff-badge__dot {
+    background-color: var(--ff-badge-error-color, var(--ff-color-error-700));
   }
 
   &--info .ff-badge__label {
@@ -44,8 +99,44 @@
     color: var(--ff-badge-info-color, var(--ff-color-info-700));
   }
 
+  &--info .ff-badge__dot {
+    background-color: var(--ff-badge-info-color, var(--ff-color-info-700));
+  }
+
   &--neutral .ff-badge__label {
     background-color: var(--ff-badge-neutral-bg, var(--ff-color-neutral-100));
     color: var(--ff-badge-neutral-color, var(--ff-color-neutral-700));
+  }
+
+  &--neutral .ff-badge__dot {
+    background-color: var(--ff-badge-neutral-color, var(--ff-color-neutral-700));
+  }
+
+  // Shape (pill is the base radius; square overrides it)
+  &--square .ff-badge__label {
+    border-radius: var(--ff-radius-sm);
+  }
+
+  // Overflow truncation (`maxWidth` set; the effect applies the max-width
+  // inline and owns the host `title` attribute)
+  &--truncate .ff-badge__label {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // Dot mode: palette-tinted dot; the label degrades to plain text
+  &--dot {
+    gap: var(--ff-spacing-xs);
+  }
+
+  &--dot .ff-badge__label {
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+  }
+
+  &--dot .ff-badge__label:empty {
+    display: none;
   }
 }
