@@ -151,12 +151,9 @@
   }
 }
 
-// Structural CSS the CDK overlay needs to portal and position panels
-// correctly. Normally shipped as `@angular/cdk/overlay-prebuilt.css` and
-// imported once by the consuming app; bundled here instead (this
-// stylesheet already ships globally via `ViewEncapsulation.None`) so any
-// product consuming `ff-select` gets a working portaled panel without
-// having to remember a separate CDK stylesheet import.
+// Structural CSS required by the CDK overlay to portal and position
+// panels; equivalent to `@angular/cdk/overlay-prebuilt.css`, shipped
+// globally through this stylesheet (`ViewEncapsulation.None`).
 .cdk-overlay-container,
 .cdk-global-overlay-wrapper {
   pointer-events: none;
@@ -168,7 +165,7 @@
 
 .cdk-overlay-container {
   position: fixed;
-  z-index: 1000;
+  z-index: var(--ff-sys-z-dropdown, 1000);
 }
 
 .cdk-overlay-container:empty {
@@ -182,7 +179,7 @@
   display: flex;
   max-width: 100%;
   max-height: 100%;
-  z-index: 1000;
+  z-index: var(--ff-sys-z-dropdown, 1000);
 }
 
 .cdk-overlay-connected-position-bounding-box {
@@ -191,5 +188,5 @@
   flex-direction: column;
   min-width: 1px;
   min-height: 1px;
-  z-index: 1000;
+  z-index: var(--ff-sys-z-dropdown, 1000);
 }
