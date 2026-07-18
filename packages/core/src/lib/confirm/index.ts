@@ -7,6 +7,7 @@ export {
   type ConfirmOptions,
 } from './confirm.types';
 export { ConfirmService } from './confirm.service';
+export { AlertConfirmService } from './alert-confirm.service';
 export { Confirm, setConfirmInjector } from './confirm.decorator';
 export { ConfirmDirective } from './confirm.directive';
-export { provideConfirm } from './provide-confirm';
+export { provideConfirm, provideAlertConfirm } from './provide-confirm';

@@ -7,6 +7,7 @@ import {
   type Type,
 } from '@angular/core';
 
+import { AlertConfirmService } from './alert-confirm.service';
 import { setConfirmInjector } from './confirm.decorator';
 import { ConfirmService } from './confirm.service';
 
@@ -33,4 +34,25 @@ export function provideConfirm(implementation: Type<ConfirmService>): Environmen
       setConfirmInjector(inject(EnvironmentInjector));
     }),
   ]);
+}
+
+/**
+ * Configure the confirm-guard module with the framework's default
+ * {@link AlertConfirmService}: confirmations render as Promise-based dialogs
+ * of core's headless `AlertService` — no product-specific `ConfirmService`
+ * needed. Sugar for `provideConfirm(AlertConfirmService)`; products with
+ * their own dialog mechanism keep using {@link provideConfirm}.
+ *
+ * Requires `provideAlerts()` in the application providers, plus a dialog
+ * presenter in the UI layer (e.g. the design system's `ff-dialog-container`)
+ * bound to `alerts.activeDialogs()` / `alerts.resolveDialog()`.
+ *
+ * ```ts
+ * export const appConfig: ApplicationConfig = {
+ *   providers: [provideAlerts(), provideAlertConfirm()],
+ * };
+ * ```
+ */
+export function provideAlertConfirm(): EnvironmentProviders {
+  return provideConfirm(AlertConfirmService);
 }
