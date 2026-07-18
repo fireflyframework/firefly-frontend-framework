@@ -4,7 +4,12 @@ export type { FfButtonVariant, FfButtonSize } from './lib/primitives/ff-button';
 export { FfIconButtonComponent } from './lib/primitives/ff-icon-button';
 export type { FfIconButtonSize } from './lib/primitives/ff-icon-button';
 export { FfBadgeComponent } from './lib/primitives/ff-badge';
-export type { FfBadgeVariant, FfBadgeSize } from './lib/primitives/ff-badge';
+export type {
+  FfBadgeVariant,
+  FfBadgeColor,
+  FfBadgeSize,
+  FfBadgeShape,
+} from './lib/primitives/ff-badge';
 export { FfLoaderComponent } from './lib/primitives/ff-loader';
 export type { FfLoaderVariant, FfLoaderSize } from './lib/primitives/ff-loader';
 export { FfInputComponent } from './lib/primitives/ff-input';
