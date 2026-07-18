@@ -1,6 +1,10 @@
 // @fireflyframework/design-system — Public API
 export { FfButtonComponent } from './lib/primitives/ff-button';
-export type { FfButtonVariant, FfButtonSize } from './lib/primitives/ff-button';
+export type {
+  FfButtonVariant,
+  FfButtonColor,
+  FfButtonSize,
+} from './lib/primitives/ff-button';
 export { FfIconButtonComponent } from './lib/primitives/ff-icon-button';
 export type { FfIconButtonSize } from './lib/primitives/ff-icon-button';
 export { FfBadgeComponent } from './lib/primitives/ff-badge';

@@ -29,8 +29,12 @@ describe('FfButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have default variant "primary"', () => {
-    expect(component.variant()).toBe('primary');
+  it('should have default variant "solid"', () => {
+    expect(component.variant()).toBe('solid');
+  });
+
+  it('should have no explicit default color (resolves to "primary")', () => {
+    expect(component.color()).toBeUndefined();
   });
 
   it('should have default size "md"', () => {
@@ -45,9 +49,10 @@ describe('FfButtonComponent', () => {
     expect(component.loading()).toBe(false);
   });
 
-  it('should apply variant class to host', () => {
+  it('should apply the default style + color classes to host', () => {
     const hostEl = fixture.nativeElement as HTMLElement;
-    expect(hostEl.classList.contains('ff-button--primary')).toBe(true);
+    expect(hostEl.classList.contains('ff-button--solid')).toBe(true);
+    expect(hostEl.classList.contains('ff-button--color-primary')).toBe(true);
   });
 
   it('should apply size class to host', () => {
@@ -139,5 +144,88 @@ describe('FfButtonComponent', () => {
     const content = fixture.nativeElement.querySelector('.ff-button__content');
     expect(content).toBeTruthy();
     expect(getComputedStyle(content).visibility).not.toBe('hidden');
+  });
+
+  describe('dual-axis styling', () => {
+    it('applies the style axis class independently of color', () => {
+      fixture.componentRef.setInput('variant', 'outline');
+      fixture.componentRef.setInput('color', 'success');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-button--outline')).toBe(true);
+      expect(hostEl.classList.contains('ff-button--color-success')).toBe(true);
+    });
+
+    it('applies every documented color with the ghost style', () => {
+      const colors = [
+        'primary',
+        'secondary',
+        'success',
+        'warning',
+        'error',
+        'info',
+        'neutral',
+      ] as const;
+
+      for (const color of colors) {
+        fixture.componentRef.setInput('variant', 'ghost');
+        fixture.componentRef.setInput('color', color);
+        fixture.detectChanges();
+
+        const hostEl = fixture.nativeElement as HTMLElement;
+        expect(hostEl.classList.contains('ff-button--ghost')).toBe(true);
+        expect(hostEl.classList.contains(`ff-button--color-${color}`)).toBe(true);
+      }
+    });
+  });
+
+  describe('legacy variant backward compatibility', () => {
+    it('maps variant="primary" to solid + color primary', () => {
+      fixture.componentRef.setInput('variant', 'primary');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-button--solid')).toBe(true);
+      expect(hostEl.classList.contains('ff-button--color-primary')).toBe(true);
+    });
+
+    it('maps variant="secondary" to solid + color secondary', () => {
+      fixture.componentRef.setInput('variant', 'secondary');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-button--solid')).toBe(true);
+      expect(hostEl.classList.contains('ff-button--color-secondary')).toBe(true);
+    });
+
+    it('keeps rendering variant="outline" as the outline style with the primary color', () => {
+      fixture.componentRef.setInput('variant', 'outline');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-button--outline')).toBe(true);
+      expect(hostEl.classList.contains('ff-button--color-primary')).toBe(true);
+    });
+
+    it('keeps rendering variant="ghost" as the ghost style with the primary color', () => {
+      fixture.componentRef.setInput('variant', 'ghost');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-button--ghost')).toBe(true);
+      expect(hostEl.classList.contains('ff-button--color-primary')).toBe(true);
+    });
+
+    it('lets an explicit color override the legacy variant-derived default', () => {
+      fixture.componentRef.setInput('variant', 'secondary');
+      fixture.componentRef.setInput('color', 'success');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-button--solid')).toBe(true);
+      expect(hostEl.classList.contains('ff-button--color-success')).toBe(true);
+      expect(hostEl.classList.contains('ff-button--color-secondary')).toBe(false);
+    });
   });
 });
