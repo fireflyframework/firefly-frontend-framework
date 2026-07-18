@@ -1,6 +1,8 @@
 import 'zone.js';
 import 'zone.js/testing';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   BrowserTestingModule,
   platformBrowserTesting,
@@ -203,5 +205,76 @@ describe('FfRadioGroupComponent', () => {
     inputs.forEach((input: HTMLInputElement) => {
       expect(input.name).toBe(name);
     });
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, FfRadioGroupComponent],
+  template: `<ff-radio [options]="options" [formControl]="control" />`,
+})
+class RadioCvaHostComponent {
+  readonly options = MOCK_OPTIONS;
+  readonly control = new FormControl('a', { nonNullable: true });
+}
+
+describe('ControlValueAccessor', () => {
+  let hostFixture: ComponentFixture<RadioCvaHostComponent>;
+  let control: FormControl<string>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RadioCvaHostComponent],
+    }).compileComponents();
+
+    hostFixture = TestBed.createComponent(RadioCvaHostComponent);
+    control = hostFixture.componentInstance.control;
+    hostFixture.detectChanges();
+  });
+
+  it('should render the initial FormControl value', () => {
+    const inputs = hostFixture.nativeElement.querySelectorAll('input[type="radio"]');
+    expect(inputs[0].checked).toBe(true);
+    expect(inputs[1].checked).toBe(false);
+    expect(inputs[2].checked).toBe(false);
+  });
+
+  it('should reflect a later control.setValue()', () => {
+    control.setValue('b');
+    hostFixture.detectChanges();
+
+    const inputs = hostFixture.nativeElement.querySelectorAll('input[type="radio"]');
+    expect(inputs[0].checked).toBe(false);
+    expect(inputs[1].checked).toBe(true);
+  });
+
+  it('should update control value and mark it dirty on user selection', () => {
+    const inputs = hostFixture.nativeElement.querySelectorAll('input[type="radio"]');
+    inputs[2].click();
+
+    expect(control.value).toBe('c');
+    expect(control.dirty).toBe(true);
+  });
+
+  it('should mark control as touched on selection', () => {
+    expect(control.touched).toBe(false);
+
+    const inputs = hostFixture.nativeElement.querySelectorAll('input[type="radio"]');
+    inputs[1].click();
+
+    expect(control.touched).toBe(true);
+  });
+
+  it('should disable the component when control.disable() is called', () => {
+    control.disable();
+    hostFixture.detectChanges();
+
+    const inputs = hostFixture.nativeElement.querySelectorAll('input[type="radio"]');
+    inputs.forEach((input: HTMLInputElement) => {
+      expect(input.disabled).toBe(true);
+    });
+
+    const host = hostFixture.nativeElement.querySelector('ff-radio') as HTMLElement;
+    expect(host.classList.contains('ff-radio--disabled')).toBe(true);
   });
 });

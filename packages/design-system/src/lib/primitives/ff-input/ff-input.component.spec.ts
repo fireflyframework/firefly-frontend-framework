@@ -1,6 +1,8 @@
 import 'zone.js';
 import 'zone.js/testing';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   BrowserTestingModule,
   platformBrowserTesting,
@@ -253,5 +255,70 @@ describe('FfInputComponent', () => {
 
     const textarea = fixture.nativeElement.querySelector('textarea');
     expect(textarea.disabled).toBe(true);
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, FfInputComponent],
+  template: `<ff-input [formControl]="control" />`,
+})
+class InputCvaHostComponent {
+  readonly control = new FormControl('initial', { nonNullable: true });
+}
+
+describe('ControlValueAccessor', () => {
+  let hostFixture: ComponentFixture<InputCvaHostComponent>;
+  let control: FormControl<string>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [InputCvaHostComponent],
+    }).compileComponents();
+
+    hostFixture = TestBed.createComponent(InputCvaHostComponent);
+    control = hostFixture.componentInstance.control;
+    hostFixture.detectChanges();
+  });
+
+  it('should render the initial FormControl value', () => {
+    const input = hostFixture.nativeElement.querySelector('input');
+    expect(input.value).toBe('initial');
+  });
+
+  it('should reflect a later control.setValue()', () => {
+    control.setValue('updated');
+    hostFixture.detectChanges();
+
+    const input = hostFixture.nativeElement.querySelector('input');
+    expect(input.value).toBe('updated');
+  });
+
+  it('should update control value and mark it dirty on user input', () => {
+    const input = hostFixture.nativeElement.querySelector('input');
+    input.value = 'typed';
+    input.dispatchEvent(new Event('input'));
+
+    expect(control.value).toBe('typed');
+    expect(control.dirty).toBe(true);
+  });
+
+  it('should mark control as touched on blur', () => {
+    expect(control.touched).toBe(false);
+
+    const input = hostFixture.nativeElement.querySelector('input');
+    input.dispatchEvent(new Event('blur'));
+
+    expect(control.touched).toBe(true);
+  });
+
+  it('should disable the component when control.disable() is called', () => {
+    control.disable();
+    hostFixture.detectChanges();
+
+    const input = hostFixture.nativeElement.querySelector('input');
+    const host = hostFixture.nativeElement.querySelector('ff-input') as HTMLElement;
+    expect(input.disabled).toBe(true);
+    expect(host.classList.contains('ff-input--disabled')).toBe(true);
   });
 });

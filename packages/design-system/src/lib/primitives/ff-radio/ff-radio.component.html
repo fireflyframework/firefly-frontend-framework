@@ -1,7 +1,7 @@
 @for (option of options(); track option.value) {
   <label
     class="ff-radio__item"
-    [class.ff-radio__item--selected]="option.value === value()"
+    [class.ff-radio__item--selected]="option.value === effectiveValue()"
     [class.ff-radio__item--disabled]="isOptionDisabled(option)"
   >
     <input
@@ -9,7 +9,7 @@
       type="radio"
       [name]="effectiveName"
       [value]="option.value"
-      [checked]="option.value === value()"
+      [checked]="option.value === effectiveValue()"
       [disabled]="isOptionDisabled(option)"
       (change)="onSelect(option)"
     />

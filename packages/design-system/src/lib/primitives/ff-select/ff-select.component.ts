@@ -5,11 +5,13 @@ import {
   OnDestroy,
   ViewEncapsulation,
   computed,
+  forwardRef,
   input,
   output,
   signal,
   viewChild,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /** Single option inside a select dropdown. */
 export interface FfSelectOption {
@@ -27,6 +29,11 @@ export interface FfSelectOption {
  * Single-selection dropdown with optional search filtering and
  * keyboard navigation (ArrowUp/Down, Enter, Escape).
  *
+ * Also implements {@link ControlValueAccessor}, so it can be bound with
+ * Reactive Forms (`[formControl]`, `formControlName`) or `[(ngModel)]`.
+ * The `value` / `valueChange` API keeps working unchanged when no forms
+ * directive is attached.
+ *
  * @example
  * ```html
  * <ff-select
@@ -36,6 +43,8 @@ export interface FfSelectOption {
  *   [searchable]="true"
  *   (valueChange)="selected = $event"
  * />
+ *
+ * <ff-select [options]="countries" [formControl]="countryControl" />
  * ```
  */
 @Component({
@@ -45,14 +54,21 @@ export interface FfSelectOption {
   styleUrl: './ff-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FfSelectComponent),
+      multi: true,
+    },
+  ],
   host: {
     '[class]': '"ff-select"',
     '[class.ff-select--open]': 'open()',
-    '[class.ff-select--disabled]': 'disabled()',
+    '[class.ff-select--disabled]': 'effectiveDisabled()',
     '(document:click)': 'onDocumentClick($event)',
   },
 })
-export class FfSelectComponent implements OnDestroy {
+export class FfSelectComponent implements ControlValueAccessor, OnDestroy {
   /** Available options. */
   readonly options = input<FfSelectOption[]>([]);
 
@@ -84,9 +100,40 @@ export class FfSelectComponent implements OnDestroy {
   protected readonly searchInput =
     viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
+  /** @internal Value written by the forms API via `writeValue`. */
+  private readonly cvaValue = signal<string | null>(null);
+
+  /** @internal Disabled state driven by the forms API via `setDisabledState`. */
+  private readonly cvaDisabled = signal(false);
+
+  /** @internal `true` once a forms directive attaches (first `registerOnChange`). */
+  private readonly cvaAttached = signal(false);
+
+  /** @internal Forms API change callback (noop until registered). */
+  private onChangeFn: (value: string) => void = () => undefined;
+
+  /** @internal Forms API touched callback (noop until registered). */
+  private onTouchedFn: () => void = () => undefined;
+
+  /**
+   * Effective selected value rendered by the template.
+   *
+   * Precedence: once a forms directive is attached (Reactive Forms or
+   * `ngModel`), the ControlValueAccessor value wins; otherwise the
+   * `value` input is used, keeping the classic API fully functional.
+   */
+  protected readonly effectiveValue = computed(() =>
+    this.cvaAttached() ? (this.cvaValue() ?? '') : this.value()
+  );
+
+  /** Effective disabled state: `disabled` input OR forms API disabled state. */
+  protected readonly effectiveDisabled = computed(
+    () => this.disabled() || this.cvaDisabled()
+  );
+
   /** Resolved display label for the current value. */
   protected readonly displayLabel = computed(() => {
-    const opt = this.options().find((o) => o.value === this.value());
+    const opt = this.options().find((o) => o.value === this.effectiveValue());
     return opt ? opt.label : '';
   });
 
@@ -101,7 +148,7 @@ export class FfSelectComponent implements OnDestroy {
 
   /** @internal */
   protected toggle(): void {
-    if (this.disabled()) return;
+    if (this.effectiveDisabled()) return;
     if (this.open()) {
       this.close();
     } else {
@@ -117,8 +164,11 @@ export class FfSelectComponent implements OnDestroy {
     setTimeout(() => this.searchInput()?.nativeElement.focus());
   }
 
-  /** @internal */
+  /** @internal Closes the dropdown, marking the control as touched. */
   protected close(): void {
+    if (this.open()) {
+      this.onTouchedFn();
+    }
     this.open.set(false);
     this.search.set('');
     this.activeIndex.set(-1);
@@ -127,7 +177,11 @@ export class FfSelectComponent implements OnDestroy {
   /** @internal */
   protected selectOption(option: FfSelectOption): void {
     if (option.disabled) return;
+    if (this.cvaAttached()) {
+      this.cvaValue.set(option.value);
+    }
     this.valueChange.emit(option.value);
+    this.onChangeFn(option.value);
     this.close();
   }
 
@@ -179,7 +233,32 @@ export class FfSelectComponent implements OnDestroy {
     // stub — click-outside is handled via toggle()
   }
 
+  /** Writes a new value from the forms API. Does not emit `valueChange`. */
+  writeValue(value: string | null): void {
+    this.cvaValue.set(value);
+  }
+
+  /** Registers the forms API change callback and marks the CVA as attached. */
+  registerOnChange(fn: (value: string) => void): void {
+    this.cvaAttached.set(true);
+    this.onChangeFn = fn;
+  }
+
+  /** Registers the forms API touched callback. */
+  registerOnTouched(fn: () => void): void {
+    this.onTouchedFn = fn;
+  }
+
+  /** Sets the disabled state from the forms API (`control.disable()`). */
+  setDisabledState(isDisabled: boolean): void {
+    this.cvaDisabled.set(isDisabled);
+  }
+
   ngOnDestroy(): void {
-    this.close();
+    // Reset dropdown state directly (not via `close()`) to avoid marking
+    // the attached control as touched during teardown.
+    this.open.set(false);
+    this.search.set('');
+    this.activeIndex.set(-1);
   }
 }

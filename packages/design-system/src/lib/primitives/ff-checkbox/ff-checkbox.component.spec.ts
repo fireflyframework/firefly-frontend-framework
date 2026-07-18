@@ -1,6 +1,8 @@
 import 'zone.js';
 import 'zone.js/testing';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   BrowserTestingModule,
   platformBrowserTesting,
@@ -143,5 +145,69 @@ describe('FfCheckboxComponent', () => {
     const label = fixture.nativeElement.querySelector('label');
     const input = fixture.nativeElement.querySelector('input');
     expect(label.getAttribute('for')).toBe(input.id);
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, FfCheckboxComponent],
+  template: `<ff-checkbox [formControl]="control" />`,
+})
+class CheckboxCvaHostComponent {
+  readonly control = new FormControl(true, { nonNullable: true });
+}
+
+describe('ControlValueAccessor', () => {
+  let hostFixture: ComponentFixture<CheckboxCvaHostComponent>;
+  let control: FormControl<boolean>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CheckboxCvaHostComponent],
+    }).compileComponents();
+
+    hostFixture = TestBed.createComponent(CheckboxCvaHostComponent);
+    control = hostFixture.componentInstance.control;
+    hostFixture.detectChanges();
+  });
+
+  it('should render the initial FormControl value', () => {
+    const input = hostFixture.nativeElement.querySelector('input');
+    expect(input.checked).toBe(true);
+  });
+
+  it('should reflect a later control.setValue()', () => {
+    control.setValue(false);
+    hostFixture.detectChanges();
+
+    const input = hostFixture.nativeElement.querySelector('input');
+    expect(input.checked).toBe(false);
+  });
+
+  it('should update control value and mark it dirty on user toggle', () => {
+    const input = hostFixture.nativeElement.querySelector('input');
+    input.click();
+
+    expect(control.value).toBe(false);
+    expect(control.dirty).toBe(true);
+  });
+
+  it('should mark control as touched on toggle', () => {
+    expect(control.touched).toBe(false);
+
+    const input = hostFixture.nativeElement.querySelector('input');
+    input.click();
+
+    expect(control.touched).toBe(true);
+  });
+
+  it('should disable the component when control.disable() is called', () => {
+    control.disable();
+    hostFixture.detectChanges();
+
+    const input = hostFixture.nativeElement.querySelector('input');
+    const host = hostFixture.nativeElement.querySelector('ff-checkbox') as HTMLElement;
+    expect(input.disabled).toBe(true);
+    expect(host.classList.contains('ff-checkbox--disabled')).toBe(true);
   });
 });

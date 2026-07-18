@@ -3,10 +3,10 @@
     class="ff-checkbox__native"
     type="checkbox"
     [id]="inputId"
-    [checked]="checked()"
+    [checked]="effectiveChecked()"
     [indeterminate]="indeterminate()"
-    [disabled]="disabled()"
-    [attr.aria-checked]="indeterminate() ? 'mixed' : checked()"
+    [disabled]="effectiveDisabled()"
+    [attr.aria-checked]="indeterminate() ? 'mixed' : effectiveChecked()"
     (change)="onChange($event)"
   />
   <span class="ff-checkbox__box" aria-hidden="true"></span>

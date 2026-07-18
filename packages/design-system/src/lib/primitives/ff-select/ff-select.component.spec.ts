@@ -1,6 +1,8 @@
 import 'zone.js';
 import 'zone.js/testing';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   BrowserTestingModule,
   platformBrowserTesting,
@@ -398,5 +400,80 @@ describe('FfSelectComponent', () => {
     options.forEach((opt: HTMLElement) => {
       expect(opt.getAttribute('role')).toBe('option');
     });
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, FfSelectComponent],
+  template: `<ff-select [options]="options" [formControl]="control" />`,
+})
+class SelectCvaHostComponent {
+  readonly options = MOCK_OPTIONS;
+  readonly control = new FormControl('apple', { nonNullable: true });
+}
+
+describe('ControlValueAccessor', () => {
+  let hostFixture: ComponentFixture<SelectCvaHostComponent>;
+  let control: FormControl<string>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SelectCvaHostComponent],
+    }).compileComponents();
+
+    hostFixture = TestBed.createComponent(SelectCvaHostComponent);
+    control = hostFixture.componentInstance.control;
+    hostFixture.detectChanges();
+  });
+
+  it('should render the initial FormControl value', () => {
+    const value = hostFixture.nativeElement.querySelector('.ff-select__value');
+    expect(value.textContent.trim()).toBe('Apple');
+  });
+
+  it('should reflect a later control.setValue()', () => {
+    control.setValue('banana');
+    hostFixture.detectChanges();
+
+    const value = hostFixture.nativeElement.querySelector('.ff-select__value');
+    expect(value.textContent.trim()).toBe('Banana');
+  });
+
+  it('should update control value and mark it dirty on option click', () => {
+    const trigger = hostFixture.nativeElement.querySelector('.ff-select__trigger');
+    trigger.click();
+    hostFixture.detectChanges();
+
+    const options = hostFixture.nativeElement.querySelectorAll('.ff-select__option');
+    options[2].click();
+    hostFixture.detectChanges();
+
+    expect(control.value).toBe('cherry');
+    expect(control.dirty).toBe(true);
+  });
+
+  it('should mark control as touched when the dropdown closes', () => {
+    expect(control.touched).toBe(false);
+
+    const trigger = hostFixture.nativeElement.querySelector('.ff-select__trigger');
+    trigger.click();
+    hostFixture.detectChanges();
+
+    const options = hostFixture.nativeElement.querySelectorAll('.ff-select__option');
+    options[1].click();
+    hostFixture.detectChanges();
+
+    expect(control.touched).toBe(true);
+  });
+
+  it('should disable the component when control.disable() is called', () => {
+    control.disable();
+    hostFixture.detectChanges();
+
+    const trigger = hostFixture.nativeElement.querySelector('.ff-select__trigger');
+    const host = hostFixture.nativeElement.querySelector('ff-select') as HTMLElement;
+    expect(trigger.disabled).toBe(true);
+    expect(host.classList.contains('ff-select--disabled')).toBe(true);
   });
 });
