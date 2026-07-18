@@ -40,3 +40,19 @@ export { FfAvatarComponent } from './lib/primitives/ff-avatar';
 export type { FfAvatarSize } from './lib/primitives/ff-avatar';
 export { FfTooltipComponent } from './lib/primitives/ff-tooltip';
 export type { FfTooltipPosition } from './lib/primitives/ff-tooltip';
+export { FfIconComponent, FF_ICONS, provideFfIcons } from './lib/primitives/ff-icon';
+export type { FfIconSize } from './lib/primitives/ff-icon';
+export { FfPanelComponent } from './lib/primitives/ff-panel';
+export type { FfPanelAppearance, FfPanelVariant } from './lib/primitives/ff-panel';
+export { FfProgressComponent } from './lib/primitives/ff-progress';
+export type {
+  FfProgressVariant,
+  FfProgressSize,
+} from './lib/primitives/ff-progress';
+export { FfSkeletonComponent } from './lib/primitives/ff-skeleton';
+export type { FfSkeletonVariant } from './lib/primitives/ff-skeleton';
+export { FfEmptyStateComponent } from './lib/primitives/ff-empty-state';
+
+// Patterns
+export { FfTabBarComponent } from './lib/patterns/ff-tab-bar';
+export type { FfTab, FfTabBarVariant } from './lib/patterns/ff-tab-bar';
