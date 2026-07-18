@@ -1,0 +1,28 @@
+@for (position of positions; track position) {
+  <div
+    [class]="'ff-toast-container__region ff-toast-container__region--' + position"
+    aria-live="polite"
+  >
+    @for (toast of grouped()[position]; track toast.item.id) {
+      <div
+        class="ff-toast-container__item"
+        [attr.role]="toast.variant === 'error' ? 'alert' : null"
+        (mouseenter)="hoverStarted.emit(toast.item.id)"
+        (mouseleave)="hoverEnded.emit(toast.item.id)"
+      >
+        <ff-toast
+          [message]="toast.item.message"
+          [type]="toast.variant"
+          [dismissible]="toast.dismissible"
+          (dismissed)="dismissed.emit(toast.item.id)"
+        />
+        @if (toast.progressBar && toast.duration > 0) {
+          <div
+            class="ff-toast-container__progress"
+            [style.animation-duration.ms]="toast.duration"
+          ></div>
+        }
+      </div>
+    }
+  </div>
+}

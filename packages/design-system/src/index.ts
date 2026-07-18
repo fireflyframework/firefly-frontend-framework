@@ -61,3 +61,5 @@ export { FfEmptyStateComponent } from './lib/primitives/ff-empty-state';
 // Patterns
 export { FfTabBarComponent } from './lib/patterns/ff-tab-bar';
 export type { FfTab, FfTabBarVariant } from './lib/patterns/ff-tab-bar';
+export { FfToastContainerComponent } from './lib/patterns/ff-toast-container';
+export type { FfToastItem } from './lib/patterns/ff-toast-container';

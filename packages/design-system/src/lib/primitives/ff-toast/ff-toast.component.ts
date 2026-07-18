@@ -11,20 +11,21 @@ export type FfToastVariant = 'success' | 'error' | 'warning' | 'info';
 /**
  * Firefly toast atom.
  *
- * Compact notification rendered inline. The consumer is responsible
- * for positioning (e.g. fixed container in a corner) and iterating
- * over active toasts from AlertService.
+ * Compact notification rendered inline. The consumer positions the toast
+ * and manages its lifecycle: the headless `AlertService` from
+ * `@fireflyframework/core` orchestrates the queue (creation, auto-dismiss,
+ * pause/resume) and the presentational `ff-toast-container` pattern renders
+ * its `activeToasts()` as `ff-toast` atoms.
  *
  * @example
  * ```html
- * @for (t of alerts.activeToasts(); track t.id) {
- *   <ff-toast
- *     [message]="t.message"
- *     [type]="t.type"
- *     [dismissible]="t.options.dismissible !== false"
- *     (dismissed)="alerts.dismiss(t.id)"
- *   />
- * }
+ * <!-- app shell; alerts = inject(AlertService) from @fireflyframework/core -->
+ * <ff-toast-container
+ *   [toasts]="alerts.activeToasts()"
+ *   (dismissed)="alerts.dismiss($event)"
+ *   (hoverStarted)="alerts.pauseToast($event)"
+ *   (hoverEnded)="alerts.resumeToast($event)"
+ * />
  * ```
  */
 @Component({
