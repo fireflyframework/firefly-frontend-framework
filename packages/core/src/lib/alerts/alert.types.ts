@@ -58,6 +58,12 @@ export interface ToastOptions {
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
   /** Whether the user can manually dismiss. Default true. */
   dismissible?: boolean;
+  /**
+   * Whether the presentation layer should render a progress bar tied to
+   * `duration`. Purely presentational — the service behavior is unchanged;
+   * la capa de presentación pinta una barra ligada a `duration`.
+   */
+  progressBar?: boolean;
   icon?: string;
   customClass?: string;
   /** Custom Angular component. Uses `unknown` to avoid importing @angular/core in types. */
