@@ -42,6 +42,7 @@ export { ToastContract } from './lib/primitives/toast.contract';
 export { TooltipContract } from './lib/primitives/tooltip.contract';
 
 // ---- Pattern contracts ----
+export { DialogContainerContract } from './lib/patterns/dialog-container.contract';
 export { TabBarContract } from './lib/patterns/tab-bar.contract';
 export { ToastContainerContract } from './lib/patterns/toast-container.contract';
 
@@ -81,11 +82,12 @@ import { SelectContract } from './lib/primitives/select.contract';
 import { SkeletonContract } from './lib/primitives/skeleton.contract';
 import { ToastContract } from './lib/primitives/toast.contract';
 import { TooltipContract } from './lib/primitives/tooltip.contract';
+import { DialogContainerContract } from './lib/patterns/dialog-container.contract';
 import { TabBarContract } from './lib/patterns/tab-bar.contract';
 import { ToastContainerContract } from './lib/patterns/toast-container.contract';
 
 /**
- * Every design-system component contract (23 primitives + 2 patterns),
+ * Every design-system component contract (23 primitives + 3 patterns),
  * aggregated for whole-system checks such as {@link verifyDsContracts}.
  */
 export const ALL_CONTRACTS: readonly DsComponentContract[] = [
@@ -114,6 +116,7 @@ export const ALL_CONTRACTS: readonly DsComponentContract[] = [
   ToastContract,
   TooltipContract,
   // patterns
+  DialogContainerContract,
   TabBarContract,
   ToastContainerContract,
 ];
