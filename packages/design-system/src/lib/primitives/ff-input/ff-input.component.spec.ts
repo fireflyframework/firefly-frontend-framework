@@ -256,6 +256,235 @@ describe('FfInputComponent', () => {
     const textarea = fixture.nativeElement.querySelector('textarea');
     expect(textarea.disabled).toBe(true);
   });
+
+  // --- Label types ---
+
+  it('should have default labelType "default"', () => {
+    expect(component.labelType()).toBe('default');
+  });
+
+  it('should not render label when labelType is "hidden"', () => {
+    fixture.componentRef.setInput('label', 'Search');
+    fixture.componentRef.setInput('labelType', 'hidden');
+    fixture.detectChanges();
+
+    const label = fixture.nativeElement.querySelector('.ff-input__label');
+    expect(label).toBeFalsy();
+  });
+
+  it('should expose label as aria-label when labelType is "hidden"', () => {
+    fixture.componentRef.setInput('label', 'Search');
+    fixture.componentRef.setInput('labelType', 'hidden');
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('input');
+    expect(input.getAttribute('aria-label')).toBe('Search');
+  });
+
+  it('should not set aria-label when labelType is "default"', () => {
+    fixture.componentRef.setInput('label', 'Name');
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('input');
+    expect(input.getAttribute('aria-label')).toBeNull();
+  });
+
+  it('should apply floating modifier class when labelType is "floating"', () => {
+    fixture.componentRef.setInput('label', 'Name');
+    fixture.componentRef.setInput('labelType', 'floating');
+    fixture.detectChanges();
+
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.classList.contains('ff-input--label-floating')).toBe(true);
+    expect(fixture.nativeElement.querySelector('.ff-input__label')).toBeTruthy();
+  });
+
+  // --- Search ---
+
+  it('should emit search with the current value on Enter', () => {
+    const spy = vi.fn();
+    component.search.subscribe(spy);
+
+    const input = fixture.nativeElement.querySelector('input');
+    input.value = 'query';
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith('query');
+  });
+});
+
+describe('FfInputComponent debounce', () => {
+  let component: FfInputComponent;
+  let fixture: ComponentFixture<FfInputComponent>;
+
+  beforeEach(async () => {
+    vi.useFakeTimers();
+
+    await TestBed.configureTestingModule({
+      imports: [FfInputComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(FfInputComponent);
+    component = fixture.componentInstance;
+    fixture.componentRef.setInput('debounceTime', 300);
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  function typeValue(value: string): HTMLInputElement {
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+    return input;
+  }
+
+  it('should not emit valueChange before the debounce time elapses', () => {
+    const spy = vi.fn();
+    component.valueChange.subscribe(spy);
+
+    typeValue('hel');
+    vi.advanceTimersByTime(299);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should emit valueChange once with the last value after the quiet period', () => {
+    const spy = vi.fn();
+    component.valueChange.subscribe(spy);
+
+    typeValue('h');
+    vi.advanceTimersByTime(100);
+    typeValue('he');
+    vi.advanceTimersByTime(100);
+    typeValue('hello');
+    vi.advanceTimersByTime(300);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith('hello');
+  });
+
+  it('should flush the pending value immediately on blur', () => {
+    const spy = vi.fn();
+    component.valueChange.subscribe(spy);
+
+    const input = typeValue('pending');
+    expect(spy).not.toHaveBeenCalled();
+
+    input.dispatchEvent(new Event('blur'));
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith('pending');
+
+    vi.advanceTimersByTime(300);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should emit search when the debounce settles and type is "search"', () => {
+    fixture.componentRef.setInput('type', 'search');
+    fixture.detectChanges();
+
+    const spy = vi.fn();
+    component.search.subscribe(spy);
+
+    typeValue('firefly');
+    expect(spy).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(300);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith('firefly');
+  });
+
+  it('should not emit search on debounce settle for non-search types', () => {
+    const spy = vi.fn();
+    component.search.subscribe(spy);
+
+    typeValue('firefly');
+    vi.advanceTimersByTime(300);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should flush pending value before emitting search on Enter', () => {
+    const valueSpy = vi.fn();
+    const searchSpy = vi.fn();
+    component.valueChange.subscribe(valueSpy);
+    component.search.subscribe(searchSpy);
+
+    const input = typeValue('quick');
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    expect(valueSpy).toHaveBeenCalledWith('quick');
+    expect(searchSpy).toHaveBeenCalledWith('quick');
+
+    vi.advanceTimersByTime(300);
+    expect(valueSpy).toHaveBeenCalledTimes(1);
+    expect(searchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should emit valueChange synchronously when debounceTime is 0', () => {
+    fixture.componentRef.setInput('debounceTime', 0);
+    fixture.detectChanges();
+
+    const spy = vi.fn();
+    component.valueChange.subscribe(spy);
+
+    typeValue('now');
+
+    expect(spy).toHaveBeenCalledWith('now');
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [FfInputComponent],
+  template: `
+    <ff-input label="With affixes">
+      <span ff-input-prefix class="test-prefix">P</span>
+      <span ff-input-suffix class="test-suffix">S</span>
+    </ff-input>
+  `,
+})
+class InputAffixHostComponent {}
+
+describe('FfInputComponent affixes', () => {
+  it('should project prefix and suffix content into the slots', async () => {
+    await TestBed.configureTestingModule({
+      imports: [InputAffixHostComponent],
+    }).compileComponents();
+
+    const hostFixture = TestBed.createComponent(InputAffixHostComponent);
+    hostFixture.detectChanges();
+
+    const prefix = hostFixture.nativeElement.querySelector('.ff-input__prefix .test-prefix');
+    const suffix = hostFixture.nativeElement.querySelector('.ff-input__suffix .test-suffix');
+    expect(prefix).toBeTruthy();
+    expect(prefix.textContent).toBe('P');
+    expect(suffix).toBeTruthy();
+    expect(suffix.textContent).toBe('S');
+  });
+
+  it('should render the field wrapper with empty slots when nothing is projected', async () => {
+    await TestBed.configureTestingModule({
+      imports: [FfInputComponent],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(FfInputComponent);
+    fixture.detectChanges();
+
+    const field = fixture.nativeElement.querySelector('.ff-input__field');
+    const prefix = fixture.nativeElement.querySelector('.ff-input__prefix');
+    const suffix = fixture.nativeElement.querySelector('.ff-input__suffix');
+    expect(field).toBeTruthy();
+    expect(prefix).toBeTruthy();
+    expect(prefix.childElementCount).toBe(0);
+    expect(suffix).toBeTruthy();
+    expect(suffix.childElementCount).toBe(0);
+  });
 });
 
 @Component({
@@ -320,5 +549,56 @@ describe('ControlValueAccessor', () => {
     const host = hostFixture.nativeElement.querySelector('ff-input') as HTMLElement;
     expect(input.disabled).toBe(true);
     expect(host.classList.contains('ff-input--disabled')).toBe(true);
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, FfInputComponent],
+  template: `<ff-input [formControl]="control" [debounceTime]="300" />`,
+})
+class InputCvaDebounceHostComponent {
+  readonly control = new FormControl('initial', { nonNullable: true });
+}
+
+describe('ControlValueAccessor with debounce', () => {
+  let hostFixture: ComponentFixture<InputCvaDebounceHostComponent>;
+  let control: FormControl<string>;
+
+  beforeEach(async () => {
+    vi.useFakeTimers();
+
+    await TestBed.configureTestingModule({
+      imports: [InputCvaDebounceHostComponent],
+    }).compileComponents();
+
+    hostFixture = TestBed.createComponent(InputCvaDebounceHostComponent);
+    control = hostFixture.componentInstance.control;
+    hostFixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('should debounce the forms callback', () => {
+    const input = hostFixture.nativeElement.querySelector('input') as HTMLInputElement;
+    input.value = 'typed';
+    input.dispatchEvent(new Event('input'));
+
+    expect(control.value).toBe('initial');
+
+    vi.advanceTimersByTime(300);
+
+    expect(control.value).toBe('typed');
+  });
+
+  it('should flush the forms callback on blur', () => {
+    const input = hostFixture.nativeElement.querySelector('input') as HTMLInputElement;
+    input.value = 'typed';
+    input.dispatchEvent(new Event('input'));
+    input.dispatchEvent(new Event('blur'));
+
+    expect(control.value).toBe('typed');
   });
 });
