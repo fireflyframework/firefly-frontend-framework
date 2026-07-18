@@ -1,21 +1,23 @@
 import {
+  EnvironmentInjector,
   EnvironmentProviders,
-  InjectionToken,
+  inject,
   makeEnvironmentProviders,
+  provideAppInitializer,
 } from '@angular/core';
+import { ALERT_CONFIG } from './alert-config.token';
 import { AlertConfig } from './alert.types';
 import { AlertService } from './alert.service';
+import { setConfirmInjector } from './confirm/confirm.decorator';
 
-/**
- * Injection token for optional alert configuration.
- *
- * Provided via `provideAlerts()`. If not provided, AlertService
- * uses built-in defaults (toast 3000ms, error 5000ms, max 5 toasts, max 3 banners).
- */
-export const ALERT_CONFIG = new InjectionToken<AlertConfig>('ALERT_CONFIG');
+export { ALERT_CONFIG } from './alert-config.token';
 
 /**
  * Configure the alerts module with custom defaults.
+ *
+ * Also captures the root injector so the `@Confirm` method decorator can reach
+ * `AlertService` (its default confirm path) from outside an injection context —
+ * with `provideAlerts()` alone, `@Confirm` and `[ffConfirm]` work out of the box.
  *
  * Usage in app.config.ts:
  * ```ts
@@ -38,6 +40,9 @@ export function provideAlerts(
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
     AlertService,
+    provideAppInitializer(() => {
+      setConfirmInjector(inject(EnvironmentInjector));
+    }),
     ...(config ? [{ provide: ALERT_CONFIG, useValue: config }] : []),
   ]);
 }

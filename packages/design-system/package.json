@@ -10,6 +10,7 @@
     "directory": "packages/design-system"
   },
   "peerDependencies": {
+    "@angular/cdk": "^21.2.0",
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0"

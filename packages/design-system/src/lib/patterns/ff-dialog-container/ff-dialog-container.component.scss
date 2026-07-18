@@ -1,0 +1,110 @@
+.ff-dialog-container {
+  display: contents;
+
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: var(--ff-dialog-z, 1050);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--ff-spacing-lg, 24px);
+    box-sizing: border-box;
+  }
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: var(--ff-dialog-backdrop, rgba(0, 0, 0, 0.4));
+  }
+
+  &__panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ff-spacing-md, 16px);
+    min-width: 320px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: var(--ff-spacing-lg, 24px);
+    background-color: var(--ff-color-surface, #ffffff);
+    border-radius: var(--ff-radius-lg, 12px);
+    box-shadow: var(--ff-elevation-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
+    font-family: var(--ff-font-family, inherit);
+    animation: ff-dialog-container-enter var(--ff-dialog-enter-duration, 0.15s)
+      ease-out;
+
+    &--success {
+      --ff-dialog-container-accent: var(--ff-color-success);
+    }
+
+    &--error {
+      --ff-dialog-container-accent: var(--ff-color-error);
+    }
+
+    &--warning {
+      --ff-dialog-container-accent: var(--ff-color-warning);
+    }
+
+    &--info {
+      --ff-dialog-container-accent: var(--ff-color-info);
+    }
+
+    &--success,
+    &--error,
+    &--warning,
+    &--info {
+      border-top: 3px solid var(--ff-dialog-container-accent);
+
+      .ff-dialog-container__title,
+      .ff-dialog-container__icon {
+        color: var(--ff-dialog-container-accent);
+      }
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: var(--ff-spacing-sm, 8px);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--ff-font-size-lg, 1.125rem);
+    font-weight: var(--ff-font-weight-semibold, 600);
+    color: var(--ff-color-neutral-900, #111827);
+  }
+
+  &__message {
+    margin: 0;
+    font-size: var(--ff-font-size-md, 1rem);
+    color: var(--ff-color-neutral-700, #374151);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--ff-spacing-sm, 8px);
+  }
+}
+
+@keyframes ff-dialog-container-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ff-dialog-container__panel {
+    animation: none;
+  }
+}

@@ -1,4 +1,5 @@
 export * from './lib/alerts';
+export * from './lib/alerts/confirm';
 export * from './lib/auth';
 export * from './lib/session';
 export * from './lib/user-context';
@@ -19,4 +20,3 @@ export * from './lib/event-bus';
 export * from './lib/cookies';
 export * from './lib/pages';
 export * from './lib/http';
-export * from './lib/confirm';

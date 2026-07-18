@@ -1,14 +1,20 @@
 import type { Injector } from '@angular/core';
 
+import { AlertService } from '../alert.service';
 import { ConfirmService } from './confirm.service';
 import { resolveConfirmInput, type ConfirmInput } from './confirm.types';
 
 // Method decorators have no injection context, so the root injector is captured
-// once at bootstrap by `provideConfirm()` and read here. Module-level singleton:
-// fine for a single SPA; not SSR / multi-app (use the directive there).
+// once at bootstrap by `provideAlerts()` (or the deprecated `provideConfirm()`)
+// and read here. Module-level singleton: fine for a single SPA; not SSR /
+// multi-app (use the directive there).
 let confirmInjector: Injector | null = null;
 
-/** Wired by {@link provideConfirm} — gives `@Confirm` access to {@link ConfirmService}. */
+/**
+ * Wired by `provideAlerts()` / the deprecated `provideConfirm()` — gives
+ * `@Confirm` access to {@link AlertService} (and a custom
+ * {@link ConfirmService}, when one is bound).
+ */
 export function setConfirmInjector(injector: Injector): void {
   confirmInjector = injector;
 }
@@ -17,6 +23,12 @@ export function setConfirmInjector(injector: Injector): void {
  * Method decorator that guards execution behind a confirmation. The wrapped
  * method runs ONLY if the user confirms; on cancel it resolves to `undefined`
  * without running. The method becomes async (it awaits the dialog).
+ *
+ * The confirmation goes through {@link AlertService.confirm} by default —
+ * `provideAlerts()` is all it needs, plus a dialog presenter in the UI layer
+ * (e.g. the design system's `ff-dialog-container`). If the application binds a
+ * custom {@link ConfirmService} (deprecated `provideConfirm(Impl)` — a product
+ * with its own modal mechanism), that implementation is preferred.
  *
  * The input may be a ready-made template, or a function of the call arguments so
  * the dialog can name the entity. Both forms are translatable:
@@ -35,9 +47,9 @@ export function setConfirmInjector(injector: Injector): void {
  * async retire(id: string) { await this.types.retire(id); }
  * ```
  *
- * Requires {@link provideConfirm} in the app providers. Prefer
- * `ConfirmDirective` where a template trigger exists: it uses plain DI, works
- * under SSR, and is trivially testable.
+ * Requires `provideAlerts()` in the app providers. Prefer `ConfirmDirective`
+ * where a template trigger exists: it uses plain DI, works under SSR, and is
+ * trivially testable.
  */
 export function Confirm<A extends readonly unknown[] = readonly unknown[]>(input: ConfirmInput<A>) {
   return function (
@@ -48,10 +60,16 @@ export function Confirm<A extends readonly unknown[] = readonly unknown[]>(input
     const original = descriptor.value as (...args: A) => unknown;
     descriptor.value = async function (this: unknown, ...args: A): Promise<unknown> {
       if (!confirmInjector) {
-        throw new Error('@Confirm requires provideConfirm() in the application providers.');
+        throw new Error(
+          '@Confirm requires provideAlerts() (or the deprecated provideConfirm()) in the application providers.',
+        );
       }
-      const service = confirmInjector.get(ConfirmService);
-      const confirmed = await service.confirm(resolveConfirmInput(input, args));
+      const options = resolveConfirmInput(input, args);
+      // A custom ConfirmService (legacy port) wins over the AlertService default.
+      const custom = confirmInjector.get(ConfirmService, null, { optional: true });
+      const confirmed = custom
+        ? await custom.confirm(options)
+        : await confirmInjector.get(AlertService).confirm(options);
       return confirmed ? original.call(this, ...args) : undefined;
     };
     return descriptor;
