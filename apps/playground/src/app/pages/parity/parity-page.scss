@@ -1,0 +1,66 @@
+// Layout for the parity QA page: one block per migration wave, each
+// grouping its component specimens in flex rows spaced with the spacing
+// tokens, mirroring the `.demo-section` idiom used across the catalog pages.
+
+.parity-wave {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ff-spacing-md);
+  padding-bottom: var(--ff-spacing-lg);
+  border-bottom: 1px solid var(--ff-color-border);
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--ff-font-size-lg);
+    font-weight: var(--ff-font-weight-semibold);
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ff-spacing-sm);
+  }
+
+  &__group-title {
+    margin: 0;
+    font-size: var(--ff-font-size-sm);
+    font-weight: var(--ff-font-weight-semibold);
+    color: var(--ff-text-secondary);
+  }
+}
+
+.parity-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ff-spacing-md);
+}
+
+.parity-specimen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ff-spacing-xs);
+}
+
+.parity-full-width {
+  width: 100%;
+}
+
+// The bar collapses to zero width as a flex item; pin the track length.
+.parity-progress {
+  width: 200px;
+}
+
+.parity-card {
+  min-width: 220px;
+}
+
+.parity-body-text {
+  margin: 0;
+}
