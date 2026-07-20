@@ -1,17 +1,7 @@
 .ff-select {
-  // Component tokens
-  --ff-select-bg: var(--ff-color-surface);
-  --ff-select-border: var(--ff-color-neutral-300);
-  --ff-select-color: var(--ff-color-neutral-900);
-  --ff-select-placeholder: var(--ff-color-neutral-400);
-  --ff-select-hover-border: var(--ff-color-primary-500);
-  --ff-select-focus-ring: var(--ff-color-border-focus);
-  --ff-select-dropdown-bg: var(--ff-color-surface);
-  --ff-select-dropdown-border: var(--ff-color-neutral-200);
-  --ff-select-option-hover-bg: var(--ff-color-neutral-100);
-  --ff-select-option-selected-color: var(--ff-color-primary-500);
-  --ff-select-radius: var(--ff-radius-sm);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never restyle a select.
   display: inline-block;
   position: relative;
   // Left unspecified on purpose: declaring it here would beat any inherited
@@ -30,21 +20,21 @@
     justify-content: space-between;
     width: 100%;
     padding: var(--ff-spacing-sm) var(--ff-spacing-md);
-    background-color: var(--ff-select-bg);
-    border: 1px solid var(--ff-select-border);
-    border-radius: var(--ff-select-radius);
+    background-color: var(--ff-select-bg, var(--ff-color-surface));
+    border: 1px solid var(--ff-select-border, var(--ff-color-neutral-300));
+    border-radius: var(--ff-select-radius, var(--ff-radius-sm));
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
-    color: var(--ff-select-color);
+    color: var(--ff-select-color, var(--ff-color-neutral-900));
     cursor: pointer;
     transition: border-color 0.15s;
 
     &:hover:not(:disabled) {
-      border-color: var(--ff-select-hover-border);
+      border-color: var(--ff-select-hover-border, var(--ff-color-primary-500));
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-select-focus-ring);
+      outline: 2px solid var(--ff-select-focus-ring, var(--ff-color-border-focus));
       outline-offset: 2px;
     }
 
@@ -59,7 +49,7 @@
   }
 
   &__search::placeholder {
-    color: var(--ff-select-placeholder);
+    color: var(--ff-select-placeholder, var(--ff-color-neutral-400));
   }
 
   // Value / placeholder
@@ -71,7 +61,7 @@
     white-space: nowrap;
 
     &--placeholder {
-      color: var(--ff-select-placeholder);
+      color: var(--ff-select-placeholder, var(--ff-color-neutral-400));
     }
   }
 
@@ -91,9 +81,9 @@
   // Dropdown panel content (portaled through the CDK overlay; positioning
   // and width matching are the overlay's own, this only styles the surface).
   &__dropdown {
-    background-color: var(--ff-select-dropdown-bg);
-    border: 1px solid var(--ff-select-dropdown-border);
-    border-radius: var(--ff-select-radius);
+    background-color: var(--ff-select-dropdown-bg, var(--ff-color-surface));
+    border: 1px solid var(--ff-select-dropdown-border, var(--ff-color-neutral-200));
+    border-radius: var(--ff-select-radius, var(--ff-radius-sm));
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-height: 240px;
     overflow-y: auto;
@@ -107,20 +97,20 @@
     padding: var(--ff-spacing-sm) var(--ff-spacing-md);
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
-    color: var(--ff-select-color);
+    color: var(--ff-select-color, var(--ff-color-neutral-900));
     cursor: pointer;
     transition: background-color 0.1s;
 
     &:hover:not(&--disabled) {
-      background-color: var(--ff-select-option-hover-bg);
+      background-color: var(--ff-select-option-hover-bg, var(--ff-color-neutral-100));
     }
 
     &--active {
-      background-color: var(--ff-select-option-hover-bg);
+      background-color: var(--ff-select-option-hover-bg, var(--ff-color-neutral-100));
     }
 
     &--selected {
-      color: var(--ff-select-option-selected-color);
+      color: var(--ff-select-option-selected-color, var(--ff-color-primary-500));
       font-weight: var(--ff-font-weight-semibold);
     }
 

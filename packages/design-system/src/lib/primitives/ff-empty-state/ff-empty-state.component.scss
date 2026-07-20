@@ -1,14 +1,13 @@
 .ff-empty-state {
-  // Component tokens (overridable by consumers)
-  --ff-empty-state-gap: var(--ff-spacing-sm);
-  --ff-empty-state-padding: var(--ff-spacing-xl);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never resize an empty state.
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--ff-empty-state-gap);
-  padding: var(--ff-empty-state-padding);
+  gap: var(--ff-empty-state-gap, var(--ff-spacing-sm));
+  padding: var(--ff-empty-state-padding, var(--ff-spacing-xl));
   text-align: center;
   font-family: var(--ff-font-family);
 

@@ -1,22 +1,24 @@
 .ff-progress {
-  // Component tokens (overridable by consumers)
-  --ff-progress-track-bg: var(--ff-color-neutral-200);
-  --ff-progress-fill-bg: var(--ff-color-primary-600);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor. `--ff-progress-fill-bg` is also provided per semantic
+  // variant below (the variant is the final value on purpose); the primary
+  // value here is only the literal fallback used before any variant
+  // declaration reaches the element.
   display: flex;
   align-items: center;
   gap: var(--ff-spacing-sm);
 
   &__track {
     flex: 1 1 auto;
-    background-color: var(--ff-progress-track-bg);
+    background-color: var(--ff-progress-track-bg, var(--ff-color-neutral-200));
     border-radius: var(--ff-radius-full);
     overflow: hidden;
   }
 
   &__fill {
     height: 100%;
-    background-color: var(--ff-progress-fill-bg);
+    background-color: var(--ff-progress-fill-bg, var(--ff-color-primary-600));
     border-radius: var(--ff-radius-full);
     transition: width 0.2s ease;
   }

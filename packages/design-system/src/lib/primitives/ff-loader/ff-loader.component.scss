@@ -1,10 +1,7 @@
 .ff-loader {
-  // Component tokens
-  --ff-loader-track: var(--ff-color-neutral-200);
-  --ff-loader-indicator: var(--ff-color-primary-500);
-  --ff-loader-skeleton-from: var(--ff-color-neutral-100);
-  --ff-loader-skeleton-to: var(--ff-color-neutral-200);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never retint a loader.
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -13,8 +10,8 @@
   &__spinner {
     display: inline-block;
     border-radius: var(--ff-radius-full);
-    border: 2px solid var(--ff-loader-track);
-    border-top-color: var(--ff-loader-indicator);
+    border: 2px solid var(--ff-loader-track, var(--ff-color-neutral-200));
+    border-top-color: var(--ff-loader-indicator, var(--ff-color-primary-500));
     animation: ff-loader-spin 0.7s linear infinite;
   }
 
@@ -24,9 +21,9 @@
     border-radius: var(--ff-radius-sm);
     background: linear-gradient(
       90deg,
-      var(--ff-loader-skeleton-from) 25%,
-      var(--ff-loader-skeleton-to) 50%,
-      var(--ff-loader-skeleton-from) 75%
+      var(--ff-loader-skeleton-from, var(--ff-color-neutral-100)) 25%,
+      var(--ff-loader-skeleton-to, var(--ff-color-neutral-200)) 50%,
+      var(--ff-loader-skeleton-from, var(--ff-color-neutral-100)) 75%
     );
     background-size: 200% 100%;
     animation: ff-loader-shimmer 1.5s ease-in-out infinite;

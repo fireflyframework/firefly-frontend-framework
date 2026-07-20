@@ -1,13 +1,7 @@
 .ff-radio {
-  // Component tokens
-  --ff-radio-border: var(--ff-color-neutral-400);
-  --ff-radio-bg: var(--ff-color-surface);
-  --ff-radio-selected-bg: var(--ff-color-primary-500);
-  --ff-radio-selected-border: var(--ff-color-primary-500);
-  --ff-radio-dot-color: var(--ff-color-on-primary);
-  --ff-radio-label-color: var(--ff-color-neutral-900);
-  --ff-radio-focus-ring: var(--ff-color-border-focus);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never restyle a radio group.
   display: inline-flex;
   gap: var(--ff-spacing-md);
 
@@ -49,9 +43,9 @@
     justify-content: center;
     width: 18px;
     height: 18px;
-    border: 2px solid var(--ff-radio-border);
+    border: 2px solid var(--ff-radio-border, var(--ff-color-neutral-400));
     border-radius: 50%;
-    background-color: var(--ff-radio-bg);
+    background-color: var(--ff-radio-bg, var(--ff-color-surface));
     transition: border-color 0.15s, background-color 0.15s;
     flex-shrink: 0;
 
@@ -61,14 +55,14 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: var(--ff-radio-dot-color);
+      background-color: var(--ff-radio-dot-color, var(--ff-color-on-primary));
     }
   }
 
   // Selected state
   &__item--selected .ff-radio__dot {
-    background-color: var(--ff-radio-selected-bg);
-    border-color: var(--ff-radio-selected-border);
+    background-color: var(--ff-radio-selected-bg, var(--ff-color-primary-500));
+    border-color: var(--ff-radio-selected-border, var(--ff-color-primary-500));
 
     &::after {
       display: block;
@@ -79,13 +73,13 @@
   &__label {
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
-    color: var(--ff-radio-label-color);
+    color: var(--ff-radio-label-color, var(--ff-color-neutral-900));
     user-select: none;
   }
 
   // Focus ring
   &__native:focus-visible ~ .ff-radio__dot {
-    outline: 2px solid var(--ff-radio-focus-ring);
+    outline: 2px solid var(--ff-radio-focus-ring, var(--ff-color-border-focus));
     outline-offset: 2px;
   }
 

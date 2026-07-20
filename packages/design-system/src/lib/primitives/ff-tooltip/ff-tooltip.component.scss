@@ -1,9 +1,7 @@
 .ff-tooltip {
-  // Component tokens
-  --ff-tooltip-bg: var(--ff-color-neutral-900);
-  --ff-tooltip-color: var(--ff-color-surface);
-  --ff-tooltip-radius: var(--ff-radius-sm);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never restyle a tooltip.
   position: relative;
   display: inline-block;
 
@@ -11,9 +9,9 @@
     position: absolute;
     z-index: 1000;
     padding: var(--ff-spacing-xs);
-    background-color: var(--ff-tooltip-bg);
-    color: var(--ff-tooltip-color);
-    border-radius: var(--ff-tooltip-radius);
+    background-color: var(--ff-tooltip-bg, var(--ff-color-neutral-900));
+    color: var(--ff-tooltip-color, var(--ff-color-surface));
+    border-radius: var(--ff-tooltip-radius, var(--ff-radius-sm));
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-xs);
     line-height: 1.4;

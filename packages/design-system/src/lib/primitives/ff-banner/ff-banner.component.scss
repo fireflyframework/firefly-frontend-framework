@@ -1,19 +1,23 @@
 .ff-banner {
-  --ff-banner-bg: var(--ff-color-info-50);
-  --ff-banner-border: var(--ff-color-info-200);
-  --ff-banner-text: var(--ff-color-neutral-900);
-  --ff-banner-icon-color: var(--ff-color-info-600);
-  --ff-banner-action-color: var(--ff-color-info-700);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor. The host always renders a `ff-banner--<type>` variant
+  // class alongside this one, so `--ff-banner-bg`/`-border`/`-icon-color`/
+  // `-action-color` are provided per variant below (the variant is the
+  // semantic decision, so those declarations are the final value on
+  // purpose and are not meant to be retinted from outside); the info
+  // values here are only the literal fallback used before any variant
+  // declaration reaches the element. `--ff-banner-text` has no per-variant
+  // override, so it is a plain reserved-default fallback.
   display: flex;
   align-items: center;
   gap: var(--ff-spacing-sm);
   padding: var(--ff-spacing-sm) var(--ff-spacing-md);
-  background-color: var(--ff-banner-bg);
-  border: 1px solid var(--ff-banner-border);
+  background-color: var(--ff-banner-bg, var(--ff-color-info-50));
+  border: 1px solid var(--ff-banner-border, var(--ff-color-info-200));
   font-family: var(--ff-font-family);
   font-size: var(--ff-font-size-sm);
-  color: var(--ff-banner-text);
+  color: var(--ff-banner-text, var(--ff-color-neutral-900));
   width: 100%;
 
   // Variant overrides
@@ -47,7 +51,7 @@
 
   &__icon {
     flex-shrink: 0;
-    color: var(--ff-banner-icon-color);
+    color: var(--ff-banner-icon-color, var(--ff-color-info-600));
     font-size: var(--ff-font-size-md);
   }
 
@@ -66,7 +70,7 @@
   &__action {
     border: none;
     background: none;
-    color: var(--ff-banner-action-color);
+    color: var(--ff-banner-action-color, var(--ff-color-info-700));
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-sm);
     font-weight: var(--ff-font-weight-semibold);
