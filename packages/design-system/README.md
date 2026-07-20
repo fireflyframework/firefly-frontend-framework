@@ -76,6 +76,38 @@ Token sheets ship with the package (`./tokens` export):
 - **Dark mode**: `[data-theme="dark"]` on `<html>` (falls back to `prefers-color-scheme`).
 - **Runtime theming per tenant**: `TenantThemeService` in `@fireflyframework/core` overrides the same tokens at runtime — cascade: defaults → tenant → dark → tenant-dark.
 
+### Overriding a component token by context
+
+Every component token (e.g. `--ff-select-min-width`, `--ff-panel-bg`) is *consumed* with a fallback and never *declared* by the component itself:
+
+```scss
+// ff-select.component.scss
+.ff-select {
+  min-width: var(--ff-select-min-width, 180px);
+}
+```
+
+This is deliberate: a custom property specified on an element always wins over one inherited from an ancestor. If the component declared `--ff-select-min-width: 180px;` on `.ff-select` itself, that declaration would always be the specified value for every `ff-select`, and no surrounding container could ever narrow or widen it — the ancestor's value would be inherited but immediately shadowed. Skipping the local declaration and only ever reading the token through `var(--token, <default>)` leaves the property open for any ancestor to set, while the fallback keeps the original look when nobody does.
+
+To retint or resize a component from a specific context, set its token on a container that wraps it:
+
+```scss
+// A pagination footer that needs its page-size select to shrink below the
+// component's own 180px floor, without touching ff-select itself.
+.ff-list__page-size {
+  --ff-select-min-width: 0;
+  width: 6rem;
+}
+```
+
+```html
+<div class="ff-list__page-size">
+  <ff-select [options]="pageSizeOptions" ... />
+</div>
+```
+
+The same technique works for any other component token (`--ff-panel-bg`, `--ff-button-radius`, `--ff-input-border`, …): declare the token on a wrapping element, not on the component's own class.
+
 ## Living catalog
 
 The monorepo's `playground` app is the catalog: every component with its real variants, a foundations page rendering the token scales, and a theming page with dark toggle + token inspector.
