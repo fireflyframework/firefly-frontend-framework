@@ -9,7 +9,16 @@
   </div>
 }
 
-<div class="ff-list__items" [attr.role]="rootRole()" [attr.aria-multiselectable]="selectionMode() === 'multi' ? 'true' : null">
+<div
+  class="ff-list__items"
+  [attr.role]="rootRole()"
+  [attr.tabindex]="selectionMode() === 'none' ? null : 0"
+  [attr.aria-activedescendant]="selectionMode() === 'none' ? null : activeOptionId()"
+  [attr.aria-multiselectable]="selectionMode() === 'multi' ? 'true' : null"
+  [attr.aria-busy]="loading() ? 'true' : null"
+  (focus)="onContainerFocus()"
+  (keydown)="onContainerKeydown($event)"
+>
   @if (loading()) {
     @for (n of skeletonItems(); track n) {
       <div class="ff-list__item ff-list__item--skeleton">
@@ -24,27 +33,29 @@
     @for (item of items(); track itemKey(item, $index); let i = $index) {
       <div
         class="ff-list__item"
-        [attr.role]="itemRole()"
-        tabindex="-1"
-        [attr.aria-selected]="selectionMode() === 'none' ? null : isSelected(item)"
         [class.ff-list__item--selected]="isSelected(item)"
-        (click)="onItemClick(item, i)"
-        (keydown.enter)="onItemClick(item, i)"
+        [class.ff-list__item--active]="selectionMode() !== 'none' && i === activeIndex()"
       >
-        @if (selectionMode() !== 'none') {
-          <div class="ff-list__item-checkbox">
-            <ff-checkbox
-              [checked]="isSelected(item)"
-              (changed)="toggleItem(item)"
-              (click)="$event.stopPropagation()"
+        <div
+          class="ff-list__item-option"
+          [id]="selectionMode() !== 'none' ? optionId(i) : null"
+          [attr.role]="itemRole()"
+          [attr.tabindex]="selectionMode() !== 'none' ? -1 : null"
+          [attr.aria-selected]="selectionMode() === 'none' ? null : isSelected(item)"
+          (click)="onOptionClick(item, i)"
+          (keydown.enter)="onOptionClick(item, i)"
+        >
+          @if (selectionMode() !== 'none') {
+            <div class="ff-list__item-checkbox" aria-hidden="true" inert>
+              <ff-checkbox [checked]="isSelected(item)" />
+            </div>
+          }
+          <div class="ff-list__item-content">
+            <ng-container
+              [ngTemplateOutlet]="itemTemplate().templateRef"
+              [ngTemplateOutletContext]="{ $implicit: item, index: i }"
             />
           </div>
-        }
-        <div class="ff-list__item-content">
-          <ng-container
-            [ngTemplateOutlet]="itemTemplate().templateRef"
-            [ngTemplateOutletContext]="{ $implicit: item, index: i }"
-          />
         </div>
         @if (expandable()) {
           <button
@@ -52,7 +63,7 @@
             class="ff-list__expand-toggle"
             [attr.aria-expanded]="isExpanded(item)"
             [attr.aria-controls]="expansionPanelId(i)"
-            (click)="$event.stopPropagation(); toggleExpand(item)"
+            (click)="toggleExpand(item)"
           >
             <ff-icon
               name="chevron-right"
@@ -81,19 +92,30 @@
 @if (pagination(); as p) {
   <div class="ff-list__pagination">
     <span class="ff-list__pagination-info">{{ paginationInfoText(p) }}</span>
-    <div class="ff-list__pagination-controls">
-      <ff-button variant="ghost" size="sm" [disabled]="p.page <= 1" (clicked)="goToPage(p.page - 1, p)">
-        <ff-icon name="chevron-left" label="Previous page" />
-      </ff-button>
-      <span class="ff-list__pagination-page">{{ p.page }} / {{ totalPages(p) }}</span>
-      <ff-button
-        variant="ghost"
-        size="sm"
-        [disabled]="p.page >= totalPages(p)"
-        (clicked)="goToPage(p.page + 1, p)"
-      >
-        <ff-icon name="chevron-right" label="Next page" />
-      </ff-button>
+    <div class="ff-list__pagination-end">
+      @if (p.pageSizeOptions && p.pageSizeOptions.length > 0) {
+        <div class="ff-list__page-size">
+          <ff-select
+            [options]="pageSizeSelectOptions(p.pageSizeOptions)"
+            [value]="pageSizeValue(p)"
+            (valueChange)="onPageSizeChange($event, p)"
+          />
+        </div>
+      }
+      <div class="ff-list__pagination-controls">
+        <ff-button variant="ghost" size="sm" [disabled]="p.page <= 1" (clicked)="goToPage(p.page - 1, p)">
+          <ff-icon name="chevron-left" label="Previous page" />
+        </ff-button>
+        <span class="ff-list__pagination-page">{{ p.page }} / {{ totalPages(p) }}</span>
+        <ff-button
+          variant="ghost"
+          size="sm"
+          [disabled]="p.page >= totalPages(p)"
+          (clicked)="goToPage(p.page + 1, p)"
+        >
+          <ff-icon name="chevron-right" label="Next page" />
+        </ff-button>
+      </div>
     </div>
   </div>
 }

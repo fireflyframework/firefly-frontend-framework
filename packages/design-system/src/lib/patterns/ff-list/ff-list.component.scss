@@ -31,6 +31,20 @@
     &--selected {
       background-color: var(--ff-list-item-selected, var(--ff-color-primary-50));
     }
+
+    &--active {
+      outline: 2px solid var(--ff-color-border-focus, var(--ff-color-primary-500));
+      outline-offset: -2px;
+    }
+  }
+
+  &__item-option {
+    display: flex;
+    align-items: center;
+    gap: var(--ff-spacing-sm);
+    flex: 1 1 auto;
+    min-width: 0;
+    cursor: pointer;
   }
 
   &__item-content {
@@ -88,6 +102,16 @@
 
   &__pagination-info {
     color: var(--ff-text-secondary, var(--ff-color-neutral-600));
+  }
+
+  &__pagination-end {
+    display: flex;
+    align-items: center;
+    gap: var(--ff-spacing-md);
+  }
+
+  &__page-size {
+    width: 6rem;
   }
 
   &__pagination-controls {

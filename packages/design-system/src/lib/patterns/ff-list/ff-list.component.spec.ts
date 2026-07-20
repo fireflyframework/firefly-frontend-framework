@@ -9,7 +9,7 @@ import {
 import type { FfPaginationState } from '@fireflyframework/design-system-contract';
 
 import { provideFfIcons } from '../../primitives/ff-icon';
-import { provideFfNoResultsConfig } from '../ff-data-table/no-results-config';
+import { provideFfNoResultsConfig } from '../no-results-config';
 import {
   FfListComponent,
   FfListExpansionTemplateDirective,
@@ -45,6 +45,7 @@ const ICON_PROVIDER = provideFfIcons({
       [loading]="loading"
       [selectionMode]="selectionMode"
       [selectedItems]="selectedItems"
+      [compareWith]="compareWith"
       [expandable]="expandable"
       [expandedItems]="expandedItems"
       [pagination]="pagination"
@@ -70,6 +71,7 @@ class TestHostComponent {
   loading = false;
   selectionMode: 'none' | 'single' | 'multi' = 'none';
   selectedItems: readonly Notification[] = [];
+  compareWith: (a: Notification, b: Notification) => boolean = (a, b) => a === b;
   expandable = false;
   expandedItems: readonly Notification[] = [];
   pagination: FfPaginationState | undefined;
@@ -101,12 +103,18 @@ describe('FfListComponent', () => {
     expect(titles[0].textContent).toBe('Alpha');
   });
 
-  it('renders role="list" and listitem entries when selection is disabled', () => {
+  it('renders role="list" and listitem entries, with no tabindex, when selection is disabled', () => {
     const fixture = setup();
     const container = fixture.nativeElement.querySelector('.ff-list__items');
     expect(container.getAttribute('role')).toBe('list');
-    const items: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.ff-list__item'));
-    expect(items.every((el) => el.getAttribute('role') === 'listitem')).toBe(true);
+    expect(container.hasAttribute('tabindex')).toBe(false);
+    expect(container.hasAttribute('aria-activedescendant')).toBe(false);
+
+    const options: HTMLElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.ff-list__item-option')
+    );
+    expect(options.every((el) => el.getAttribute('role') === 'listitem')).toBe(true);
+    expect(options.every((el) => !el.hasAttribute('tabindex'))).toBe(true);
   });
 
   it('renders role="listbox" with option entries and aria-selected when selectable', () => {
@@ -114,11 +122,22 @@ describe('FfListComponent', () => {
 
     const container = fixture.nativeElement.querySelector('.ff-list__items');
     expect(container.getAttribute('role')).toBe('listbox');
+    expect(container.getAttribute('tabindex')).toBe('0');
     expect(container.getAttribute('aria-multiselectable')).toBe('true');
 
-    const items: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.ff-list__item'));
-    expect(items[0].getAttribute('role')).toBe('option');
-    expect(items[0].getAttribute('aria-selected')).toBe('false');
+    const options: HTMLElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.ff-list__item-option')
+    );
+    expect(options[0].getAttribute('role')).toBe('option');
+    expect(options[0].getAttribute('tabindex')).toBe('-1');
+    expect(options[0].getAttribute('aria-selected')).toBe('false');
+  });
+
+  it('renders the item selection checkbox as purely visual (aria-hidden, inert) while the listbox is active', () => {
+    const fixture = setup({ selectionMode: 'multi' });
+    const wrapper: HTMLElement = fixture.nativeElement.querySelector('.ff-list__item-checkbox');
+    expect(wrapper.getAttribute('aria-hidden')).toBe('true');
+    expect(wrapper.hasAttribute('inert')).toBe(true);
   });
 
   describe('selection', () => {
@@ -132,42 +151,155 @@ describe('FfListComponent', () => {
       expect(fixture.componentInstance.selectionEvents[0].selected).toEqual(ITEMS);
     });
 
-    it('toggles a single item in/out of a multi selection', () => {
+    it('toggles a single item in/out of a multi selection by clicking its option', () => {
       const fixture = setup({ selectionMode: 'multi' });
 
-      const checkboxes: HTMLInputElement[] = Array.from(
-        fixture.nativeElement.querySelectorAll('.ff-list__item-checkbox input')
+      const options: HTMLElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-list__item-option')
       );
-      checkboxes[0].click();
+      options[0].click();
       expect(fixture.componentInstance.selectionEvents[0].selected).toEqual([ITEMS[0]]);
     });
 
     it('replaces the selection in single mode', () => {
       const fixture = setup({ selectionMode: 'single' });
 
-      const checkboxes: HTMLInputElement[] = Array.from(
-        fixture.nativeElement.querySelectorAll('.ff-list__item-checkbox input')
+      const options: HTMLElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-list__item-option')
       );
-      checkboxes[1].click();
+      options[1].click();
       expect(fixture.componentInstance.selectionEvents[0].selected).toEqual([ITEMS[1]]);
     });
 
-    it('does not emit itemClick when clicking the selection checkbox', () => {
+    it('toggles selection instead of emitting itemClick when clicking an option in selection mode', () => {
       const fixture = setup({ selectionMode: 'multi' });
 
-      const checkbox: HTMLInputElement = fixture.nativeElement.querySelector(
-        '.ff-list__item-checkbox input'
+      const options: HTMLElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-list__item-option')
       );
-      checkbox.click();
+      options[0].click();
+      expect(fixture.componentInstance.selectionEvents.length).toBe(1);
       expect(fixture.componentInstance.itemClickEvents.length).toBe(0);
     });
   });
 
   it('emits itemClick with the item and index on a plain item click', () => {
     const fixture = setup();
-    const items: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.ff-list__item'));
-    items[2].click();
+    const options: HTMLElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.ff-list__item-option')
+    );
+    options[2].click();
     expect(fixture.componentInstance.itemClickEvents[0]).toEqual({ item: ITEMS[2], index: 2 });
+  });
+
+  describe('listbox keyboard model', () => {
+    function containerOf(fixture: ReturnType<typeof setup>): HTMLElement {
+      return fixture.nativeElement.querySelector('.ff-list__items');
+    }
+
+    function press(container: HTMLElement, key: string): void {
+      container.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
+    }
+
+    it('activates the first item on first focus, exposed via aria-activedescendant', () => {
+      const fixture = setup({ selectionMode: 'multi' });
+      const container = containerOf(fixture);
+      container.dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+
+      const options: HTMLElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-list__item-option')
+      );
+      expect(container.getAttribute('aria-activedescendant')).toBe(options[0].id);
+    });
+
+    it('activates the first selected item on first focus when a selection already exists', () => {
+      const fixture = setup({ selectionMode: 'multi', selectedItems: [ITEMS[1]] });
+      const container = containerOf(fixture);
+      container.dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+
+      const options: HTMLElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-list__item-option')
+      );
+      expect(container.getAttribute('aria-activedescendant')).toBe(options[1].id);
+    });
+
+    it('moves the active option with ArrowDown/ArrowUp, clamped at the edges', () => {
+      const fixture = setup({ selectionMode: 'multi' });
+      const container = containerOf(fixture);
+      container.dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+
+      const options: HTMLElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-list__item-option')
+      );
+
+      press(container, 'ArrowDown');
+      fixture.detectChanges();
+      expect(container.getAttribute('aria-activedescendant')).toBe(options[1].id);
+
+      press(container, 'ArrowDown');
+      press(container, 'ArrowDown');
+      fixture.detectChanges();
+      expect(container.getAttribute('aria-activedescendant')).toBe(options[2].id);
+
+      press(container, 'ArrowUp');
+      fixture.detectChanges();
+      expect(container.getAttribute('aria-activedescendant')).toBe(options[1].id);
+    });
+
+    it('moves the active option to the first/last item with Home/End', () => {
+      const fixture = setup({ selectionMode: 'multi' });
+      const container = containerOf(fixture);
+      container.dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+
+      const options: HTMLElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-list__item-option')
+      );
+
+      press(container, 'End');
+      fixture.detectChanges();
+      expect(container.getAttribute('aria-activedescendant')).toBe(options[2].id);
+
+      press(container, 'Home');
+      fixture.detectChanges();
+      expect(container.getAttribute('aria-activedescendant')).toBe(options[0].id);
+    });
+
+    it('toggles the active option selection with Space', () => {
+      const fixture = setup({ selectionMode: 'multi' });
+      const container = containerOf(fixture);
+      container.dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+
+      press(container, ' ');
+      expect(fixture.componentInstance.selectionEvents[0].selected).toEqual([ITEMS[0]]);
+    });
+
+    it('emits itemClick for the active option with Enter', () => {
+      const fixture = setup({ selectionMode: 'multi' });
+      const container = containerOf(fixture);
+      container.dispatchEvent(new Event('focus'));
+      fixture.detectChanges();
+
+      press(container, 'ArrowDown');
+      press(container, 'Enter');
+      expect(fixture.componentInstance.itemClickEvents[0]).toEqual({ item: ITEMS[1], index: 1 });
+      expect(fixture.componentInstance.selectionEvents.length).toBe(0);
+    });
+
+    it('is a no-op in selectionMode "none"', () => {
+      const fixture = setup();
+      const container = containerOf(fixture);
+      container.dispatchEvent(new Event('focus'));
+      press(container, 'ArrowDown');
+      fixture.detectChanges();
+
+      expect(container.hasAttribute('aria-activedescendant')).toBe(false);
+      expect(fixture.componentInstance.itemClickEvents.length).toBe(0);
+    });
   });
 
   describe('expandable items', () => {
@@ -198,6 +330,15 @@ describe('FfListComponent', () => {
     it('renders skeletonItemCount ff-skeleton placeholders while loading', () => {
       const fixture = setup({ loading: true });
       expect(fixture.nativeElement.querySelectorAll('.ff-list__item--skeleton').length).toBe(5);
+    });
+
+    it('exposes aria-busy="true" on the items container while loading, and null otherwise', () => {
+      const loading = setup({ loading: true });
+      expect(loading.nativeElement.querySelector('.ff-list__items').getAttribute('aria-busy')).toBe('true');
+
+      TestBed.resetTestingModule();
+      const idle = setup();
+      expect(idle.nativeElement.querySelector('.ff-list__items').hasAttribute('aria-busy')).toBe(false);
     });
 
     it('renders ff-empty-state with the default title when items is empty', () => {
@@ -239,6 +380,62 @@ describe('FfListComponent', () => {
     it('does not render a pagination footer when pagination is not provided', () => {
       const fixture = setup();
       expect(fixture.nativeElement.querySelector('.ff-list__pagination')).toBeNull();
+    });
+
+    it('does not render a page-size control when pageSizeOptions is omitted', () => {
+      const fixture = setup({ pagination: { page: 1, pageSize: 10, total: 25 } });
+      expect(fixture.nativeElement.querySelector('.ff-list__page-size')).toBeNull();
+    });
+
+    it('renders a page-size control when pageSizeOptions is set, requesting the new size with page reset to 1', () => {
+      const fixture = setup({
+        pagination: { page: 2, pageSize: 10, total: 25, pageSizeOptions: [10, 20, 50] },
+      });
+
+      const trigger: HTMLButtonElement = fixture.nativeElement.querySelector(
+        '.ff-list__page-size .ff-select__trigger'
+      );
+      expect(trigger).toBeTruthy();
+      trigger.click();
+      fixture.detectChanges();
+
+      const options: HTMLElement[] = Array.from(document.querySelectorAll('.ff-select__option'));
+      const target = options.find((option) => option.textContent?.trim() === '20');
+      target?.click();
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.pageEvents[0]).toEqual({ page: 1, pageSize: 20 });
+    });
+  });
+
+  describe('compareWith', () => {
+    it('keeps the selection when items is re-fetched with equivalent but non-identical item objects, given compareWith', () => {
+      const fixture = setup({
+        selectionMode: 'multi',
+        compareWith: (a: Notification, b: Notification) => a.id === b.id,
+        selectedItems: [{ id: 1, title: 'Alpha' }],
+      });
+
+      fixture.componentInstance.items = ITEMS.map((item) => ({ ...item }));
+      fixture.componentInstance.selectedItems = [{ id: 1, title: 'Alpha' }];
+      fixture.detectChanges();
+
+      const firstOption: HTMLElement = fixture.nativeElement.querySelector('.ff-list__item-option');
+      expect(firstOption.getAttribute('aria-selected')).toBe('true');
+    });
+
+    it('loses the selection across an equivalent-but-not-identical re-fetch without compareWith (default reference equality)', () => {
+      const fixture = setup({
+        selectionMode: 'multi',
+        selectedItems: [{ id: 1, title: 'Alpha' }],
+      });
+
+      fixture.componentInstance.items = ITEMS.map((item) => ({ ...item }));
+      fixture.componentInstance.selectedItems = [{ id: 1, title: 'Alpha' }];
+      fixture.detectChanges();
+
+      const firstOption: HTMLElement = fixture.nativeElement.querySelector('.ff-list__item-option');
+      expect(firstOption.getAttribute('aria-selected')).toBe('false');
     });
   });
 });
