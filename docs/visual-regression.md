@@ -74,25 +74,24 @@ overwrite each other.
 
 The installed `@playwright/test` (`1.59.1`) supports
 `--update-snapshots=missing`, which writes a baseline only when none exists
-yet and leaves existing ones untouched. The `e2e` CI job (`.github/workflows/ci.yml`)
-therefore runs the plain, non-updating suite (`pnpm nx affected -t e2e`); it
-is not gated on linux baselines already existing.
+yet and leaves existing ones untouched. A missing baseline still fails the
+run (Playwright writes the file and reports the test as failed), so until
+the linux set is committed the regular `e2e` job cannot pass — bootstrap it
+right after the branch lands:
 
-To bootstrap (or refresh) the linux baselines:
+1. In GitHub → Actions → CI → *Run workflow*, launch a manual run with the
+   **`seed_vr_baselines`** input checked. The `e2e` job then runs the suite
+   with `--update-snapshots=missing` in a non-gating step and always uploads
+   `apps/playground-e2e/src/parity.spec.ts-snapshots/` as the
+   `playground-e2e-vr-baselines` artifact.
+2. Download the artifact, inspect the new `-linux.png` files at 100% zoom,
+   and commit them alongside the `-darwin.png` set already produced locally.
+3. Nothing to revert: regular pushes/PRs never take the seeding branch of
+   the job.
 
-1. Trigger a manual run of the `e2e` job with the command temporarily
-   changed to:
-   ```
-   pnpm exec nx run playground-e2e:e2e -- --update-snapshots=missing
-   ```
-2. Add an `actions/upload-artifact` step for
-   `apps/playground-e2e/src/parity.spec.ts-snapshots/` in that run.
-3. Download the artifact, inspect the new `-linux.png` files, and commit
-   them alongside the `-darwin.png` set already produced locally.
-4. Revert the workflow command back to the plain `pnpm nx affected -t e2e`.
-
-If a future `@playwright/test` downgrade drops support for
-`--update-snapshots=missing`, use the unscoped `--update-snapshots` instead
-in the same manual run: since no linux baselines exist yet, it has the same
-effect (every screenshot is new, so nothing already-correct is at risk of
-being silently overwritten).
+The same seeding run also refreshes the artifact after an intentional
+visual change when regenerating locally is not possible; existing linux
+baselines are never overwritten by it (`missing` mode), so a deliberate
+refresh of *changed* baselines still needs the artifact from a red regular
+run (the `playground-e2e-test-results` artifact contains the actual/diff
+images).

@@ -6,6 +6,11 @@ on:
       - develop
   pull_request:
   workflow_dispatch:
+    inputs:
+      seed_vr_baselines:
+        description: 'Seed missing visual-regression baselines for this OS (upload as artifact, does not gate)'
+        type: boolean
+        default: false
 
 permissions:
   actions: read
@@ -68,7 +73,26 @@ jobs:
 
       - run: npx playwright install --with-deps chromium
 
-      - run: pnpm nx affected -t e2e
+      - name: Run e2e
+        if: ${{ github.event.inputs.seed_vr_baselines != 'true' }}
+        run: pnpm nx affected -t e2e
+
+      - name: Seed missing visual-regression baselines
+        if: ${{ github.event.inputs.seed_vr_baselines == 'true' }}
+        # A seeding run writes every absent baseline and reports it as a
+        # failure by design; the artifact below is the deliverable, so the
+        # step must not gate.
+        continue-on-error: true
+        run: pnpm exec nx run playground-e2e:e2e -- --update-snapshots=missing
+
+      - name: Upload visual-regression baselines
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playground-e2e-vr-baselines
+          path: apps/playground-e2e/src/parity.spec.ts-snapshots
+          retention-days: 7
+          if-no-files-found: ignore
 
       - name: Upload Playwright report
         if: always()
