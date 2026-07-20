@@ -28,8 +28,10 @@ import { FfButtonComponent } from '../../primitives/ff-button';
 import { FfCheckboxComponent } from '../../primitives/ff-checkbox';
 import { FfEmptyStateComponent } from '../../primitives/ff-empty-state';
 import { FfIconComponent } from '../../primitives/ff-icon';
+import type { FfSelectOption } from '../../primitives/ff-select';
+import { FfSelectComponent } from '../../primitives/ff-select';
 import { FfSkeletonComponent } from '../../primitives/ff-skeleton';
-import { FF_NO_RESULTS_CONFIG } from './no-results-config';
+import { FF_NO_RESULTS_CONFIG } from '../no-results-config';
 
 export type {
   FfDataTableHeader,
@@ -110,11 +112,11 @@ export class FfDataTableExpansionTemplateDirective {
  * (with a "select all" checkbox for the currently rendered page) and
  * server-side pagination are all event-driven — this component never sorts,
  * filters or slices `items` itself, since `items` is expected to already be
- * the current page fetched from the server. Loading and empty states
- * compose `ff-skeleton` and `ff-empty-state`; the empty-state text falls
- * back to the value configured globally via `provideFfNoResultsConfig`
- * (pattern tier — primitives only: `ff-checkbox`, `ff-skeleton`,
- * `ff-empty-state`, `ff-icon`, `ff-button`).
+ * the current page fetched from the server. An optional page-size control
+ * (composing `ff-select`) is rendered in the pagination footer when
+ * `pagination.pageSizeOptions` is set. Loading and empty states compose
+ * `ff-skeleton` and `ff-empty-state`; the empty-state text falls back to the
+ * value configured globally via `provideFfNoResultsConfig`.
  *
  * Does not implement drag-and-drop row reordering or virtual scrolling.
  *
@@ -150,6 +152,7 @@ export class FfDataTableExpansionTemplateDirective {
     FfEmptyStateComponent,
     FfIconComponent,
     FfButtonComponent,
+    FfSelectComponent,
   ],
   templateUrl: './ff-data-table.component.html',
   styleUrl: './ff-data-table.component.scss',
@@ -187,6 +190,21 @@ export class FfDataTableComponent<T extends Record<string, unknown> = Record<str
   /** Currently selected rows. */
   readonly selectedItems = input<readonly T[]>([]);
 
+  /**
+   * Decides whether two rows are "the same" for selection and expansion
+   * membership (`isSelected`, the select-all indeterminate/checked state,
+   * `isExpanded`, …). Defaults to reference equality (`a === b`).
+   *
+   * Pass a domain-id comparison (e.g. `(a, b) => a.id === b.id`) so
+   * selection and expansion survive a re-fetch that returns equivalent but
+   * non-identical row objects — without it, refreshing `items` from a new
+   * server response silently drops the selection even though the same
+   * logical rows are still present.
+   *
+   * Unrelated to `trackBy`, which only drives the `@for` rendering loop.
+   */
+  readonly compareWith = input<(a: T, b: T) => boolean>((a, b) => a === b);
+
   /** Key of the column currently driving the sort, if any. */
   readonly sortKey = input<string>();
 
@@ -209,10 +227,26 @@ export class FfDataTableComponent<T extends Record<string, unknown> = Record<str
   readonly emptyDescription = input<string>();
 
   /**
-   * Resolves a stable identity for a row, used for `@for` tracking. Defaults
-   * to positional tracking (`index`) when omitted — pass a function reading
-   * a domain id (e.g. `(row) => row.id`) for correct behavior across pages
-   * that reuse row objects.
+   * Accessible name of the table, rendered as a native `<caption>`. Omit to
+   * render no caption (the table then relies on a heading or other context
+   * provided by the consumer for its accessible name).
+   */
+  readonly caption = input('');
+
+  /**
+   * Resolves the accessible name of a row, used to name that row's
+   * selection checkbox ("Select row N" fallback) and its expansion toggle
+   * ("Toggle details for row N" fallback, or "Toggle details for " + this
+   * function's result when provided).
+   */
+  readonly rowLabel = input<(item: T, index: number) => string>();
+
+  /**
+   * Resolves a stable identity for a row, used for `@for` tracking only —
+   * it has no effect on selection or expansion membership (see
+   * `compareWith` for that). Defaults to positional tracking (`index`) when
+   * omitted — pass a function reading a domain id (e.g. `(row) => row.id`)
+   * for correct rendering behavior across pages that reuse row objects.
    */
   readonly trackBy = input<(item: T, index: number) => unknown>();
 
@@ -265,13 +299,17 @@ export class FfDataTableComponent<T extends Record<string, unknown> = Record<str
   /** @internal `true` when every row of the current page is selected. */
   protected readonly isAllSelected = computed(() => {
     const current = this.items();
-    return current.length > 0 && current.every((item) => this.selectedItems().includes(item));
+    const compare = this.compareWith();
+    const selected = this.selectedItems();
+    return current.length > 0 && current.every((item) => selected.some((s) => compare(s, item)));
   });
 
   /** @internal `true` when some, but not all, rows of the current page are selected. */
-  protected readonly isSomeSelected = computed(
-    () => !this.isAllSelected() && this.items().some((item) => this.selectedItems().includes(item))
-  );
+  protected readonly isSomeSelected = computed(() => {
+    const compare = this.compareWith();
+    const selected = this.selectedItems();
+    return !this.isAllSelected() && this.items().some((item) => selected.some((s) => compare(s, item)));
+  });
 
   /** @internal Resolved empty-state title: instance override, then global config, then a built-in default. */
   protected readonly resolvedEmptyTitle = computed(
@@ -327,23 +365,27 @@ export class FfDataTableComponent<T extends Record<string, unknown> = Record<str
     this.sortChange.emit({ key: header.key, direction });
   }
 
-  /** @internal Whether `item` is part of the current selection. */
+  /** @internal Whether `item` is part of the current selection, per `compareWith`. */
   protected isSelected(item: T): boolean {
-    return this.selectedItems().includes(item);
+    const compare = this.compareWith();
+    return this.selectedItems().some((selected) => compare(selected, item));
   }
 
   /** @internal Toggles the whole current page in/out of the selection (multi mode only). */
   protected toggleAll(): void {
+    const compare = this.compareWith();
     const current = this.items();
     if (this.isAllSelected()) {
       this.selectionChange.emit({
-        selected: this.selectedItems().filter((item) => !current.includes(item)),
+        selected: this.selectedItems().filter(
+          (selected) => !current.some((item) => compare(selected, item))
+        ),
       });
       return;
     }
     const merged = [...this.selectedItems()];
     for (const item of current) {
-      if (!merged.includes(item)) {
+      if (!merged.some((selected) => compare(selected, item))) {
         merged.push(item);
       }
     }
@@ -356,9 +398,12 @@ export class FfDataTableComponent<T extends Record<string, unknown> = Record<str
       this.selectionChange.emit({ selected: this.isSelected(item) ? [] : [item] });
       return;
     }
+    const compare = this.compareWith();
     const current = this.selectedItems();
     this.selectionChange.emit({
-      selected: this.isSelected(item) ? current.filter((i) => i !== item) : [...current, item],
+      selected: this.isSelected(item)
+        ? current.filter((selectedItem) => !compare(selectedItem, item))
+        : [...current, item],
     });
   }
 
@@ -367,9 +412,10 @@ export class FfDataTableComponent<T extends Record<string, unknown> = Record<str
     this.rowClick.emit({ item, index });
   }
 
-  /** @internal Whether `item`'s expansion panel is currently shown. */
+  /** @internal Whether `item`'s expansion panel is currently shown, per `compareWith`. */
   protected isExpanded(item: T): boolean {
-    return this.expandedItems().includes(item);
+    const compare = this.compareWith();
+    return this.expandedItems().some((expanded) => compare(expanded, item));
   }
 
   /** @internal Toggles a row's expansion state and emits `expandedChange`. */
@@ -380,6 +426,18 @@ export class FfDataTableComponent<T extends Record<string, unknown> = Record<str
   /** @internal Id of an expansion row, referenced by its toggle's `aria-controls`. */
   protected expansionRowId(index: number): string {
     return `${this.instanceId}-expansion-${index}`;
+  }
+
+  /** @internal Accessible name for a row's selection checkbox: `rowLabel`, or "Select row N" (1-based). */
+  protected rowAriaLabel(item: T, index: number): string {
+    const resolve = this.rowLabel();
+    return resolve ? resolve(item, index) : `Select row ${index + 1}`;
+  }
+
+  /** @internal Accessible name for a row's expansion toggle, distinguishing each row instead of repeating one static string. */
+  protected expandToggleLabel(item: T, index: number): string {
+    const resolve = this.rowLabel();
+    return resolve ? `Toggle details for ${resolve(item, index)}` : `Toggle details for row ${index + 1}`;
   }
 
   /** @internal Total number of pages for the current pagination state (at least 1). */
@@ -404,5 +462,28 @@ export class FfDataTableComponent<T extends Record<string, unknown> = Record<str
       return;
     }
     this.pageChange.emit({ page: clamped, pageSize: pagination.pageSize });
+  }
+
+  /** @internal Maps `pageSizeOptions` to `ff-select` options, string-valued since `ff-select` works with string values. */
+  protected pageSizeSelectOptions(options: readonly number[]): FfSelectOption[] {
+    return options.map((size) => ({ label: String(size), value: String(size) }));
+  }
+
+  /** @internal Current page size as the string value `ff-select` expects. */
+  protected pageSizeValue(pagination: FfPaginationState): string {
+    return String(pagination.pageSize);
+  }
+
+  /**
+   * @internal Requests a different page size, resetting `page` to `1` since
+   * the previous page number is meaningless against a different page size.
+   * No-ops when the requested size matches the current one.
+   */
+  protected onPageSizeChange(value: string, pagination: FfPaginationState): void {
+    const pageSize = Number(value);
+    if (!Number.isFinite(pageSize) || pageSize === pagination.pageSize) {
+      return;
+    }
+    this.pageChange.emit({ page: 1, pageSize });
   }
 }

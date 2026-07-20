@@ -60,6 +60,12 @@ export interface FfSortChangeEvent {
 /**
  * Payload emitted when the selection changes, shared by `ff-data-table` and
  * `ff-list`.
+ *
+ * `selected` is compared against a page's `items` by reference (`===`)
+ * unless the component instance was given a `compareWith` function, in which
+ * case membership is decided by that function instead — see the
+ * `compareWith` input and its `behavior.aria` clause on each pattern's
+ * contract.
  */
 export interface FfSelectionChangeEvent<T> {
   /** Full set of selected items after the change. */
@@ -69,6 +75,9 @@ export interface FfSelectionChangeEvent<T> {
 /**
  * Payload emitted when a row/item is expanded or collapsed, shared by
  * `ff-data-table` and `ff-list`.
+ *
+ * Like `FfSelectionChangeEvent`, expansion membership is decided by
+ * reference equality unless a `compareWith` function is supplied.
  */
 export interface FfExpandChangeEvent<T> {
   /** The row/item whose expansion state changed. */
@@ -100,7 +109,16 @@ export interface FfPaginationState {
 export interface FfPageChangeEvent {
   /** Requested page, 1-based. */
   readonly page: number;
-  /** Requested page size. */
+  /**
+   * Requested page size — the size to fetch next.
+   *
+   * Equal to the current `FfPaginationState.pageSize` when only the page
+   * number changed (previous/next navigation). When the page-size control
+   * (rendered when `pagination.pageSizeOptions` is set) is used to request a
+   * different size, `pageSize` carries that new value and `page` is reset to
+   * `1`, since the previous page number is meaningless against a different
+   * page size.
+   */
   readonly pageSize: number;
 }
 
@@ -122,16 +140,16 @@ export interface FfNoResultsConfig {
  *
  * Typed headers with cell/row/expansion templates, server-side sorting,
  * single/multi selection with a "select all" checkbox, expandable rows and
- * server-side pagination. Loading and empty states compose `ff-skeleton` and
- * `ff-empty-state`; the empty-state text falls back to the value configured
- * globally via `provideFfNoResultsConfig`. Composes `ff-checkbox`,
- * `ff-skeleton`, `ff-empty-state`, `ff-icon` and `ff-button` (pattern tier —
- * primitives only).
+ * server-side pagination (including an optional page-size control). Loading
+ * and empty states compose `ff-skeleton` and `ff-empty-state`; the
+ * empty-state text falls back to the value configured globally via
+ * `provideFfNoResultsConfig`. Composes `ff-checkbox`, `ff-skeleton`,
+ * `ff-empty-state`, `ff-icon`, `ff-button` and `ff-select`.
  */
 export const DataTableContract: DsComponentContract = {
   selector: 'ff-data-table',
   category: 'pattern',
-  composes: ['ff-checkbox', 'ff-skeleton', 'ff-empty-state', 'ff-icon', 'ff-button'],
+  composes: ['ff-checkbox', 'ff-skeleton', 'ff-empty-state', 'ff-icon', 'ff-button', 'ff-select'],
   inputs: {
     headers: {
       type: "readonly { key: string; label: string; sortable?: boolean; width?: string; align?: 'start' | 'center' | 'end' }[]",
@@ -145,6 +163,11 @@ export const DataTableContract: DsComponentContract = {
       default: "'none'",
     },
     selectedItems: { type: 'readonly unknown[]', required: false, default: '[]' },
+    compareWith: {
+      type: '((a: unknown, b: unknown) => boolean) | undefined',
+      required: false,
+      default: '(a, b) => a === b',
+    },
     sortKey: { type: 'string | undefined', required: false, default: 'undefined' },
     sortDirection: {
       type: "'asc' | 'desc' | null",
@@ -160,6 +183,12 @@ export const DataTableContract: DsComponentContract = {
     },
     emptyTitle: { type: 'string | undefined', required: false, default: 'undefined' },
     emptyDescription: { type: 'string | undefined', required: false, default: 'undefined' },
+    caption: { type: 'string', required: false, default: "''" },
+    rowLabel: {
+      type: '((item: unknown, index: number) => string) | undefined',
+      required: false,
+      default: 'undefined',
+    },
     skeletonRowCount: { type: 'number', required: false, default: '5' },
     trackBy: {
       type: '((item: unknown, index: number) => unknown) | undefined',
@@ -182,12 +211,17 @@ export const DataTableContract: DsComponentContract = {
       'Enter/Space on a sortable header toggles its sort direction (native button semantics)',
       'Enter/Space on an expand toggle expands/collapses its row (native button semantics)',
       'native checkbox semantics drive row and select-all selection',
+      'the page-size control (rendered when pagination.pageSizeOptions is set) follows ff-select\'s own keyboard contract',
     ],
     aria: [
       'root renders a native table (role is implicit) with <th scope="col"> headers',
+      'caption, when provided, renders a native <caption> naming the table',
+      'the table exposes aria-busy="true" while loading',
       'sortable header cells expose aria-sort reflecting the current sort state',
-      'expandable rows expose aria-expanded on their toggle control',
-      'the select-all checkbox exposes indeterminate state when only some rendered rows are selected',
+      'expandable rows expose aria-expanded on their toggle control, named via rowLabel (falls back to "Toggle details for row N")',
+      'the select-all checkbox exposes indeterminate state when only some rendered rows are selected, and is named "Select all rows"',
+      'each row checkbox is named via rowLabel (falls back to "Select row N")',
+      'selection and expansion membership (isSelected, isAllSelected/isSomeSelected, toggleAll, isExpanded) are decided by compareWith, defaulting to reference equality (a === b) — pass compareWith (e.g. (a, b) => a.id === b.id) to keep selection/expansion stable across a re-fetch that returns equivalent but non-identical row objects; trackBy governs only the @for row-rendering loop and has no effect on selection or expansion membership',
     ],
   },
 };

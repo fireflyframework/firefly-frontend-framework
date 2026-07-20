@@ -87,14 +87,10 @@ export {
   FfDataTableCellTemplateDirective,
   FfDataTableRowTemplateDirective,
   FfDataTableExpansionTemplateDirective,
-  FF_NO_RESULTS_CONFIG,
-  provideFfNoResultsConfig,
 } from './lib/patterns/ff-data-table';
-export type {
-  FfDataTableTemplateContext,
-  FfDataTableHeader,
-  FfNoResultsConfig,
-} from './lib/patterns/ff-data-table';
+export type { FfDataTableTemplateContext, FfDataTableHeader } from './lib/patterns/ff-data-table';
+export { FF_NO_RESULTS_CONFIG, provideFfNoResultsConfig } from './lib/patterns/no-results-config';
+export type { FfNoResultsConfig } from '@fireflyframework/design-system-contract';
 export {
   FfListComponent,
   FfListItemTemplateDirective,

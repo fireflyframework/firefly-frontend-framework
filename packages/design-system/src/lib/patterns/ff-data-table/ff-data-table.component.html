@@ -1,9 +1,13 @@
-<table class="ff-data-table__table">
+<table class="ff-data-table__table" [attr.aria-busy]="loading() ? 'true' : null">
+  @if (caption()) {
+    <caption class="ff-data-table__caption">{{ caption() }}</caption>
+  }
   <thead class="ff-data-table__head">
     <tr class="ff-data-table__head-row">
       @if (selectionMode() === 'multi') {
         <th class="ff-data-table__head-cell ff-data-table__head-cell--checkbox" scope="col">
           <ff-checkbox
+            ariaLabel="Select all rows"
             [checked]="isAllSelected()"
             [indeterminate]="isSomeSelected()"
             [disabled]="items().length === 0"
@@ -75,7 +79,11 @@
         >
           @if (selectionMode() !== 'none') {
             <td class="ff-data-table__cell ff-data-table__cell--checkbox" (click)="$event.stopPropagation()">
-              <ff-checkbox [checked]="isSelected(item)" (changed)="toggleRow(item)" />
+              <ff-checkbox
+                [checked]="isSelected(item)"
+                [ariaLabel]="rowAriaLabel(item, i)"
+                (changed)="toggleRow(item)"
+              />
             </td>
           }
           @if (expandable()) {
@@ -90,7 +98,7 @@
                 <ff-icon
                   name="chevron-right"
                   size="sm"
-                  label="Toggle row details"
+                  [label]="expandToggleLabel(item, i)"
                   class="ff-data-table__expand-icon"
                   [class.ff-data-table__expand-icon--expanded]="isExpanded(item)"
                 />
@@ -139,19 +147,30 @@
 @if (pagination(); as p) {
   <div class="ff-data-table__pagination">
     <span class="ff-data-table__pagination-info">{{ paginationInfoText(p) }}</span>
-    <div class="ff-data-table__pagination-controls">
-      <ff-button variant="ghost" size="sm" [disabled]="p.page <= 1" (clicked)="goToPage(p.page - 1, p)">
-        <ff-icon name="chevron-left" label="Previous page" />
-      </ff-button>
-      <span class="ff-data-table__pagination-page">{{ p.page }} / {{ totalPages(p) }}</span>
-      <ff-button
-        variant="ghost"
-        size="sm"
-        [disabled]="p.page >= totalPages(p)"
-        (clicked)="goToPage(p.page + 1, p)"
-      >
-        <ff-icon name="chevron-right" label="Next page" />
-      </ff-button>
+    <div class="ff-data-table__pagination-end">
+      @if (p.pageSizeOptions && p.pageSizeOptions.length > 0) {
+        <div class="ff-data-table__page-size">
+          <ff-select
+            [options]="pageSizeSelectOptions(p.pageSizeOptions)"
+            [value]="pageSizeValue(p)"
+            (valueChange)="onPageSizeChange($event, p)"
+          />
+        </div>
+      }
+      <div class="ff-data-table__pagination-controls">
+        <ff-button variant="ghost" size="sm" [disabled]="p.page <= 1" (clicked)="goToPage(p.page - 1, p)">
+          <ff-icon name="chevron-left" label="Previous page" />
+        </ff-button>
+        <span class="ff-data-table__pagination-page">{{ p.page }} / {{ totalPages(p) }}</span>
+        <ff-button
+          variant="ghost"
+          size="sm"
+          [disabled]="p.page >= totalPages(p)"
+          (clicked)="goToPage(p.page + 1, p)"
+        >
+          <ff-icon name="chevron-right" label="Next page" />
+        </ff-button>
+      </div>
     </div>
   </div>
 }

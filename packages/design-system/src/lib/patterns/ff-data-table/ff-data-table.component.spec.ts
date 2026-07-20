@@ -15,7 +15,7 @@ import {
   FfDataTableExpansionTemplateDirective,
   FfDataTableRowTemplateDirective,
 } from './ff-data-table.component';
-import { provideFfNoResultsConfig } from './no-results-config';
+import { provideFfNoResultsConfig } from '../no-results-config';
 
 TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
   teardown: { destroyAfterEach: true },
@@ -75,6 +75,30 @@ describe('FfDataTableComponent', () => {
     fixture.detectChanges();
     return fixture;
   }
+
+  it('renders a native caption when provided, and none otherwise', () => {
+    const withCaption = setup();
+    withCaption.componentRef.setInput('caption', 'Invoices');
+    withCaption.detectChanges();
+    const caption = withCaption.nativeElement.querySelector('caption');
+    expect(caption).toBeTruthy();
+    expect(caption.textContent).toBe('Invoices');
+
+    TestBed.resetTestingModule();
+    const withoutCaption = setup();
+    expect(withoutCaption.nativeElement.querySelector('caption')).toBeNull();
+  });
+
+  it('exposes aria-busy="true" on the table while loading, and null otherwise', () => {
+    const loading = setup({ loading: true });
+    expect(loading.nativeElement.querySelector('.ff-data-table__table').getAttribute('aria-busy')).toBe(
+      'true'
+    );
+
+    TestBed.resetTestingModule();
+    const idle = setup();
+    expect(idle.nativeElement.querySelector('.ff-data-table__table').hasAttribute('aria-busy')).toBe(false);
+  });
 
   it('renders one <th> per header plus the label text', () => {
     const fixture = setup();
@@ -193,6 +217,36 @@ describe('FfDataTableComponent', () => {
       );
       checkboxes[1].click();
       expect(events[0].selected).toEqual([ROWS[1]]);
+    });
+
+    it('names the select-all checkbox and each row checkbox for assistive technology', () => {
+      const fixture = setup({ selectionMode: 'multi' });
+
+      const headCheckbox: HTMLInputElement = fixture.nativeElement.querySelector(
+        '.ff-data-table__head-cell--checkbox input'
+      );
+      expect(headCheckbox.getAttribute('aria-label')).toBe('Select all rows');
+
+      const rowCheckboxes: HTMLInputElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-data-table__cell--checkbox input')
+      );
+      expect(rowCheckboxes[0].getAttribute('aria-label')).toBe('Select row 1');
+      expect(rowCheckboxes[1].getAttribute('aria-label')).toBe('Select row 2');
+    });
+
+    it('names each row checkbox through rowLabel when provided', () => {
+      TestBed.configureTestingModule({ imports: [FfDataTableComponent], providers: [ICON_PROVIDER] });
+      const fixture = TestBed.createComponent(FfDataTableComponent<Row>);
+      fixture.componentRef.setInput('headers', HEADERS);
+      fixture.componentRef.setInput('items', ROWS);
+      fixture.componentRef.setInput('selectionMode', 'multi');
+      fixture.componentRef.setInput('rowLabel', (row: Row) => `Row ${row.name}`);
+      fixture.detectChanges();
+
+      const rowCheckboxes: HTMLInputElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.ff-data-table__cell--checkbox input')
+      );
+      expect(rowCheckboxes[0].getAttribute('aria-label')).toBe('Row Alpha');
     });
 
     it('does not emit rowClick when clicking the selection checkbox cell', () => {
@@ -393,6 +447,74 @@ describe('FfDataTableComponent', () => {
     it('does not render a pagination footer when pagination is not provided', () => {
       const fixture = setup();
       expect(fixture.nativeElement.querySelector('.ff-data-table__pagination')).toBeNull();
+    });
+
+    it('does not render a page-size control when pageSizeOptions is omitted', () => {
+      const fixture = setup({ pagination: PAGE });
+      expect(fixture.nativeElement.querySelector('.ff-data-table__page-size')).toBeNull();
+    });
+
+    it('renders a page-size control when pageSizeOptions is set, requesting the new size with page reset to 1', () => {
+      const fixture = setup({
+        pagination: { page: 2, pageSize: 10, total: 25, pageSizeOptions: [10, 20, 50] },
+      });
+      const events: { page: number; pageSize: number }[] = [];
+      fixture.componentInstance.pageChange.subscribe((e) => events.push(e));
+
+      const trigger: HTMLButtonElement = fixture.nativeElement.querySelector(
+        '.ff-data-table__page-size .ff-select__trigger'
+      );
+      expect(trigger).toBeTruthy();
+      trigger.click();
+      fixture.detectChanges();
+
+      const options: HTMLElement[] = Array.from(document.querySelectorAll('.ff-select__option'));
+      const target = options.find((option) => option.textContent?.trim() === '20');
+      target?.click();
+      fixture.detectChanges();
+
+      expect(events[0]).toEqual({ page: 1, pageSize: 20 });
+    });
+  });
+
+  describe('compareWith', () => {
+    it('keeps the selection when items is re-fetched with equivalent but non-identical row objects, given compareWith', () => {
+      const fixture = setup({
+        selectionMode: 'multi',
+        selectedItems: [{ id: 1, name: 'Alpha', status: 'active' }],
+      });
+      fixture.componentRef.setInput('compareWith', (a: Row, b: Row) => a.id === b.id);
+      fixture.detectChanges();
+
+      const refetchedRows: readonly Row[] = ROWS.map((row) => ({ ...row }));
+      fixture.componentRef.setInput('items', refetchedRows);
+      fixture.componentRef.setInput('selectedItems', [{ id: 1, name: 'Alpha', status: 'active' }]);
+      fixture.detectChanges();
+
+      const rowCheckbox: HTMLInputElement = fixture.nativeElement.querySelector(
+        '.ff-data-table__cell--checkbox input'
+      );
+      expect(rowCheckbox.checked).toBe(true);
+      expect(
+        fixture.nativeElement.querySelector('.ff-data-table__row--selected')
+      ).not.toBeNull();
+    });
+
+    it('loses the selection across an equivalent-but-not-identical re-fetch without compareWith (default reference equality)', () => {
+      const fixture = setup({
+        selectionMode: 'multi',
+        selectedItems: [{ id: 1, name: 'Alpha', status: 'active' }],
+      });
+
+      const refetchedRows: readonly Row[] = ROWS.map((row) => ({ ...row }));
+      fixture.componentRef.setInput('items', refetchedRows);
+      fixture.componentRef.setInput('selectedItems', [{ id: 1, name: 'Alpha', status: 'active' }]);
+      fixture.detectChanges();
+
+      const rowCheckbox: HTMLInputElement = fixture.nativeElement.querySelector(
+        '.ff-data-table__cell--checkbox input'
+      );
+      expect(rowCheckbox.checked).toBe(false);
     });
   });
 });

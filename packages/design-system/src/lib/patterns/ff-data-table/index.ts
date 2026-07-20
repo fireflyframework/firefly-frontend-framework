@@ -16,5 +16,3 @@ export type {
   FfSortChangeEvent,
   FfSortDirection,
 } from './ff-data-table.component';
-export { FF_NO_RESULTS_CONFIG, provideFfNoResultsConfig } from './no-results-config';
-export type { FfNoResultsConfig } from '@fireflyframework/design-system-contract';
