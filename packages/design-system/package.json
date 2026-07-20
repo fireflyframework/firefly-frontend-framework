@@ -14,7 +14,7 @@
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
-    "@fireflyframework/design-system-contract": "^0.1.0"
+    "@fireflyframework/design-system-contract": ">=0.2.0 <1.0.0"
   },
   "exports": {
     "./tokens": {

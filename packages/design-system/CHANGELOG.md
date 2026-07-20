@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `ff-data-table` — composition-tier pattern (composes `ff-checkbox`, `ff-skeleton`, `ff-empty-state`, `ff-icon`, `ff-button`, `ff-select`): typed headers with cell/row/expansion templates, server-side sorting, single/multi selection with a "select all" checkbox, expandable rows, server-side pagination with an optional page-size control, a `caption` input and a `rowLabel` input naming each row's checkbox/expand toggle
+- `ff-list` — composition-tier pattern sharing `ff-data-table`'s selection/pagination/expansion/empty-state model without columns; renders a real `role="listbox"` with a full keyboard contract (arrows, Home/End, Space, Enter) and `role="option"` entries when selection is enabled
+- `FF_NO_RESULTS_CONFIG` / `provideFfNoResultsConfig()`: shared empty-state text configuration for `ff-data-table` and `ff-list`
+- `compareWith` input on `ff-data-table` and `ff-list`: lets selection/expansion membership survive a re-fetch that returns equivalent but non-identical objects, instead of the default reference equality
+- `ariaLabel` input on `ff-checkbox`, applied as `aria-label` on the native input when `label` is empty
+
+### Changed
+- New peer dependency range: `@fireflyframework/design-system-contract ">=0.2.0 <1.0.0"` (required by the `DataTableContract`/`ListContract` additions)
+
 ## [0.3.0] - 2026-07-18
 
 ### Added

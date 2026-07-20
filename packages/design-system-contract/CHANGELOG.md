@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `DataTableContract` and `ListContract`: contracts for the `ff-data-table` and `ff-list` patterns, including their `keyboard`/`aria` behavior clauses (`ff-list`'s full listbox keyboard model, page-size control, `compareWith`-driven selection/expansion)
+- 10 public types shared by `ff-data-table` and `ff-list`: `FfSortDirection`, `FfSelectionMode`, `FfDataTableHeader`, `FfRowEvent`, `FfSortChangeEvent`, `FfSelectionChangeEvent`, `FfExpandChangeEvent`, `FfPaginationState`, `FfPageChangeEvent`, `FfNoResultsConfig`
+- `ariaLabel` input added to `CheckboxContract`
+
+### Changed
+- Package version bumped to `0.2.0` (minor) for the two new pattern contracts and public types above
+
 ## [0.1.0] - 2026-07-18
 
 ### Added
