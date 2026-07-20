@@ -146,6 +146,28 @@ describe('FfCheckboxComponent', () => {
     const input = fixture.nativeElement.querySelector('input');
     expect(label.getAttribute('for')).toBe(input.id);
   });
+
+  it('should expose ariaLabel as aria-label when label is empty', () => {
+    fixture.componentRef.setInput('ariaLabel', 'Select all rows');
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('input');
+    expect(input.getAttribute('aria-label')).toBe('Select all rows');
+  });
+
+  it('should not set aria-label when label has a value, even if ariaLabel is set', () => {
+    fixture.componentRef.setInput('label', 'Accept terms');
+    fixture.componentRef.setInput('ariaLabel', 'Ignored');
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('input');
+    expect(input.hasAttribute('aria-label')).toBe(false);
+  });
+
+  it('should not set aria-label when neither label nor ariaLabel are provided', () => {
+    const input = fixture.nativeElement.querySelector('input');
+    expect(input.hasAttribute('aria-label')).toBe(false);
+  });
 });
 
 @Component({
