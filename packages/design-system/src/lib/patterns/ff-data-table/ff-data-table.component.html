@@ -1,0 +1,176 @@
+<table class="ff-data-table__table" [attr.aria-busy]="loading() ? 'true' : null">
+  @if (caption()) {
+    <caption class="ff-data-table__caption">{{ caption() }}</caption>
+  }
+  <thead class="ff-data-table__head">
+    <tr class="ff-data-table__head-row">
+      @if (selectionMode() === 'multi') {
+        <th class="ff-data-table__head-cell ff-data-table__head-cell--checkbox" scope="col">
+          <ff-checkbox
+            ariaLabel="Select all rows"
+            [checked]="isAllSelected()"
+            [indeterminate]="isSomeSelected()"
+            [disabled]="items().length === 0"
+            (changed)="toggleAll()"
+          />
+        </th>
+      } @else if (selectionMode() === 'single') {
+        <th class="ff-data-table__head-cell ff-data-table__head-cell--checkbox" scope="col" aria-hidden="true"></th>
+      }
+      @if (expandable()) {
+        <th class="ff-data-table__head-cell ff-data-table__head-cell--expand" scope="col" aria-hidden="true"></th>
+      }
+      @for (header of headers(); track header.key) {
+        <th
+          class="ff-data-table__head-cell"
+          [class.ff-data-table__head-cell--sortable]="header.sortable"
+          [style.width]="header.width ?? null"
+          [style.text-align]="header.align ?? 'start'"
+          scope="col"
+          [attr.aria-sort]="ariaSortFor(header)"
+        >
+          @if (header.sortable) {
+            <button type="button" class="ff-data-table__sort-button" (click)="toggleSort(header)">
+              <span class="ff-data-table__sort-label">{{ header.label }}</span>
+              <ff-icon
+                name="chevron-down"
+                size="sm"
+                class="ff-data-table__sort-icon"
+                [class.ff-data-table__sort-icon--asc]="sortKey() === header.key && sortDirection() === 'asc'"
+                [class.ff-data-table__sort-icon--inactive]="sortKey() !== header.key || sortDirection() === null"
+              />
+            </button>
+          } @else {
+            {{ header.label }}
+          }
+        </th>
+      }
+    </tr>
+  </thead>
+  <tbody class="ff-data-table__body">
+    @if (loading()) {
+      @for (n of skeletonRows(); track n) {
+        <tr class="ff-data-table__row ff-data-table__row--skeleton">
+          @if (selectionMode() !== 'none') {
+            <td class="ff-data-table__cell ff-data-table__cell--checkbox"></td>
+          }
+          @if (expandable()) {
+            <td class="ff-data-table__cell ff-data-table__cell--expand"></td>
+          }
+          @for (header of headers(); track header.key) {
+            <td class="ff-data-table__cell">
+              <ff-skeleton variant="text" />
+            </td>
+          }
+        </tr>
+      }
+    } @else if (items().length === 0) {
+      <tr class="ff-data-table__row ff-data-table__row--empty">
+        <td class="ff-data-table__cell ff-data-table__empty-cell" [attr.colspan]="totalColumnCount()">
+          <ff-empty-state [title]="resolvedEmptyTitle()" [description]="resolvedEmptyDescription()" />
+        </td>
+      </tr>
+    } @else {
+      @for (item of items(); track itemKey(item, $index); let i = $index) {
+        <tr
+          class="ff-data-table__row"
+          [class.ff-data-table__row--selected]="isSelected(item)"
+          (click)="onRowClick(item, i)"
+        >
+          @if (selectionMode() !== 'none') {
+            <td class="ff-data-table__cell ff-data-table__cell--checkbox" (click)="$event.stopPropagation()">
+              <ff-checkbox
+                [checked]="isSelected(item)"
+                [ariaLabel]="rowAriaLabel(item, i)"
+                (changed)="toggleRow(item)"
+              />
+            </td>
+          }
+          @if (expandable()) {
+            <td class="ff-data-table__cell ff-data-table__cell--expand" (click)="$event.stopPropagation()">
+              <button
+                type="button"
+                class="ff-data-table__expand-toggle"
+                [attr.aria-expanded]="isExpanded(item)"
+                [attr.aria-controls]="expansionRowId(i)"
+                (click)="toggleExpand(item)"
+              >
+                <ff-icon
+                  name="chevron-right"
+                  size="sm"
+                  [label]="expandToggleLabel(item, i)"
+                  class="ff-data-table__expand-icon"
+                  [class.ff-data-table__expand-icon--expanded]="isExpanded(item)"
+                />
+              </button>
+            </td>
+          }
+          @if (rowTemplate(); as rt) {
+            <td class="ff-data-table__cell" [attr.colspan]="headers().length">
+              <ng-container
+                [ngTemplateOutlet]="rt.templateRef"
+                [ngTemplateOutletContext]="{ $implicit: item, index: i }"
+              />
+            </td>
+          } @else {
+            @for (header of headers(); track header.key) {
+              <td class="ff-data-table__cell" [style.text-align]="header.align ?? 'start'">
+                @if (cellTemplateMap().get(header.key); as tpl) {
+                  <ng-container
+                    [ngTemplateOutlet]="tpl"
+                    [ngTemplateOutletContext]="{ $implicit: item, index: i }"
+                  />
+                } @else {
+                  {{ cellValue(item, header.key) }}
+                }
+              </td>
+            }
+          }
+        </tr>
+        @if (expandable() && isExpanded(item)) {
+          <tr class="ff-data-table__row ff-data-table__row--expansion" [id]="expansionRowId(i)">
+            <td class="ff-data-table__cell ff-data-table__expansion-cell" [attr.colspan]="totalColumnCount()">
+              @if (expansionTemplate(); as et) {
+                <ng-container
+                  [ngTemplateOutlet]="et.templateRef"
+                  [ngTemplateOutletContext]="{ $implicit: item, index: i }"
+                />
+              }
+            </td>
+          </tr>
+        }
+      }
+    }
+  </tbody>
+</table>
+
+@if (pagination(); as p) {
+  <div class="ff-data-table__pagination">
+    <span class="ff-data-table__pagination-info">{{ paginationInfoText(p) }}</span>
+    <div class="ff-data-table__pagination-end">
+      @if (p.pageSizeOptions && p.pageSizeOptions.length > 0) {
+        <div class="ff-data-table__page-size">
+          <ff-select
+            [options]="pageSizeSelectOptions(p.pageSizeOptions)"
+            [value]="pageSizeValue(p)"
+            (valueChange)="onPageSizeChange($event, p)"
+          />
+        </div>
+      }
+      <div class="ff-data-table__pagination-controls">
+        <ff-button variant="ghost" size="sm" [disabled]="p.page <= 1" (clicked)="goToPage(p.page - 1, p)">
+          <ff-icon name="chevron-left" label="Previous page" />
+        </ff-button>
+        <span class="ff-data-table__pagination-page">{{ p.page }} / {{ totalPages(p) }}</span>
+        <ff-button
+          variant="ghost"
+          size="sm"
+          [disabled]="p.page >= totalPages(p)"
+          (clicked)="goToPage(p.page + 1, p)"
+        >
+          <ff-icon name="chevron-right" label="Next page" />
+        </ff-button>
+      </div>
+    </div>
+  </div>
+}

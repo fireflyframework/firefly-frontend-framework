@@ -66,6 +66,14 @@ export class FfCheckboxComponent implements ControlValueAccessor {
   /** Label text displayed next to the checkbox. */
   readonly label = input('');
 
+  /**
+   * Accessible name applied to the native input via `aria-label` when
+   * `label()` is empty. Ignored whenever `label()` has a value, since the
+   * wrapping `<label>` already names the control and duplicating the name
+   * would confuse assistive technology.
+   */
+  readonly ariaLabel = input('');
+
   /** Emits the new checked state when toggled. */
   readonly changed = output<boolean>();
 

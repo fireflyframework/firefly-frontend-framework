@@ -14,7 +14,9 @@
 
   display: inline-block;
   position: relative;
-  min-width: 180px;
+  // Left unspecified on purpose: declaring it here would beat any inherited
+  // value, so an ancestor could never narrow the select.
+  min-width: var(--ff-select-min-width, 180px);
 
   &__control {
     position: relative;

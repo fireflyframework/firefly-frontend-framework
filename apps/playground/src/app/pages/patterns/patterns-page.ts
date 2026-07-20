@@ -10,7 +10,6 @@ import { PATTERN_COMPONENTS } from '../../shared/catalog-nav';
 
 /** Planned patterns not yet implemented in the design system. */
 const PATTERN_BACKLOG = [
-  'Data table (sortable columns, row selection)',
   'Form field group (label + control + validation orchestration)',
   'Pagination',
   'Breadcrumbs',
@@ -28,7 +27,7 @@ const PATTERN_BACKLOG = [
       <h2 class="page__title">Patterns</h2>
       <p class="page__lead">
         Patterns are compositions of primitives (and only primitives) solving a recurring
-        UI problem. One pattern is available today; the rest are on the backlog.
+        UI problem. Three patterns are available today; the rest are on the backlog.
       </p>
 
       <div class="catalog-grid">

@@ -40,4 +40,6 @@ export const CATALOG_COMPONENTS: readonly CatalogEntry[] = [
 /** Patterns demonstrated under `/patterns`. */
 export const PATTERN_COMPONENTS: readonly CatalogEntry[] = [
   { slug: 'tab-bar', label: 'Tab Bar', selector: 'ff-tab-bar', description: 'Horizontal tab strip (underline/pills) composing ff-icon and ff-badge.' },
+  { slug: 'data-table', label: 'Data Table', selector: 'ff-data-table', description: 'Typed headers with cell/row/expansion templates, sorting, selection and server-side pagination.' },
+  { slug: 'list', label: 'List', selector: 'ff-list', description: 'Item-per-template collection sharing the data table selection, pagination and empty states.' },
 ];

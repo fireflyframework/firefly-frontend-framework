@@ -82,3 +82,30 @@ export type {
   FfDialogItem,
   FfDialogResolution,
 } from './lib/patterns/ff-dialog-container';
+export {
+  FfDataTableComponent,
+  FfDataTableCellTemplateDirective,
+  FfDataTableRowTemplateDirective,
+  FfDataTableExpansionTemplateDirective,
+} from './lib/patterns/ff-data-table';
+export type { FfDataTableTemplateContext, FfDataTableHeader } from './lib/patterns/ff-data-table';
+export { FF_NO_RESULTS_CONFIG, provideFfNoResultsConfig } from './lib/patterns/no-results-config';
+export type { FfNoResultsConfig } from '@fireflyframework/design-system-contract';
+export {
+  FfListComponent,
+  FfListItemTemplateDirective,
+  FfListExpansionTemplateDirective,
+} from './lib/patterns/ff-list';
+export type { FfListTemplateContext } from './lib/patterns/ff-list';
+
+// Data-table / list shared types
+export type {
+  FfSortDirection,
+  FfSelectionMode,
+  FfRowEvent,
+  FfSortChangeEvent,
+  FfSelectionChangeEvent,
+  FfExpandChangeEvent,
+  FfPaginationState,
+  FfPageChangeEvent,
+} from '@fireflyframework/design-system-contract';
