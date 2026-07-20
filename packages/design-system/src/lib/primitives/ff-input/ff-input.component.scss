@@ -1,19 +1,7 @@
 .ff-input {
-  // Component tokens
-  --ff-input-bg: var(--ff-color-surface);
-  --ff-input-border: var(--ff-color-border);
-  --ff-input-color: var(--ff-color-neutral-900);
-  --ff-input-placeholder: var(--ff-color-neutral-400);
-  --ff-input-focus-border: var(--ff-color-primary-500);
-  --ff-input-focus-ring: var(--ff-color-border-focus);
-  --ff-input-label-color: var(--ff-color-neutral-700);
-  --ff-input-hint-color: var(--ff-color-neutral-500);
-  --ff-input-error-color: var(--ff-color-error-600);
-  --ff-input-error-border: var(--ff-color-error-500);
-  --ff-input-error-ring: var(--ff-color-error-200);
-  --ff-input-affix-color: var(--ff-color-neutral-500);
-  --ff-input-radius: var(--ff-radius-md);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never restyle an input.
   display: flex;
   flex-direction: column;
   gap: var(--ff-spacing-xs);
@@ -22,7 +10,7 @@
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-sm);
     font-weight: var(--ff-font-weight-medium);
-    color: var(--ff-input-label-color);
+    color: var(--ff-input-label-color, var(--ff-color-neutral-700));
   }
 
   // Field wrapper: carries the box (border, background, focus ring) so the
@@ -30,14 +18,14 @@
   &__field {
     display: flex;
     align-items: center;
-    background-color: var(--ff-input-bg);
-    border: 1px solid var(--ff-input-border);
-    border-radius: var(--ff-input-radius);
+    background-color: var(--ff-input-bg, var(--ff-color-surface));
+    border: 1px solid var(--ff-input-border, var(--ff-color-border));
+    border-radius: var(--ff-input-radius, var(--ff-radius-md));
     transition: border-color 0.2s, box-shadow 0.2s;
 
     &:focus-within {
-      border-color: var(--ff-input-focus-border);
-      box-shadow: 0 0 0 2px var(--ff-input-focus-ring);
+      border-color: var(--ff-input-focus-border, var(--ff-color-primary-500));
+      box-shadow: 0 0 0 2px var(--ff-input-focus-ring, var(--ff-color-border-focus));
     }
   }
 
@@ -50,7 +38,7 @@
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
-    color: var(--ff-input-affix-color);
+    color: var(--ff-input-affix-color, var(--ff-color-neutral-500));
 
     &:empty {
       display: none;
@@ -74,14 +62,14 @@
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-md);
     line-height: var(--ff-line-height-normal);
-    color: var(--ff-input-color);
+    color: var(--ff-input-color, var(--ff-color-neutral-900));
     background-color: transparent;
     border: none;
-    border-radius: var(--ff-input-radius);
+    border-radius: var(--ff-input-radius, var(--ff-radius-md));
     outline: none;
 
     &::placeholder {
-      color: var(--ff-input-placeholder);
+      color: var(--ff-input-placeholder, var(--ff-color-neutral-400));
     }
 
     &:disabled {
@@ -93,13 +81,13 @@
   &__hint {
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-xs);
-    color: var(--ff-input-hint-color);
+    color: var(--ff-input-hint-color, var(--ff-color-neutral-500));
   }
 
   &__error {
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-xs);
-    color: var(--ff-input-error-color);
+    color: var(--ff-input-error-color, var(--ff-color-error-600));
   }
 
   // Textarea
@@ -119,22 +107,22 @@
       padding: 0 var(--ff-spacing-xs);
       font-size: var(--ff-font-size-xs);
       line-height: 1;
-      background-color: var(--ff-input-bg);
+      background-color: var(--ff-input-bg, var(--ff-color-surface));
       z-index: 1;
     }
   }
 
   // Error state
   &--error .ff-input__field {
-    border-color: var(--ff-input-error-border);
+    border-color: var(--ff-input-error-border, var(--ff-color-error-500));
 
     &:focus-within {
-      box-shadow: 0 0 0 2px var(--ff-input-error-ring);
+      box-shadow: 0 0 0 2px var(--ff-input-error-ring, var(--ff-color-error-200));
     }
   }
 
   &--error .ff-input__label {
-    color: var(--ff-input-error-color);
+    color: var(--ff-input-error-color, var(--ff-color-error-600));
   }
 
   // Disabled state

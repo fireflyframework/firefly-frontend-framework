@@ -1,11 +1,8 @@
 .ff-button {
-  // Shared component tokens
-  --ff-btn-radius: var(--ff-radius-md);
-  --ff-btn-focus-ring: var(--ff-color-border-focus);
-  --ff-btn-icon-size: 1.2em;
-  --ff-btn-on-solid-color: var(--ff-color-on-primary);
-  --ff-btn-ghost-hover-bg: var(--ff-color-neutral-100);
-
+  // Shared component tokens are consumed with a fallback, never declared
+  // here: a declaration on this same selector would always beat a value
+  // inherited from an ancestor, so a container could never restyle a
+  // button. The color-axis hooks below already follow this pattern.
   display: inline-block;
 
   &__native {
@@ -14,7 +11,7 @@
     justify-content: center;
     gap: var(--ff-spacing-sm);
     border: 1px solid transparent;
-    border-radius: var(--ff-btn-radius);
+    border-radius: var(--ff-btn-radius, var(--ff-radius-md));
     font-family: var(--ff-font-family);
     font-weight: var(--ff-font-weight-medium);
     cursor: pointer;
@@ -55,7 +52,7 @@
   // Style axis: solid
   &--solid .ff-button__native {
     background-color: var(--ff-btn-color-bg);
-    color: var(--ff-btn-on-solid-color);
+    color: var(--ff-btn-on-solid-color, var(--ff-color-on-primary));
     border-color: var(--ff-btn-color-bg);
 
     &:hover:not(:disabled) {
@@ -68,7 +65,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-btn-focus-ring);
+      outline: 2px solid var(--ff-btn-focus-ring, var(--ff-color-border-focus));
       outline-offset: 2px;
     }
   }
@@ -84,7 +81,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-btn-focus-ring);
+      outline: 2px solid var(--ff-btn-focus-ring, var(--ff-color-border-focus));
       outline-offset: 2px;
     }
   }
@@ -96,11 +93,11 @@
     border-color: transparent;
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-btn-ghost-hover-bg);
+      background-color: var(--ff-btn-ghost-hover-bg, var(--ff-color-neutral-100));
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-btn-focus-ring);
+      outline: 2px solid var(--ff-btn-focus-ring, var(--ff-color-border-focus));
       outline-offset: 2px;
     }
   }
@@ -119,8 +116,8 @@
   // Spinner (matches icon size)
   &__spinner {
     display: inline-block;
-    width: var(--ff-btn-icon-size);
-    height: var(--ff-btn-icon-size);
+    width: var(--ff-btn-icon-size, 1.2em);
+    height: var(--ff-btn-icon-size, 1.2em);
     border: 2px solid currentColor;
     border-right-color: transparent;
     border-radius: var(--ff-radius-full);
@@ -133,7 +130,7 @@
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
-    font-size: var(--ff-btn-icon-size);
+    font-size: var(--ff-btn-icon-size, 1.2em);
     color: var(--ff-btn-icon-color, inherit);
     line-height: 1;
   }

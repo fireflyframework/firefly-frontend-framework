@@ -1,13 +1,10 @@
 .ff-panel {
-  // Component tokens (overridable by consumers)
-  --ff-panel-bg: var(--ff-color-surface);
-  --ff-panel-border: var(--ff-color-border);
-  --ff-panel-radius: var(--ff-radius-lg);
-  --ff-panel-padding: var(--ff-spacing-md);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never retint/resize a panel.
   display: block;
-  background-color: var(--ff-panel-bg);
-  border-radius: var(--ff-panel-radius);
+  background-color: var(--ff-panel-bg, var(--ff-color-surface));
+  border-radius: var(--ff-panel-radius, var(--ff-radius-lg));
   font-family: var(--ff-font-family);
   overflow: hidden;
 
@@ -52,7 +49,7 @@
 
   // ---- Appearances ----
   &--card {
-    border: 1px solid var(--ff-panel-border);
+    border: 1px solid var(--ff-panel-border, var(--ff-color-border));
 
     &.ff-panel--fill {
       background-color: var(--ff-panel-tint);
@@ -74,7 +71,7 @@
     display: flex;
     align-items: center;
     gap: var(--ff-spacing-sm);
-    padding: var(--ff-panel-padding);
+    padding: var(--ff-panel-padding, var(--ff-spacing-md));
     padding-bottom: 0;
 
     &:empty {
@@ -97,7 +94,7 @@
   }
 
   &__body {
-    padding: var(--ff-panel-padding);
+    padding: var(--ff-panel-padding, var(--ff-spacing-md));
 
     &:empty {
       display: none;
@@ -105,7 +102,7 @@
   }
 
   &__footer {
-    padding: var(--ff-panel-padding);
+    padding: var(--ff-panel-padding, var(--ff-spacing-md));
     padding-top: 0;
 
     &:empty {

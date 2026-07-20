@@ -1,21 +1,24 @@
 .ff-toast {
-  --ff-toast-bg: var(--ff-color-surface);
-  --ff-toast-border: var(--ff-color-neutral-200);
-  --ff-toast-text: var(--ff-color-neutral-900);
-  --ff-toast-icon-color: var(--ff-color-neutral-500);
-  --ff-toast-radius: var(--ff-radius-md);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor. The host always renders a `ff-toast--<type>` variant
+  // class alongside this one, so `--ff-toast-border`/`-icon-color` are
+  // provided per variant below (the variant is the semantic decision, so
+  // those declarations are the final value on purpose); the neutral values
+  // here are only the literal fallback used before any variant declaration
+  // reaches the element. `--ff-toast-bg`/`-text`/`-radius` have no
+  // per-variant override, so they are plain reserved-default fallbacks.
   display: inline-flex;
   align-items: center;
   gap: var(--ff-spacing-sm);
   padding: var(--ff-spacing-sm) var(--ff-spacing-md);
-  background-color: var(--ff-toast-bg);
-  border: 1px solid var(--ff-toast-border);
-  border-radius: var(--ff-toast-radius);
+  background-color: var(--ff-toast-bg, var(--ff-color-surface));
+  border: 1px solid var(--ff-toast-border, var(--ff-color-neutral-200));
+  border-radius: var(--ff-toast-radius, var(--ff-radius-md));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: var(--ff-font-family);
   font-size: var(--ff-font-size-sm);
-  color: var(--ff-toast-text);
+  color: var(--ff-toast-text, var(--ff-color-neutral-900));
   min-width: 240px;
   max-width: 420px;
 
@@ -42,7 +45,7 @@
 
   &__icon {
     flex-shrink: 0;
-    color: var(--ff-toast-icon-color);
+    color: var(--ff-toast-icon-color, var(--ff-color-neutral-500));
     font-size: var(--ff-font-size-md);
   }
 
