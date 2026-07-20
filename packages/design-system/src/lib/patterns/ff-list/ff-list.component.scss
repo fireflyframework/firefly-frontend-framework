@@ -111,6 +111,10 @@
   }
 
   &__page-size {
+    // The select must shrink to the footer's scale; its own floor would
+    // otherwise overflow this box and paint over the pagination controls.
+    --ff-select-min-width: 0;
+
     width: 6rem;
   }
 
