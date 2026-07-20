@@ -78,7 +78,7 @@ Token sheets ship with the package (`./tokens` export):
 
 ### Overriding a component token by context
 
-Every component token (e.g. `--ff-select-min-width`, `--ff-panel-bg`) is *consumed* with a fallback and never *declared* by the component itself:
+A component's **base** tokens (e.g. `--ff-select-min-width`, `--ff-panel-bg`) are *consumed* with a fallback and never *declared* by the component itself:
 
 ```scss
 // ff-select.component.scss
@@ -106,7 +106,9 @@ To retint or resize a component from a specific context, set its token on a cont
 </div>
 ```
 
-The same technique works for any other component token (`--ff-panel-bg`, `--ff-button-radius`, `--ff-input-border`, …): declare the token on a wrapping element, not on the component's own class.
+The same technique works for any other base token (`--ff-panel-bg`, `--ff-button-radius`, `--ff-input-border`, …): declare the token on a wrapping element, not on the component's own class.
+
+**Variant tokens are the exception.** A variant modifier picks the final value for that variant on the element itself (`.ff-panel--warning { --ff-panel-accent: var(--ff-color-warning-500); }`), so an ancestor cannot override it — the element's own declaration wins. Retint a variant through the palette instead (`--ff-color-warning-500` on `:root` or a theme scope), which is what the variant resolves from.
 
 ## Living catalog
 
