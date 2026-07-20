@@ -1,0 +1,47 @@
+.ff-menu-button {
+  display: inline-block;
+
+  &__chevron {
+    transition: transform 0.15s;
+  }
+
+  &__chevron--open {
+    transform: rotate(180deg);
+  }
+}
+
+// Rendered inside the CDK overlay pane (moved out of `.ff-menu-button` in the
+// DOM), so these rules stay top-level rather than nested under the host.
+.ff-menu-button__panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  padding: var(--ff-spacing-xs) 0;
+  background-color: var(--ff-menu-button-panel-bg, var(--ff-color-surface));
+  border: 1px solid var(--ff-menu-button-panel-border, var(--ff-color-border));
+  border-radius: var(--ff-radius-md);
+  box-shadow: var(--ff-menu-button-panel-shadow, var(--ff-elevation-md));
+}
+
+.ff-menu-button__item {
+  display: block;
+  width: 100%;
+  padding: var(--ff-spacing-xs) var(--ff-spacing-md);
+  border: none;
+  background: transparent;
+  color: var(--ff-menu-button-item-color, var(--ff-color-on-surface));
+  font-family: var(--ff-font-family);
+  font-size: var(--ff-font-size-sm);
+  text-align: left;
+  cursor: pointer;
+
+  &:hover:not(:disabled),
+  &--active {
+    background-color: var(--ff-menu-button-item-hover-bg, var(--ff-color-neutral-100));
+  }
+
+  &:disabled {
+    color: var(--ff-text-disabled);
+    cursor: not-allowed;
+  }
+}

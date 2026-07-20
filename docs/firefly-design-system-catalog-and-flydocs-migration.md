@@ -129,7 +129,7 @@ Leyenda estado: ✅ existe/cubre · 🆕 creado en esta rama · 🔶 existe con 
 | Hub UI (usos) | Uso en Flydocs | Componente Firefly | Gap funcional | Gap visual | Compatibilidad / migración |
 |---|---|---|---|---|---|
 | hub-icon (332) | Iconografía global, dual-pack app+fa | 🆕 `ff-icon` + `provideFfIcons` | Pack `fa:` por webfont no soportado (decisión: consolidar en SVG propio) | Ninguno (mismos SVG: ICON_PATHS ya es del producto) | Directa: registrar ICON_PATHS en provideFfIcons; codemod `hub-icon→ff-icon` |
-| hub-button (205) | variant solid/outline/ghost + color + size + loading | 🔶 `ff-button` | Eje `color` independiente del variant no existe (ff fusiona ambos); FAB/speed-dial/dropdown no existen | Estados hover/active a validar contra tema | Adaptación menor de API (mapa variant+color→variant) o extender ff-button con eje color (backlog FF-CAT-02); menús → 📋 |
+| hub-button (205) | variant solid/outline/ghost + color + size + loading | 🆕 `ff-button` (eje `color` propio) + 🆕 `ff-menu-button` | FAB/speed-dial no existen (explícitamente fuera de alcance de FF-CAT-02) | Estados hover/active a validar contra tema | Eje `color` independiente añadido, retrocompatible con la API previa (mapa `variant-hub→ff` en la tabla siguiente); menú dropdown → `ff-menu-button` (FF-CAT-02 resuelto salvo FAB) |
 | hub-badge (182) | variant soft, size xs/sm, color por pipes dominio, dot, shape, tooltip overflow | 🔶 `ff-badge` | Ejes color/dot/shape/overflow-tooltip; los pipes de dominio devuelven `HubBadgeColor` | Tallas xs | Extender ff-badge (FF-CAT-03); los pipes cambian su tipo de retorno al vocabulario ff |
 | hub-panel/hub-panels (189) | card, alert (variant warning/danger, role=alert), tabs, pills, accordion | 🆕 `ff-panel` (card/alert) + 🆕 `ff-tab-bar` (tabs/pills) | Accordion 📋 (FF-CAT-04); API de panels con `[active]`/`(selectPanel)` difiere | Acentos por variant a validar | hub-panel card/alert → ff-panel (directa); type tabs/pills → ff-tab-bar; accordion pendiente |
 | hub-input (110) | CVA (formControlName 59), label, prefijo icono, debounce/search, labelType | 🔶 `ff-input` (+CVA 🆕) | Prefijo/sufijo de icono, debounce, evento search, labelType | Chrome del campo a validar | CVA ya compatible; afijos y search → FF-CAT-05 |
@@ -147,6 +147,27 @@ Leyenda estado: ✅ existe/cubre · 🆕 creado en esta rama · 🔶 existe con 
 | hub-stepper (2) / milestones (7) | Wizard settings; timelines | 📋 (`ff-wizard` pattern) | — | — | FF-CAT-14 |
 | ng-hub-ui-ds (tokens+reset+utilities) | 2.587 refs `--hub-*` + utilities `.d-flex`… en cientos de templates | 🔶 tokens `--ff-*` (ahora distribuidos) | **Utilities CSS**: gap transversal — decisión §26.4 | Valores: el tema Flydocs debe portarse a `--ff-*` | Fase de coexistencia con bridge `--ff-*→--hub-*` invertido (§25) |
 | StatusPill/ConfidencePill/ExtractionField/FileRow/… | Dominio IDP | 🏠 componentes de producto | n/a | n/a | Se reconstruyen en producto sobre ff-badge/ff-panel/… (dsComponents) |
+
+### 12.1 Mapa `variant`/`color` — hub-button → ff-button (FF-CAT-02)
+
+`ff-button` separa el eje de estilo (`variant`: `solid` / `outline` / `ghost`) del eje semántico
+(`color`: `primary` / `secondary` / `success` / `warning` / `error` / `info` / `neutral`), igual
+que hub-button. Los 205 usos actuales que combinan `variant` + `color` de forma independiente
+migran de forma directa (uno a uno, sin adaptador):
+
+| hub-button `variant` | hub-button `color` | `ff-button` `variant` | `ff-button` `color` |
+|---|---|---|---|
+| `solid` | `primary` / `secondary` / `success` / `warning` / `danger` / `info` | `solid` | mismo nombre (`danger` → `error`) |
+| `outline` | (cualquiera) | `outline` | mismo nombre (`danger` → `error`) |
+| `ghost` | (cualquiera) | `ghost` | mismo nombre (`danger` → `error`) |
+| `dropdown` (menú de acciones) | — | — | ver `ff-menu-button` (compone `ff-button` + `ff-icon`) |
+| `fab` / `speed-dial` | — | 📋 no existe | Fuera de alcance de FF-CAT-02 |
+
+**Retrocompatibilidad de la API previa de `ff-button`** (anterior a este ticket, sin eje `color`):
+los valores heredados `variant="primary"` y `variant="secondary"` se siguen aceptando
+(soft-deprecados vía JSDoc) y se resuelven internamente a `variant: 'solid'` + el `color`
+correspondiente (`primary` / `secondary`) cuando no se fija `color` explícito — ningún call site
+existente cambia su render.
 
 ## 13. Gap analysis
 

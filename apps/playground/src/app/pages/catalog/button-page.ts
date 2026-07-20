@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  FfButtonColor,
   FfButtonComponent,
   FfButtonSize,
   FfButtonVariant,
@@ -16,16 +17,35 @@ import { DemoSection } from '../../shared/demo-section';
     <div class="page">
       <h2 class="page__title">Button</h2>
       <p class="page__lead">
-        <code>&lt;ff-button&gt;</code> — action button with four variants, three sizes, and
-        disabled/loading states. Emits <code>(clicked)</code> only when interactive.
+        <code>&lt;ff-button&gt;</code> — action button with two independent axes,
+        <code>variant</code> (style: solid / outline / ghost) and <code>color</code>
+        (semantic palette), three sizes, and disabled/loading states. Emits
+        <code>(clicked)</code> only when interactive.
       </p>
 
       <app-demo-section
-        heading="Variants"
-        description="All values of FfButtonVariant."
-        [code]="snippets.variants"
+        heading="Style × Color"
+        description="Every FfButtonVariant style crossed with every FfButtonColor."
+        [code]="snippets.axes"
       >
-        @for (v of variants; track v) {
+        <div class="demo-stack" style="max-width: 100%">
+          @for (v of styleVariants; track v) {
+            <div>
+              <span class="demo-label">variant="{{ v }}"</span><br />
+              @for (c of colors; track c) {
+                <ff-button [variant]="v" [color]="c">{{ c }}</ff-button>
+              }
+            </div>
+          }
+        </div>
+      </app-demo-section>
+
+      <app-demo-section
+        heading="Legacy variant compatibility"
+        description="Pre-dual-axis values ('primary' / 'secondary') keep rendering as solid buttons — soft-deprecated, still supported."
+        [code]="snippets.legacy"
+      >
+        @for (v of legacyVariants; track v) {
           <ff-button [variant]="v">{{ v }}</ff-button>
         }
       </app-demo-section>
@@ -53,19 +73,26 @@ import { DemoSection } from '../../shared/demo-section';
   `,
 })
 export class ButtonPage {
-  protected readonly variants: readonly FfButtonVariant[] = [
+  protected readonly styleVariants: readonly FfButtonVariant[] = ['solid', 'outline', 'ghost'];
+  protected readonly colors: readonly FfButtonColor[] = [
     'primary',
     'secondary',
-    'outline',
-    'ghost',
+    'success',
+    'warning',
+    'error',
+    'info',
+    'neutral',
   ];
+  protected readonly legacyVariants: readonly FfButtonVariant[] = ['primary', 'secondary'];
   protected readonly sizes: readonly FfButtonSize[] = ['sm', 'md', 'lg'];
 
   protected readonly snippets = {
-    variants: `<ff-button variant="primary" (clicked)="save()">Save</ff-button>
-<ff-button variant="secondary">Secondary</ff-button>
-<ff-button variant="outline">Outline</ff-button>
-<ff-button variant="ghost">Ghost</ff-button>`,
+    axes: `<ff-button variant="solid" color="primary" (clicked)="save()">Save</ff-button>
+<ff-button variant="outline" color="error">Delete</ff-button>
+<ff-button variant="ghost" color="neutral">Cancel</ff-button>`,
+    legacy: `<!-- soft-deprecated, still supported: maps to solid + matching color -->
+<ff-button variant="primary">Save</ff-button>
+<ff-button variant="secondary">Secondary</ff-button>`,
     sizes: `<ff-button size="sm">Small</ff-button>
 <ff-button size="md">Medium</ff-button>
 <ff-button size="lg">Large</ff-button>`,

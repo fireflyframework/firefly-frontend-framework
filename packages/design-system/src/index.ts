@@ -1,6 +1,10 @@
 // @fireflyframework/design-system — Public API
 export { FfButtonComponent } from './lib/primitives/ff-button';
-export type { FfButtonVariant, FfButtonSize } from './lib/primitives/ff-button';
+export type {
+  FfButtonVariant,
+  FfButtonColor,
+  FfButtonSize,
+} from './lib/primitives/ff-button';
 export { FfIconButtonComponent } from './lib/primitives/ff-icon-button';
 export type { FfIconButtonSize } from './lib/primitives/ff-icon-button';
 export { FfBadgeComponent } from './lib/primitives/ff-badge';
@@ -59,6 +63,8 @@ export type { FfSkeletonVariant } from './lib/primitives/ff-skeleton';
 export { FfEmptyStateComponent } from './lib/primitives/ff-empty-state';
 
 // Patterns
+export { FfMenuButtonComponent } from './lib/patterns/ff-menu-button';
+export type { FfMenuButtonItem } from './lib/patterns/ff-menu-button';
 export { FfTabBarComponent } from './lib/patterns/ff-tab-bar';
 export type { FfTab, FfTabBarVariant } from './lib/patterns/ff-tab-bar';
 export { FfToastContainerComponent } from './lib/patterns/ff-toast-container';
