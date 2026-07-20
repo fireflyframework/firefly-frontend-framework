@@ -60,7 +60,9 @@ const ALL_NOTIFICATIONS: readonly Notification[] = Array.from({ length: 18 }, (_
 
       <app-demo-section
         heading="Selection, expansion and server-side pagination"
-        description="Select items, expand one for details. role adapts to selectionMode: listbox/option here."
+        description="Select items, expand one for details. role adapts to selectionMode: listbox/option here.
+          Use ArrowUp/ArrowDown, Home/End, Space and Enter on the list once focused. Change the page
+          size from the footer control."
         [code]="snippet"
       >
         <div class="demo-stack" style="max-width: 100%">
@@ -113,7 +115,7 @@ const ALL_NOTIFICATIONS: readonly Notification[] = Array.from({ length: 18 }, (_
 })
 export class ListPage {
   protected readonly page = signal(1);
-  protected readonly pageSize = 5;
+  protected readonly pageSize = signal(5);
   protected readonly loading = signal(false);
   protected readonly items = signal<readonly Notification[]>([]);
   protected readonly selected = signal<readonly Notification[]>([]);
@@ -122,8 +124,9 @@ export class ListPage {
 
   protected readonly pagination = signal<FfPaginationState>({
     page: 1,
-    pageSize: this.pageSize,
+    pageSize: this.pageSize(),
     total: 0,
+    pageSizeOptions: [5, 10, 18],
   });
 
   protected readonly snippet = `<ff-list
@@ -136,7 +139,10 @@ export class ListPage {
   (pageChange)="onPageChange($event)"
 >
   <ng-template ffListItem let-item>{{ item.title }}</ng-template>
-</ff-list>`;
+</ff-list>
+
+// pagination() includes pageSizeOptions: [5, 10, 18] — renders a page-size <ff-select>
+// in the footer; changing it emits pageChange with the new pageSize and page reset to 1.`;
 
   protected readonly snippets = {
     empty: `provideFfNoResultsConfig({ title: 'No records found', description: '…' }); // app.config.ts, shared with ff-data-table
@@ -155,7 +161,9 @@ export class ListPage {
   protected onExpandedChange(event: FfExpandChangeEvent<Notification>): void {
     const current = this.expanded();
     this.expanded.set(
-      event.expanded ? [...current, event.item] : current.filter((i) => i !== event.item)
+      event.expanded
+        ? [...current, event.item]
+        : current.filter((selectedItem) => selectedItem !== event.item)
     );
   }
 
@@ -165,22 +173,25 @@ export class ListPage {
 
   protected onPageChange(event: FfPageChangeEvent): void {
     this.page.set(event.page);
+    this.pageSize.set(event.pageSize);
     this.fetchPage();
   }
 
   /** Simulates a server-side fetch: paginates the mock dataset with a 350ms latency. */
   private fetchPage(): void {
     this.loading.set(true);
-    const start = (this.page() - 1) * this.pageSize;
-    const pageItems = ALL_NOTIFICATIONS.slice(start, start + this.pageSize);
+    const pageSize = this.pageSize();
+    const start = (this.page() - 1) * pageSize;
+    const pageItems = ALL_NOTIFICATIONS.slice(start, start + pageSize);
 
     setTimeout(() => {
       this.items.set(pageItems);
       this.loading.set(false);
       this.pagination.set({
         page: this.page(),
-        pageSize: this.pageSize,
+        pageSize,
         total: ALL_NOTIFICATIONS.length,
+        pageSizeOptions: [5, 10, 18],
       });
     }, 350);
   }

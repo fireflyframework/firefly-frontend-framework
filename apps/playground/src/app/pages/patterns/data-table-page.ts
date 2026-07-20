@@ -73,11 +73,13 @@ const STATUS_VARIANT: Record<Invoice['status'], 'success' | 'warning' | 'error'>
 
       <app-demo-section
         heading="Sorting, selection, custom cell and expansion templates"
-        description="Click a sortable header to cycle asc → desc → unsorted. Select rows, expand one to see its notes."
+        description="Click a sortable header to cycle asc → desc → unsorted. Select rows, expand one to see its notes.
+          Change the page size from the footer control."
         [code]="snippet"
       >
         <div class="demo-stack" style="max-width: 100%">
           <ff-data-table
+            caption="Invoices"
             [headers]="headers"
             [items]="items()"
             [loading]="loading()"
@@ -137,7 +139,7 @@ export class DataTablePage {
   protected readonly headers = HEADERS;
 
   protected readonly page = signal(1);
-  protected readonly pageSize = 5;
+  protected readonly pageSize = signal(5);
   protected readonly sortKey = signal<string | undefined>(undefined);
   protected readonly sortDirection = signal<FfSortDirection>(null);
   protected readonly loading = signal(false);
@@ -149,11 +151,13 @@ export class DataTablePage {
 
   protected readonly pagination = signal<FfPaginationState>({
     page: 1,
-    pageSize: this.pageSize,
+    pageSize: this.pageSize(),
     total: 0,
+    pageSizeOptions: [5, 10, 20],
   });
 
   protected readonly snippet = `<ff-data-table
+  caption="Invoices"
   [headers]="headers"
   [items]="items()"
   [loading]="loading()"
@@ -169,7 +173,10 @@ export class DataTablePage {
   <ng-template ffDataTableCell="status" let-row>
     <ff-badge [variant]="statusVariant(row.status)">{{ row.status }}</ff-badge>
   </ng-template>
-</ff-data-table>`;
+</ff-data-table>
+
+// pagination() includes pageSizeOptions: [5, 10, 20] — renders a page-size <ff-select>
+// in the footer; changing it emits pageChange with the new pageSize and page reset to 1.`;
 
   protected readonly snippets = {
     empty: `provideFfNoResultsConfig({ title: 'No records found', description: '…' }); // app.config.ts
@@ -200,7 +207,9 @@ export class DataTablePage {
   protected onExpandedChange(event: FfExpandChangeEvent<Invoice>): void {
     const current = this.expanded();
     this.expanded.set(
-      event.expanded ? [...current, event.item] : current.filter((i) => i !== event.item)
+      event.expanded
+        ? [...current, event.item]
+        : current.filter((selectedItem) => selectedItem !== event.item)
     );
   }
 
@@ -210,6 +219,7 @@ export class DataTablePage {
 
   protected onPageChange(event: FfPageChangeEvent): void {
     this.page.set(event.page);
+    this.pageSize.set(event.pageSize);
     this.fetchPage();
   }
 
@@ -219,14 +229,20 @@ export class DataTablePage {
     const key = this.sortKey();
     const direction = this.sortDirection();
     const sorted = key && direction ? sortInvoices(ALL_INVOICES, key, direction) : ALL_INVOICES;
-    const start = (this.page() - 1) * this.pageSize;
-    const pageItems = sorted.slice(start, start + this.pageSize);
+    const pageSize = this.pageSize();
+    const start = (this.page() - 1) * pageSize;
+    const pageItems = sorted.slice(start, start + pageSize);
 
     setTimeout(() => {
       this.items.set(pageItems);
       this.total.set(sorted.length);
       this.loading.set(false);
-      this.pagination.set({ page: this.page(), pageSize: this.pageSize, total: sorted.length });
+      this.pagination.set({
+        page: this.page(),
+        pageSize,
+        total: sorted.length,
+        pageSizeOptions: [5, 10, 20],
+      });
     }, 400);
   }
 }
@@ -239,11 +255,11 @@ function sortInvoices(
 ): readonly Invoice[] {
   const factor = direction === 'asc' ? 1 : -1;
   return [...rows].sort((a, b) => {
-    const av = a[key as keyof Invoice];
-    const bv = b[key as keyof Invoice];
-    if (typeof av === 'number' && typeof bv === 'number') {
-      return (av - bv) * factor;
+    const leftValue = a[key as keyof Invoice];
+    const rightValue = b[key as keyof Invoice];
+    if (typeof leftValue === 'number' && typeof rightValue === 'number') {
+      return (leftValue - rightValue) * factor;
     }
-    return String(av).localeCompare(String(bv)) * factor;
+    return String(leftValue).localeCompare(String(rightValue)) * factor;
   });
 }

@@ -15,7 +15,7 @@ npm install @fireflyframework/design-system
 
 **23 primitives** — `ff-button`, `ff-icon-button`, `ff-badge`, `ff-loader`, `ff-input`, `ff-checkbox`, `ff-radio`, `ff-select`, `ff-card`, `ff-dialog`, `ff-toast`, `ff-banner`, `ff-bottom-sheet`, `ff-divider`, `ff-chip`, `ff-link`, `ff-avatar`, `ff-tooltip`, `ff-icon`, `ff-panel`, `ff-progress`, `ff-skeleton`, `ff-empty-state`.
 
-**1 pattern** — `ff-tab-bar` (composes `ff-icon` + `ff-badge`).
+**6 patterns** — `ff-tab-bar` (composes `ff-icon` + `ff-badge`), `ff-toast-container`, `ff-dialog-container`, `ff-menu-button`, `ff-data-table` and `ff-list` (the last two share a selection/pagination/expansion/empty-state model, including the `provideFfNoResultsConfig` no-results provider, and compose `ff-checkbox`, `ff-skeleton`, `ff-empty-state`, `ff-icon`, `ff-button` and `ff-select`).
 
 Composition hierarchy is strict and contract-verified: *primitives compose nothing; patterns compose only primitives; layouts (upcoming) never compose layouts.*
 
