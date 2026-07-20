@@ -46,6 +46,22 @@ export { DialogContainerContract } from './lib/patterns/dialog-container.contrac
 export { MenuButtonContract } from './lib/patterns/menu-button.contract';
 export { TabBarContract } from './lib/patterns/tab-bar.contract';
 export { ToastContainerContract } from './lib/patterns/toast-container.contract';
+export { DataTableContract } from './lib/patterns/data-table.contract';
+export { ListContract } from './lib/patterns/list.contract';
+
+// ---- Pattern-shared public types (data-table / list) ----
+export type {
+  FfSortDirection,
+  FfSelectionMode,
+  FfDataTableHeader,
+  FfRowEvent,
+  FfSortChangeEvent,
+  FfSelectionChangeEvent,
+  FfExpandChangeEvent,
+  FfPaginationState,
+  FfPageChangeEvent,
+  FfNoResultsConfig,
+} from './lib/patterns/data-table.contract';
 
 // ---- Required design tokens ----
 export {
@@ -87,9 +103,11 @@ import { DialogContainerContract } from './lib/patterns/dialog-container.contrac
 import { MenuButtonContract } from './lib/patterns/menu-button.contract';
 import { TabBarContract } from './lib/patterns/tab-bar.contract';
 import { ToastContainerContract } from './lib/patterns/toast-container.contract';
+import { DataTableContract } from './lib/patterns/data-table.contract';
+import { ListContract } from './lib/patterns/list.contract';
 
 /**
- * Every design-system component contract (23 primitives + 4 patterns),
+ * Every design-system component contract (23 primitives + 6 patterns),
  * aggregated for whole-system checks such as {@link verifyDsContracts}.
  */
 export const ALL_CONTRACTS: readonly DsComponentContract[] = [
@@ -122,4 +140,6 @@ export const ALL_CONTRACTS: readonly DsComponentContract[] = [
   MenuButtonContract,
   TabBarContract,
   ToastContainerContract,
+  DataTableContract,
+  ListContract,
 ];
