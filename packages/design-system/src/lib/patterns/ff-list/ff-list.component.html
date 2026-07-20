@@ -1,0 +1,99 @@
+@if (selectionMode() === 'multi' && items().length > 0 && !loading()) {
+  <div class="ff-list__select-all">
+    <ff-checkbox
+      label="Select all"
+      [checked]="isAllSelected()"
+      [indeterminate]="isSomeSelected()"
+      (changed)="toggleAll()"
+    />
+  </div>
+}
+
+<div class="ff-list__items" [attr.role]="rootRole()" [attr.aria-multiselectable]="selectionMode() === 'multi' ? 'true' : null">
+  @if (loading()) {
+    @for (n of skeletonItems(); track n) {
+      <div class="ff-list__item ff-list__item--skeleton">
+        <ff-skeleton variant="text" [lines]="2" />
+      </div>
+    }
+  } @else if (items().length === 0) {
+    <div class="ff-list__empty">
+      <ff-empty-state [title]="resolvedEmptyTitle()" [description]="resolvedEmptyDescription()" />
+    </div>
+  } @else {
+    @for (item of items(); track itemKey(item, $index); let i = $index) {
+      <div
+        class="ff-list__item"
+        [attr.role]="itemRole()"
+        tabindex="-1"
+        [attr.aria-selected]="selectionMode() === 'none' ? null : isSelected(item)"
+        [class.ff-list__item--selected]="isSelected(item)"
+        (click)="onItemClick(item, i)"
+        (keydown.enter)="onItemClick(item, i)"
+      >
+        @if (selectionMode() !== 'none') {
+          <div class="ff-list__item-checkbox">
+            <ff-checkbox
+              [checked]="isSelected(item)"
+              (changed)="toggleItem(item)"
+              (click)="$event.stopPropagation()"
+            />
+          </div>
+        }
+        <div class="ff-list__item-content">
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate().templateRef"
+            [ngTemplateOutletContext]="{ $implicit: item, index: i }"
+          />
+        </div>
+        @if (expandable()) {
+          <button
+            type="button"
+            class="ff-list__expand-toggle"
+            [attr.aria-expanded]="isExpanded(item)"
+            [attr.aria-controls]="expansionPanelId(i)"
+            (click)="$event.stopPropagation(); toggleExpand(item)"
+          >
+            <ff-icon
+              name="chevron-right"
+              size="sm"
+              label="Toggle item details"
+              class="ff-list__expand-icon"
+              [class.ff-list__expand-icon--expanded]="isExpanded(item)"
+            />
+          </button>
+        }
+      </div>
+      @if (expandable() && isExpanded(item)) {
+        <div class="ff-list__expansion" [id]="expansionPanelId(i)">
+          @if (expansionTemplate(); as et) {
+            <ng-container
+              [ngTemplateOutlet]="et.templateRef"
+              [ngTemplateOutletContext]="{ $implicit: item, index: i }"
+            />
+          }
+        </div>
+      }
+    }
+  }
+</div>
+
+@if (pagination(); as p) {
+  <div class="ff-list__pagination">
+    <span class="ff-list__pagination-info">{{ paginationInfoText(p) }}</span>
+    <div class="ff-list__pagination-controls">
+      <ff-button variant="ghost" size="sm" [disabled]="p.page <= 1" (clicked)="goToPage(p.page - 1, p)">
+        <ff-icon name="chevron-left" label="Previous page" />
+      </ff-button>
+      <span class="ff-list__pagination-page">{{ p.page }} / {{ totalPages(p) }}</span>
+      <ff-button
+        variant="ghost"
+        size="sm"
+        [disabled]="p.page >= totalPages(p)"
+        (clicked)="goToPage(p.page + 1, p)"
+      >
+        <ff-icon name="chevron-right" label="Next page" />
+      </ff-button>
+    </div>
+  </div>
+}
