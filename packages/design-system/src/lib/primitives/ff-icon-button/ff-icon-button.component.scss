@@ -1,12 +1,7 @@
 .ff-icon-button {
-  // Component tokens
-  --ff-icon-btn-color: var(--ff-color-neutral-700);
-  --ff-icon-btn-hover-color: var(--ff-color-primary-500);
-  --ff-icon-btn-hover-bg: var(--ff-color-neutral-100);
-  --ff-icon-btn-active-bg: var(--ff-color-neutral-200);
-  --ff-icon-btn-radius: var(--ff-radius-md);
-  --ff-icon-btn-focus-ring: var(--ff-color-border-focus);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never restyle an icon button.
   display: inline-block;
 
   &__native {
@@ -14,24 +9,24 @@
     align-items: center;
     justify-content: center;
     border: 1px solid transparent;
-    border-radius: var(--ff-icon-btn-radius);
+    border-radius: var(--ff-icon-btn-radius, var(--ff-radius-md));
     background-color: transparent;
-    color: var(--ff-icon-btn-color);
+    color: var(--ff-icon-btn-color, var(--ff-color-neutral-700));
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
     padding: 0;
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-icon-btn-hover-bg);
-      color: var(--ff-icon-btn-hover-color);
+      background-color: var(--ff-icon-btn-hover-bg, var(--ff-color-neutral-100));
+      color: var(--ff-icon-btn-hover-color, var(--ff-color-primary-500));
     }
 
     &:active:not(:disabled) {
-      background-color: var(--ff-icon-btn-active-bg);
+      background-color: var(--ff-icon-btn-active-bg, var(--ff-color-neutral-200));
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-icon-btn-focus-ring);
+      outline: 2px solid var(--ff-icon-btn-focus-ring, var(--ff-color-border-focus));
       outline-offset: 2px;
     }
   }

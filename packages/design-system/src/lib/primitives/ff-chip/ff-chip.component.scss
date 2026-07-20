@@ -1,13 +1,7 @@
 .ff-chip {
-  // Component tokens
-  --ff-chip-bg: var(--ff-color-surface);
-  --ff-chip-border: var(--ff-color-border);
-  --ff-chip-color: var(--ff-color-neutral-700);
-  --ff-chip-selected-bg: var(--ff-color-primary-100);
-  --ff-chip-selected-border: var(--ff-color-primary-500);
-  --ff-chip-selected-color: var(--ff-color-primary-700);
-  --ff-chip-focus-ring: var(--ff-color-border-focus);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never restyle a chip.
   display: inline-flex;
   align-items: center;
   border-radius: var(--ff-radius-full);
@@ -17,17 +11,17 @@
   &__body {
     display: inline-flex;
     align-items: center;
-    border: 1px solid var(--ff-chip-border);
+    border: 1px solid var(--ff-chip-border, var(--ff-color-border));
     border-radius: var(--ff-radius-full);
-    background: var(--ff-chip-bg);
-    color: var(--ff-chip-color);
+    background: var(--ff-chip-bg, var(--ff-color-surface));
+    color: var(--ff-chip-color, var(--ff-color-neutral-700));
     font-family: inherit;
     cursor: pointer;
     line-height: 1;
     white-space: nowrap;
 
     &:focus-visible {
-      outline: 2px solid var(--ff-chip-focus-ring);
+      outline: 2px solid var(--ff-chip-focus-ring, var(--ff-color-border-focus));
       outline-offset: 1px;
     }
   }
@@ -52,7 +46,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--ff-chip-focus-ring);
+      outline: 2px solid var(--ff-chip-focus-ring, var(--ff-color-border-focus));
       outline-offset: 1px;
     }
 
@@ -76,8 +70,8 @@
   // --- Removable: border on host, children transparent ---
 
   &--removable {
-    border: 1px solid var(--ff-chip-border);
-    background: var(--ff-chip-bg);
+    border: 1px solid var(--ff-chip-border, var(--ff-color-border));
+    background: var(--ff-chip-bg, var(--ff-color-surface));
   }
 
   &--removable .ff-chip__body {
@@ -104,9 +98,9 @@
   // --- Filter variant: selected state ---
 
   &--filter.ff-chip--selected .ff-chip__body {
-    background-color: var(--ff-chip-selected-bg);
-    border-color: var(--ff-chip-selected-border);
-    color: var(--ff-chip-selected-color);
+    background-color: var(--ff-chip-selected-bg, var(--ff-color-primary-100));
+    border-color: var(--ff-chip-selected-border, var(--ff-color-primary-500));
+    color: var(--ff-chip-selected-color, var(--ff-color-primary-700));
   }
 
   // --- Disabled ---
