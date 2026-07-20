@@ -1,0 +1,124 @@
+// ============================================================
+// Flydocs product theme — playground fixture (NOT published)
+// ------------------------------------------------------------
+// Values copied (never referenced at build time) from the Flydocs
+// product theme, itself expressed over ng-hub-ui-ds `--hub-*` tokens
+// and human-approved against Figma V3-Lite on 2026-06-10. This file
+// re-expresses, in the `--ff-*` vocabulary, only the tokens that the
+// design-system components actually consume (the 73-token surface
+// measured against every `*.component.scss`), so activating it changes
+// exactly what a real page render would show.
+//
+// Scope: only tokens with a direct or reasonably derived Flydocs
+// equivalent are overridden here. Tokens with no Flydocs data (the
+// base type scale below `sm`, font weights, the small/medium/full
+// radii, and the whole spacing scale — none of which the Flydocs
+// theme repins for the shared design-system layer) are intentionally
+// left untouched: they keep inheriting the design-system defaults.
+// See docs/flydocs-theme-token-equivalence.md for the full reasoning
+// behind every value below.
+//
+// Activation: add `data-brand="flydocs"` next to `data-theme` on
+// `<html>` (see BrandThemeService). Deactivating it removes the
+// attribute and the catalog returns to the default look untouched.
+// ============================================================
+
+:root[data-brand='flydocs'] {
+  /* ---- Surfaces / structure ---- */
+  --ff-color-surface: #ffffff;
+  --ff-color-border: #e1e4ec;
+  /* Focus ring hue only: Flydocs models focus as a translucent ring
+     (rgba brand-blue at 25%); ff consumes it as a solid 2px outline,
+     so the hue is kept and the alpha dropped. */
+  --ff-color-border-focus: #3b59f5;
+
+  /* ---- Text-on-surface roles ----
+     `on-surface` has no named Flydocs counterpart; it plays the same
+     role as `text-primary` (readable ink atop the default surface),
+     so it takes the same value. */
+  --ff-color-on-primary: #ffffff;
+  --ff-color-on-surface: #161826;
+
+  --ff-text-primary: #161826;
+  --ff-text-secondary: #4d5468;
+  --ff-text-muted: #6b7388;
+  --ff-text-disabled: #9ca3b5;
+
+  /* ---- Neutral ramp (position-for-position: both scales are
+     numeric lightness ramps, so the shared step number IS the role) ---- */
+  --ff-color-neutral-50: #f6f7fa;
+  --ff-color-neutral-100: #eef0f5;
+  --ff-color-neutral-200: #e1e4ec;
+  --ff-color-neutral-300: #cbd0dc;
+  --ff-color-neutral-400: #9ca3b5;
+  --ff-color-neutral-500: #6b7388;
+  --ff-color-neutral-600: #4d5468;
+  --ff-color-neutral-700: #363b4e;
+  --ff-color-neutral-900: #161826;
+
+  /* ---- Primary (brand blue) ----
+     -600 is consumed only for accent/indicator roles (never text
+     contrast), so it follows Flydocs' own "hover pinned to base"
+     contract instead of a darker ramp stop. */
+  --ff-color-primary-50: #eef1ff;
+  --ff-color-primary-100: #dce3ff;
+  --ff-color-primary-500: #3b59f5;
+  --ff-color-primary-600: #3b59f5;
+  --ff-color-primary-700: #2436ad;
+
+  /* ---- Secondary (brand peach — deliberate divergence from the
+     design-system's lime-green secondary) ---- */
+  --ff-color-secondary-100: color-mix(in srgb, #ff7a59 12%, transparent);
+  --ff-color-secondary-700: #b8482e;
+
+  /* ---- Success ---- */
+  --ff-color-success: #22a55b;
+  --ff-color-success-50: #e7f8ee;
+  --ff-color-success-100: #cdefdb;
+  --ff-color-success-200: #9ddfb7;
+  --ff-color-success-500: #22a55b;
+  --ff-color-success-600: #188649;
+  --ff-color-success-700: #106635;
+
+  /* ---- Error / danger ---- */
+  --ff-color-error: #dc2828;
+  --ff-color-error-50: #fce9e9;
+  --ff-color-error-100: #f8cece;
+  --ff-color-error-200: #f09a9a;
+  --ff-color-error-500: #dc2828;
+  --ff-color-error-600: #b41e1e;
+  --ff-color-error-700: #8a1717;
+
+  /* ---- Warning ---- */
+  --ff-color-warning: #e59a07;
+  --ff-color-warning-50: #fff7e0;
+  --ff-color-warning-100: #ffebb3;
+  --ff-color-warning-200: #ffd773;
+  --ff-color-warning-500: #e59a07;
+  --ff-color-warning-600: #b97a00;
+  --ff-color-warning-700: #8a5c00;
+
+  /* ---- Info — deliberately the SAME brand blue as primary in
+     Flydocs (not a distinct cyan): once this theme is active, primary
+     and info accents in the catalog become visually identical. ---- */
+  --ff-color-info: #3b59f5;
+  --ff-color-info-50: #eef1ff;
+  --ff-color-info-100: #dce3ff;
+  --ff-color-info-200: #b9c6ff;
+  --ff-color-info-500: #3b59f5;
+  --ff-color-info-600: #2e45d9;
+  --ff-color-info-700: #2436ad;
+
+  /* ---- Elevation ---- */
+  --ff-elevation-md: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+  --ff-elevation-lg: 0 12px 32px 0 rgba(0, 0, 0, 0.12);
+
+  /* ---- Typography (only the steps Flydocs actually repins) ---- */
+  --ff-font-family: 'Maven Pro', 'Noto Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ff-font-size-2xs: 0.6875rem;
+
+  /* ---- Radius — Flydocs' most-used corner radius (12px) plays the
+     same "major container corner" role as the design-system's `lg`
+     step, even though it is named differently upstream. ---- */
+  --ff-radius-lg: 0.75rem;
+}

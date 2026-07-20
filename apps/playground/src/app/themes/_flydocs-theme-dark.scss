@@ -1,0 +1,42 @@
+// ============================================================
+// Flydocs product theme — dark counterpart (playground fixture)
+// ------------------------------------------------------------
+// Mirrors the source product's own dark override: a small, surgical
+// patch on top of `_flydocs-theme.scss`, scoped one step more
+// specific so it wins over both the light Flydocs rules and the
+// design-system's own `[data-theme='dark']` block.
+//
+// Only the roles the Flydocs dark theme itself repins are listed
+// here. Every other token (the rest of the neutral/status ramps,
+// the flat semantic aliases, etc.) intentionally falls back to the
+// design-system's own dark inversion in `tokens/_dark.scss` — the
+// source theme documents this same incremental coverage rather than
+// inventing dark values it never designed.
+// ============================================================
+
+:root[data-brand='flydocs'][data-theme='dark'] {
+  color-scheme: dark;
+
+  --ff-color-surface: #161826;
+  --ff-color-border: #363b4e;
+  /* Same alpha-drop reasoning as the light theme, over the dark ring hue. */
+  --ff-color-border-focus: #6378ff;
+
+  --ff-color-on-surface: #f6f7fa;
+  --ff-text-primary: #f6f7fa;
+  --ff-text-secondary: #cbd0dc;
+  --ff-text-muted: #9ca3b5;
+  --ff-text-disabled: #4d5468;
+
+  /* Primary lifts one stop for contrast on dark surfaces, same as the source. */
+  --ff-color-primary-50: #0a0f33;
+  --ff-color-primary-500: #6378ff;
+  --ff-color-primary-600: #6378ff;
+
+  /* Semantic "subtle" tints recomputed over the dark surface instead
+     of the light near-white ramp stop. */
+  --ff-color-success-50: color-mix(in srgb, #22a55b 22%, #161826);
+  --ff-color-error-50: color-mix(in srgb, #dc2828 22%, #161826);
+  --ff-color-warning-50: color-mix(in srgb, #e59a07 22%, #161826);
+  --ff-color-info-50: color-mix(in srgb, #3b59f5 22%, #161826);
+}
