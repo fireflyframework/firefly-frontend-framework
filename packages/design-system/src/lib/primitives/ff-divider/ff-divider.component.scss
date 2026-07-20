@@ -1,7 +1,7 @@
 .ff-divider {
-  // Component tokens
-  --ff-divider-color: var(--ff-color-border);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never recolor a divider.
   display: block;
   flex-shrink: 0;
   border: 0;
@@ -10,7 +10,7 @@
   &--horizontal {
     width: 100%;
     border-top-style: solid;
-    border-top-color: var(--ff-divider-color);
+    border-top-color: var(--ff-divider-color, var(--ff-color-border));
   }
 
   &--horizontal.ff-divider--thin {
@@ -26,7 +26,7 @@
     display: inline-block;
     align-self: stretch;
     border-left-style: solid;
-    border-left-color: var(--ff-divider-color);
+    border-left-color: var(--ff-divider-color, var(--ff-color-border));
   }
 
   &--vertical.ff-divider--thin {

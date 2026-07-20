@@ -1,14 +1,11 @@
 .ff-card {
-  // Component tokens
-  --ff-card-bg: var(--ff-color-surface);
-  --ff-card-border: var(--ff-color-neutral-200);
-  --ff-card-radius: var(--ff-radius-md);
-  --ff-card-header-color: var(--ff-color-neutral-900);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never restyle a card.
   display: block;
-  background-color: var(--ff-card-bg);
-  border: 1px solid var(--ff-card-border);
-  border-radius: var(--ff-card-radius);
+  background-color: var(--ff-card-bg, var(--ff-color-surface));
+  border: 1px solid var(--ff-card-border, var(--ff-color-neutral-200));
+  border-radius: var(--ff-card-radius, var(--ff-radius-md));
   overflow: hidden;
 
   // Shadow variants
@@ -31,16 +28,16 @@
   // Header zone
   [ff-card-header] {
     padding: var(--ff-spacing-md) var(--ff-spacing-lg);
-    border-bottom: 1px solid var(--ff-card-border);
+    border-bottom: 1px solid var(--ff-card-border, var(--ff-color-neutral-200));
     font-family: var(--ff-font-family);
     font-size: var(--ff-font-size-lg);
     font-weight: var(--ff-font-weight-semibold);
-    color: var(--ff-card-header-color);
+    color: var(--ff-card-header-color, var(--ff-color-neutral-900));
   }
 
   // Footer zone
   [ff-card-footer] {
     padding: var(--ff-spacing-md) var(--ff-spacing-lg);
-    border-top: 1px solid var(--ff-card-border);
+    border-top: 1px solid var(--ff-card-border, var(--ff-color-neutral-200));
   }
 }

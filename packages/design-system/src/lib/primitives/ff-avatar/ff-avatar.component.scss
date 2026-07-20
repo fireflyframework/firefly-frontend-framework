@@ -1,14 +1,13 @@
 .ff-avatar {
-  // Component tokens
-  --ff-avatar-bg: var(--ff-color-primary-100);
-  --ff-avatar-color: var(--ff-color-primary-700);
-
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never retint an avatar.
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--ff-radius-full);
-  background-color: var(--ff-avatar-bg);
-  color: var(--ff-avatar-color);
+  background-color: var(--ff-avatar-bg, var(--ff-color-primary-100));
+  color: var(--ff-avatar-color, var(--ff-color-primary-700));
   overflow: hidden;
   flex-shrink: 0;
 
