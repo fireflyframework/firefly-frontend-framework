@@ -94,6 +94,22 @@ const ALL_NOTIFICATIONS: readonly Notification[] = Array.from({ length: 18 }, (_
       </app-demo-section>
 
       <app-demo-section
+        heading="Plain list (no selection)"
+        description="With the default selectionMode of 'none' the root is a role=list of role=listitem
+          entries: no roving focus, no selection affordance — the semantics a read-only collection
+          should expose."
+        [code]="snippets.plain"
+      >
+        <div class="demo-stack" style="max-width: 100%">
+          <ff-list [items]="plainItems">
+            <ng-template ffListItem let-item>
+              <strong>{{ item.title }}</strong>
+            </ng-template>
+          </ff-list>
+        </div>
+      </app-demo-section>
+
+      <app-demo-section
         heading="Loading and empty states"
         description="Same shared no-results text as ff-data-table, configured once via provideFfNoResultsConfig."
         [code]="snippets.empty"
@@ -144,7 +160,15 @@ export class ListPage {
 // pagination() includes pageSizeOptions: [5, 10, 18] — renders a page-size <ff-select>
 // in the footer; changing it emits pageChange with the new pageSize and page reset to 1.`;
 
+  /** Static slice for the read-only demo: no fetching, no selection, no pagination. */
+  protected readonly plainItems = ALL_NOTIFICATIONS.slice(0, 4);
+
   protected readonly snippets = {
+    plain: `<ff-list [items]="items">
+  <ng-template ffListItem let-item>{{ item.title }}</ng-template>
+</ff-list>
+
+// selectionMode defaults to 'none': role="list" / role="listitem", no roving focus.`,
     empty: `provideFfNoResultsConfig({ title: 'No records found', description: '…' }); // app.config.ts, shared with ff-data-table
 
 <ff-list [items]="[]"><ng-template ffListItem let-item>{{ item.title }}</ng-template></ff-list>`,
