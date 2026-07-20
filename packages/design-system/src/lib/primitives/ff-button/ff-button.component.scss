@@ -1,30 +1,10 @@
 .ff-button {
-  // Component tokens — primary
-  --ff-btn-primary-bg: var(--ff-color-primary-500);
-  --ff-btn-primary-color: var(--ff-color-on-primary);
-  --ff-btn-primary-hover-bg: var(--ff-color-primary-600);
-  --ff-btn-primary-active-bg: var(--ff-color-primary-700);
-
-  // Component tokens — secondary
-  --ff-btn-secondary-bg: var(--ff-color-secondary-500);
-  --ff-btn-secondary-color: var(--ff-color-on-primary);
-  --ff-btn-secondary-hover-bg: var(--ff-color-secondary-600);
-
-  // Component tokens — outline
-  --ff-btn-outline-color: var(--ff-color-primary-500);
-  --ff-btn-outline-border: var(--ff-color-primary-500);
-  --ff-btn-outline-hover-bg: var(--ff-color-primary-50);
-
-  // Component tokens — ghost
-  --ff-btn-ghost-color: var(--ff-color-primary-500);
-  --ff-btn-ghost-hover-bg: var(--ff-color-neutral-100);
-
-  // Component tokens — icons
-  --ff-btn-icon-size: 1.2em;
-
-  // Component tokens — shared
+  // Shared component tokens
   --ff-btn-radius: var(--ff-radius-md);
   --ff-btn-focus-ring: var(--ff-color-border-focus);
+  --ff-btn-icon-size: 1.2em;
+  --ff-btn-on-solid-color: var(--ff-color-on-primary);
+  --ff-btn-ghost-hover-bg: var(--ff-color-neutral-100);
 
   display: inline-block;
 
@@ -59,19 +39,32 @@
     font-size: var(--ff-font-size-lg);
   }
 
-  // Primary
-  &--primary .ff-button__native {
-    background-color: var(--ff-btn-primary-bg);
-    color: var(--ff-btn-primary-color);
-    border-color: var(--ff-btn-primary-bg);
+  // Color axis: one custom-property block per palette, consumed by the
+  // style axis rules below (both axes are classes on the same host, so the
+  // custom properties they declare are visible to `.ff-button__native`).
+  @each $color in primary, secondary, success, warning, error, info, neutral {
+    &--color-#{$color} {
+      --ff-btn-color-bg: var(--ff-btn-#{$color}-bg, var(--ff-color-#{$color}-500));
+      --ff-btn-color-hover-bg: var(--ff-btn-#{$color}-hover-bg, var(--ff-color-#{$color}-600));
+      --ff-btn-color-active-bg: var(--ff-btn-#{$color}-active-bg, var(--ff-color-#{$color}-700));
+      --ff-btn-color-accent: var(--ff-btn-#{$color}-accent, var(--ff-color-#{$color}-500));
+      --ff-btn-color-tint: var(--ff-btn-#{$color}-tint, var(--ff-color-#{$color}-100));
+    }
+  }
+
+  // Style axis: solid
+  &--solid .ff-button__native {
+    background-color: var(--ff-btn-color-bg);
+    color: var(--ff-btn-on-solid-color);
+    border-color: var(--ff-btn-color-bg);
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-btn-primary-hover-bg);
-      border-color: var(--ff-btn-primary-hover-bg);
+      background-color: var(--ff-btn-color-hover-bg);
+      border-color: var(--ff-btn-color-hover-bg);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--ff-btn-primary-active-bg);
+      background-color: var(--ff-btn-color-active-bg);
     }
 
     &:focus-visible {
@@ -80,31 +73,14 @@
     }
   }
 
-  // Secondary
-  &--secondary .ff-button__native {
-    background-color: var(--ff-btn-secondary-bg);
-    color: var(--ff-btn-secondary-color);
-    border-color: var(--ff-btn-secondary-bg);
-
-    &:hover:not(:disabled) {
-      background-color: var(--ff-btn-secondary-hover-bg);
-      border-color: var(--ff-btn-secondary-hover-bg);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--ff-btn-focus-ring);
-      outline-offset: 2px;
-    }
-  }
-
-  // Outline
+  // Style axis: outline
   &--outline .ff-button__native {
     background-color: transparent;
-    color: var(--ff-btn-outline-color);
-    border-color: var(--ff-btn-outline-border);
+    color: var(--ff-btn-color-accent);
+    border-color: var(--ff-btn-color-accent);
 
     &:hover:not(:disabled) {
-      background-color: var(--ff-btn-outline-hover-bg);
+      background-color: var(--ff-btn-color-tint);
     }
 
     &:focus-visible {
@@ -113,10 +89,10 @@
     }
   }
 
-  // Ghost
+  // Style axis: ghost
   &--ghost .ff-button__native {
     background-color: transparent;
-    color: var(--ff-btn-ghost-color);
+    color: var(--ff-btn-color-accent);
     border-color: transparent;
 
     &:hover:not(:disabled) {
