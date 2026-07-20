@@ -23,6 +23,12 @@
   font-weight: var(--ff-font-weight-bold);
 }
 
+.shell__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ff-spacing-sm);
+}
+
 .shell__body {
   display: flex;
   flex: 1;
