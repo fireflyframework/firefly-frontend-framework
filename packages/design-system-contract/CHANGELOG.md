@@ -7,13 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-21
+
 ### Added
 - `DataTableContract` and `ListContract`: contracts for the `ff-data-table` and `ff-list` patterns, including their `keyboard`/`aria` behavior clauses (`ff-list`'s full listbox keyboard model, page-size control, `compareWith`-driven selection/expansion)
 - 10 public types shared by `ff-data-table` and `ff-list`: `FfSortDirection`, `FfSelectionMode`, `FfDataTableHeader`, `FfRowEvent`, `FfSortChangeEvent`, `FfSelectionChangeEvent`, `FfExpandChangeEvent`, `FfPaginationState`, `FfPageChangeEvent`, `FfNoResultsConfig`
+- `DialogContainerContract`, `MenuButtonContract` and `ToastContainerContract`: pattern contracts added to `ALL_CONTRACTS` (the aggregate now covers 23 primitives + 6 patterns)
 - `ariaLabel` input added to `CheckboxContract`
 
 ### Changed
-- Package version bumped to `0.2.0` (minor) for the two new pattern contracts and public types above
+- `ButtonContract`: new `color` input for the semantic palette; `variant` narrowed to the style axis (`solid`/`outline`/`ghost`, with legacy `primary`/`secondary` still accepted) and its default changed from `primary` to `solid`
+- `BadgeContract`: new `color`, `dot`, `shape` and `maxWidth` inputs; `size` gains `xs`; host-attribute ownership gains `title` (the automatic overflow tooltip)
+- `InputContract`: `type` gains `search`; new `debounceTime`, `labelType` and `search` clauses; content slots declared for the prefix/suffix affixes
+- `SelectContract`: reshaped for the portaled-overlay implementation — multi-select (`multiple`, `values`), `bindLabel`/`bindValue`, option and label template slots
+- `ToastContract`: reshaped as a presentational container; the required-provider clause is dropped
 
 ## [0.1.0] - 2026-07-18
 
