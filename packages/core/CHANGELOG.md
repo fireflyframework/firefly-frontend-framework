@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.18.0] - 2026-07-21
+
+### Added
+- `AlertService.confirm(options: ConfirmOptions)` rich-confirm overload; `@Confirm` and `[ffConfirm]` now work with `provideAlerts()` alone (the root injector is captured via an app initializer, no separate `provideConfirm()` needed)
+- `ToastOptions.progressBar` option and `AlertService.pauseToast(id)` / `resumeToast(id)` for hover-pausable auto-dismiss toasts
+
+### Changed
+- The confirm module now lives inside the alerts domain (`lib/alerts/confirm`); every public symbol keeps its package-root export, so no import changes are needed
+
+### Deprecated
+- `ConfirmService` port and `provideConfirm()` — superseded by `AlertService.confirm`; removal planned for the next minor
+
 ## [0.17.0] - 2026-07-17
 
 ### Added
