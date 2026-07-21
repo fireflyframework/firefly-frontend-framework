@@ -2,6 +2,34 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Validate playground (lint+typecheck+test+build)",
+      "command": "pnpm nx run-many -t lint typecheck test build -p playground",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "E2E playground (Playwright)",
+      "command": "pnpm nx e2e playground-e2e",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Serve playground",
+      "command": "pnpm nx serve playground",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Validate packages (lint+typecheck+test+build)",
+      "command": "pnpm nx run-many -t lint typecheck test build --exclude=playground,playground-e2e",
+      "cwd": "${workspaceFolder}"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Debug api with Nx",

@@ -147,6 +147,11 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/catalog/empty-state-page').then((m) => m.EmptyStatePage),
   },
   {
+    path: 'parity',
+    title: 'Parity · Firefly DS',
+    loadComponent: () => import('./pages/parity/parity-page').then((m) => m.ParityPage),
+  },
+  {
     path: 'patterns',
     title: 'Patterns · Firefly DS',
     loadComponent: () => import('./pages/patterns/patterns-page').then((m) => m.PatternsPage),

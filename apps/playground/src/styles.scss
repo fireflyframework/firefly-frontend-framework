@@ -3,6 +3,8 @@
 // Loads the design-system tokens and the shared catalog layout.
 // ============================================================
 @use '../../../packages/design-system/src/lib/tokens/index' as *;
+@use './app/themes/flydocs-theme';
+@use './app/themes/flydocs-theme-dark';
 
 *,
 *::before,

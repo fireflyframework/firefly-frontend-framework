@@ -2,8 +2,12 @@ import { defineConfig, devices } from '@playwright/test';
 import { nxE2EPreset } from '@nx/playwright/preset';
 import { workspaceRoot } from '@nx/devkit';
 
-// For CI, you may want to set BASE_URL to the deployed application.
-const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
+/*
+ * Dedicated port: 4200 is the default `nx serve playground` port, so a
+ * developer's already-running dev server (of this app or any other) would be
+ * silently reused and the suite would screenshot the wrong application.
+ */
+const baseURL = process.env['BASE_URL'] || 'http://localhost:4300';
 
 /**
  * Read environment variables from file.
@@ -24,45 +28,34 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'pnpm exec nx run playground:serve',
-    url: 'http://localhost:4200',
+    command: 'pnpm exec nx run playground:serve --port 4300',
+    url: 'http://localhost:4300',
     reuseExistingServer: true,
     cwd: workspaceRoot,
   },
+  /*
+   * Visual regression baselines are captured on chromium only: cross-browser
+   * baselines would triple the maintenance burden without adding coverage to
+   * the flydocs parity gate, which cares about pixel diffs of a single
+   * rendering engine, not cross-browser compatibility.
+   */
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    // Uncomment for mobile browsers support
-    /* {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    }, */
-
-    // Uncomment for branded browsers
-    /* {
-      name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    },
-    {
-      name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    } */
   ],
+  /*
+   * Explicit equivalent of Playwright's default screenshot naming
+   * (`<spec>-snapshots/<arg>-<project>-<platform>.png`), spelled out so the
+   * per-OS baseline split (darwin locally, linux in CI) is not implicit.
+   */
+  snapshotPathTemplate:
+    '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}-{platform}{ext}',
+  expect: {
+    /* Tight tolerance: the flydocs parity gate must catch single-token drift. */
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.001,
+    },
+  },
 });

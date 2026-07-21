@@ -1,0 +1,60 @@
+// ============================================================
+// Flydocs product theme — dark counterpart (playground fixture)
+// ------------------------------------------------------------
+// Mirrors the source product's own dark override: a small, surgical
+// patch on top of `_flydocs-theme.scss`, scoped one step more
+// specific so it wins over both the light Flydocs rules and the
+// design-system's own `[data-theme='dark']` block.
+//
+// Only the roles the Flydocs dark theme itself repins are listed
+// here. Every other token (the rest of the neutral/status ramps,
+// the flat semantic aliases, etc.) intentionally falls back to the
+// design-system's own dark inversion in `tokens/_dark.scss` — the
+// source theme documents this same incremental coverage rather than
+// inventing dark values it never designed.
+// ============================================================
+
+:root[data-brand='flydocs'][data-theme='dark'] {
+  color-scheme: dark;
+
+  --ff-color-surface: #161826;
+  --ff-color-border: #363b4e;
+  /* Same alpha-drop reasoning as the light theme, over the dark ring hue. */
+  --ff-color-border-focus: #6378ff;
+
+  --ff-color-on-surface: #f6f7fa;
+  --ff-text-primary: #f6f7fa;
+  --ff-text-secondary: #cbd0dc;
+  --ff-text-muted: #9ca3b5;
+  --ff-text-disabled: #4d5468;
+
+  /* Neutral ramp, re-pinned for dark. The light block above pins the ramp at
+     `[data-brand]` scope, which outranks the design-system's own dark
+     inversion in the cascade — without this block, components that read raw
+     ramp stops (checkbox/radio labels, input value at neutral-900) would keep
+     light-theme ink on the dark surface. Each stop takes the value of the
+     role the Flydocs dark theme maps it to (its dark theme re-points roles —
+     text-primary → neutral-50, border-default → neutral-700 — rather than
+     inverting the ramp): */
+  --ff-color-neutral-50: #0a0b14;
+  --ff-color-neutral-100: #252938;
+  --ff-color-neutral-200: #363b4e;
+  --ff-color-neutral-300: #4d5468;
+  --ff-color-neutral-400: #6b7388;
+  --ff-color-neutral-500: #9ca3b5;
+  --ff-color-neutral-600: #cbd0dc;
+  --ff-color-neutral-700: #e1e4ec;
+  --ff-color-neutral-900: #f6f7fa;
+
+  /* Primary lifts one stop for contrast on dark surfaces, same as the source. */
+  --ff-color-primary-50: #0a0f33;
+  --ff-color-primary-500: #6378ff;
+  --ff-color-primary-600: #6378ff;
+
+  /* Semantic "subtle" tints recomputed over the dark surface instead
+     of the light near-white ramp stop. */
+  --ff-color-success-50: color-mix(in srgb, #22a55b 22%, #161826);
+  --ff-color-error-50: color-mix(in srgb, #dc2828 22%, #161826);
+  --ff-color-warning-50: color-mix(in srgb, #e59a07 22%, #161826);
+  --ff-color-info-50: color-mix(in srgb, #3b59f5 22%, #161826);
+}

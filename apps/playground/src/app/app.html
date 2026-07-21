@@ -1,9 +1,14 @@
 <div class="shell">
   <header class="shell__header">
     <h1 class="shell__title">Firefly Design System</h1>
-    <ff-button variant="outline" size="sm" (clicked)="theme.toggle()">
-      {{ theme.dark() ? 'Light mode' : 'Dark mode' }}
-    </ff-button>
+    <div class="shell__header-actions">
+      <ff-button variant="outline" size="sm" (clicked)="brandTheme.toggle()">
+        {{ brandTheme.flydocs() ? 'Default theme' : 'Flydocs theme' }}
+      </ff-button>
+      <ff-button variant="outline" size="sm" (clicked)="theme.toggle()">
+        {{ theme.dark() ? 'Light mode' : 'Dark mode' }}
+      </ff-button>
+    </div>
   </header>
 
   <div class="shell__body">
@@ -49,6 +54,11 @@
           >{{ p.label }}</a
         >
       }
+
+      <ff-divider />
+
+      <span class="shell__nav-group">QA</span>
+      <a class="shell__nav-link" routerLink="/parity" routerLinkActive="shell__nav-link--active">Parity</a>
     </nav>
 
     <main class="shell__main">

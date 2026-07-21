@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FfButtonComponent, FfDividerComponent } from '@fireflyframework/design-system';
 
 import { CATALOG_COMPONENTS, PATTERN_COMPONENTS } from './shared/catalog-nav';
+import { BrandThemeService } from './shared/brand-theme.service';
 import { ThemeService } from './shared/theme.service';
 
 /**
@@ -18,6 +19,7 @@ import { ThemeService } from './shared/theme.service';
 })
 export class App {
   protected readonly theme = inject(ThemeService);
+  protected readonly brandTheme = inject(BrandThemeService);
   protected readonly components = CATALOG_COMPONENTS;
   protected readonly patterns = PATTERN_COMPONENTS;
 }

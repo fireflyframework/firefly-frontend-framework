@@ -6,6 +6,11 @@ on:
       - develop
   pull_request:
   workflow_dispatch:
+    inputs:
+      seed_vr_baselines:
+        description: 'Seed missing visual-regression baselines for this OS (upload as artifact, does not gate)'
+        type: boolean
+        default: false
 
 permissions:
   actions: read
@@ -41,9 +46,71 @@ jobs:
       - run: pnpm nx affected -t test
       - run: pnpm nx affected -t build
 
-      # TODO: Cuando se configuren tests e2e, añadir:
-      # - run: npx playwright install --with-deps
-      # - run: pnpm nx affected -t e2e
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Fetch develop branch for nx affected
+        if: github.ref != 'refs/heads/develop'
+        run: git fetch origin develop:develop --no-tags
+
+      - uses: pnpm/action-setup@v5.0.0
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v6.4.0
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          registry-url: https://npm.pkg.github.com
+
+      - run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Run e2e
+        if: ${{ github.event.inputs.seed_vr_baselines != 'true' }}
+        run: pnpm nx affected -t e2e
+
+      - name: Seed missing visual-regression baselines
+        if: ${{ github.event.inputs.seed_vr_baselines == 'true' }}
+        # A seeding run writes every absent baseline and reports it as a
+        # failure by design; the artifact below is the deliverable, so the
+        # step must not gate.
+        continue-on-error: true
+        run: pnpm exec nx run playground-e2e:e2e -- --update-snapshots=missing
+
+      - name: Upload visual-regression baselines
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playground-e2e-vr-baselines
+          path: apps/playground-e2e/src/parity.spec.ts-snapshots
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playground-e2e-playwright-report
+          path: dist/.playwright/apps/playground-e2e/playwright-report
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload Playwright test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playground-e2e-test-results
+          path: dist/.playwright/apps/playground-e2e/test-output
+          retention-days: 7
+          if-no-files-found: ignore
 
   template:
     needs: ci
