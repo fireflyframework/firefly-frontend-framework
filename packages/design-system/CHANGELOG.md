@@ -7,15 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-07-21
+
 ### Added
 - `ff-data-table` — composition-tier pattern (composes `ff-checkbox`, `ff-skeleton`, `ff-empty-state`, `ff-icon`, `ff-button`, `ff-select`): typed headers with cell/row/expansion templates, server-side sorting, single/multi selection with a "select all" checkbox, expandable rows, server-side pagination with an optional page-size control, a `caption` input and a `rowLabel` input naming each row's checkbox/expand toggle
 - `ff-list` — composition-tier pattern sharing `ff-data-table`'s selection/pagination/expansion/empty-state model without columns; renders a real `role="listbox"` with a full keyboard contract (arrows, Home/End, Space, Enter) and `role="option"` entries when selection is enabled
 - `FF_NO_RESULTS_CONFIG` / `provideFfNoResultsConfig()`: shared empty-state text configuration for `ff-data-table` and `ff-list`
 - `compareWith` input on `ff-data-table` and `ff-list`: lets selection/expansion membership survive a re-fetch that returns equivalent but non-identical objects, instead of the default reference equality
 - `ariaLabel` input on `ff-checkbox`, applied as `aria-label` on the native input when `label` is empty
+- `ff-badge`: `color` axis (7 semantic colors, takes precedence over `variant`), `dot` status mode, `shape` (`pill`/`square`), size `xs`, and `maxWidth` with an automatic overflow `title` tooltip; new `FfBadgeColor`/`FfBadgeShape` types
+- `ff-button`: the style/color split — `variant` keeps the style axis (`solid`/`outline`/`ghost`) and the new `color` input takes the semantic palette; new `FfButtonColor` type
+- `ff-menu-button` pattern (`FfMenuButtonComponent`, `FfMenuButtonItem`): button-triggered dropdown menu over the CDK overlay
+- `ff-input`: `[ff-input-prefix]`/`[ff-input-suffix]` affix slots, `debounceTime`, `type="search"` with a `search` output, and `labelType` (`default`/`floating`/`hidden`); new `FfInputLabelType` type
+- `ff-toast-container` pattern (`FfToastContainerComponent`, `FfToastItem`): presentational toast stack driven by the consumer's alert service
+- `ff-dialog-container` pattern (`FfDialogContainerComponent` with a CDK focus trap, `FfDialogItem`/`FfDialogResolution`)
+- `ff-select`: rewritten over a portaled CDK overlay — `multiple` with `values`/`valuesChange`, `bindLabel`/`bindValue`, and option/label template directives; new `FfSelectOptionLike`/`FfSelectTemplateContext` types
 
 ### Changed
-- New peer dependency range: `@fireflyframework/design-system-contract ">=0.2.0 <1.0.0"` (required by the `DataTableContract`/`ListContract` additions)
+- **BREAKING:** `ff-button` host classes renamed from `ff-button--{variant}` to `ff-button--{style}` plus `ff-button--color-{color}`, and the `variant` default changed from `primary` to `solid` — see [BREAKING-CHANGES.md](BREAKING-CHANGES.md)
+- **BREAKING:** new required peer dependency `@angular/cdk ^21.2.0` (overlay/focus-trap for `ff-select`, `ff-dialog-container` and `ff-menu-button`) — see [BREAKING-CHANGES.md](BREAKING-CHANGES.md)
+- **BREAKING:** new required peer dependency `@fireflyframework/design-system-contract ">=0.2.0 <1.0.0"` (the `DataTableContract`/`ListContract` additions) — see [BREAKING-CHANGES.md](BREAKING-CHANGES.md)
+- Component tokens are now consumed with a literal fallback instead of declared with defaults (`var(--ff-btn-radius, var(--ff-radius-md))`), so any ancestor scope can override a component token by context; token names are unchanged
 
 ## [0.3.0] - 2026-07-18
 
