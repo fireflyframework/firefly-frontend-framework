@@ -28,6 +28,24 @@
   --ff-text-muted: #9ca3b5;
   --ff-text-disabled: #4d5468;
 
+  /* Neutral ramp, re-pinned for dark. The light block above pins the ramp at
+     `[data-brand]` scope, which outranks the design-system's own dark
+     inversion in the cascade — without this block, components that read raw
+     ramp stops (checkbox/radio labels, input value at neutral-900) would keep
+     light-theme ink on the dark surface. Each stop takes the value of the
+     role the Flydocs dark theme maps it to (its dark theme re-points roles —
+     text-primary → neutral-50, border-default → neutral-700 — rather than
+     inverting the ramp): */
+  --ff-color-neutral-50: #0a0b14;
+  --ff-color-neutral-100: #252938;
+  --ff-color-neutral-200: #363b4e;
+  --ff-color-neutral-300: #4d5468;
+  --ff-color-neutral-400: #6b7388;
+  --ff-color-neutral-500: #9ca3b5;
+  --ff-color-neutral-600: #cbd0dc;
+  --ff-color-neutral-700: #e1e4ec;
+  --ff-color-neutral-900: #f6f7fa;
+
   /* Primary lifts one stop for contrast on dark surfaces, same as the source. */
   --ff-color-primary-50: #0a0f33;
   --ff-color-primary-500: #6378ff;
