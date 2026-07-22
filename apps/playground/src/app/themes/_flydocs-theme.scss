@@ -56,6 +56,14 @@
   --ff-color-neutral-700: #363b4e;
   --ff-color-neutral-900: #161826;
 
+  /* `ff-badge`'s neutral chip is the one consumer of this ramp stop that
+     Flydocs itself does not point at cool neutral: its own neutral-chip
+     role (`--hub-sys-color-neutral-subtle`) resolves to the warm ramp
+     (`--hub-ref-color-warm-50`). Pinned through the component token so the
+     rest of the ramp (hover backgrounds, dialog/toast chrome) keeps
+     matching Flydocs on the cool value. */
+  --ff-badge-neutral-bg: #f6f3ec;
+
   /* ---- Primary (brand blue) ----
      -600 is consumed only for accent/indicator roles (never text
      contrast), so it follows Flydocs' own "hover pinned to base"

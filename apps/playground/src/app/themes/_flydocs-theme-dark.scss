@@ -57,4 +57,10 @@
   --ff-color-error-50: color-mix(in srgb, #dc2828 22%, #161826);
   --ff-color-warning-50: color-mix(in srgb, #e59a07 22%, #161826);
   --ff-color-info-50: color-mix(in srgb, #3b59f5 22%, #161826);
+
+  /* The badge neutral-chip token pinned in the light block above is
+     intentionally NOT repinned here: the source product's own dark theme
+     does not repin its neutral-chip role either, so `--ff-badge-neutral-bg`
+     stays unset and the badge falls through to its `--ff-color-neutral-100`
+     fallback, already repinned for dark above. */
 }
