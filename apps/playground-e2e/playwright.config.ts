@@ -6,8 +6,10 @@ import { workspaceRoot } from '@nx/devkit';
  * Dedicated port: 4200 is the default `nx serve playground` port, so a
  * developer's already-running dev server (of this app or any other) would be
  * silently reused and the suite would screenshot the wrong application.
+ * 4310 (not 4300) additionally keeps clear of other dev servers commonly
+ * left running on 4300 during local work.
  */
-const baseURL = process.env['BASE_URL'] || 'http://localhost:4300';
+const baseURL = process.env['BASE_URL'] || 'http://localhost:4310';
 
 /**
  * Read environment variables from file.
@@ -28,8 +30,8 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'pnpm exec nx run playground:serve --port 4300',
-    url: 'http://localhost:4300',
+    command: 'pnpm exec nx run playground:serve --port 4310',
+    url: 'http://localhost:4310',
     reuseExistingServer: true,
     cwd: workspaceRoot,
   },
