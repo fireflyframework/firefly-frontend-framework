@@ -104,14 +104,17 @@ Matched position-for-position:
 All **direct** (Flydocs' neutral ramp has extra stops at 0/25/950/1000 that
 the design-system doesn't consume; every consumed step lines up 1:1).
 
-Caveat: `--ff-color-neutral-100` is also the only stop the design-system
-reuses for `ff-badge`'s "neutral" chip background. Flydocs' own neutral chip
-role (`--hub-sys-color-neutral-subtle`) actually points to the *warm* ramp
-(`--hub-ref-color-warm-50`, `#f6f3ec`), not the cool neutral-100 used
-everywhere else this stop appears (hover backgrounds, dialog/toast chrome).
-Since the cool-neutral role dominates by consumer count, the ramp-position
-value was kept; the ported neutral badge will read slightly cooler than
-Flydocs' own chip.
+Caveat: `--ff-color-neutral-100` is the stop every *other* consumer of the
+neutral badge's former background reuses (hover backgrounds, dialog/toast
+chrome), and it stays the ramp-position value there. `ff-badge`'s "neutral"
+chip background is the one exception: it now resolves through its own
+component token, `--ff-badge-neutral-bg` (falling back to
+`--ff-color-neutral-100` when unset), which this theme pins to `#f6f3ec` —
+the warm ramp value Flydocs' own neutral chip role
+(`--hub-sys-color-neutral-subtle`) points to (`--hub-ref-color-warm-50`).
+Dark mode intentionally leaves `--ff-badge-neutral-bg` unset (the source
+product's dark theme does not repin its neutral-chip role either), so the
+dark badge falls back to `--ff-color-neutral-100`'s own dark repin.
 
 ### Primary (brand blue)
 

@@ -33,7 +33,7 @@ zoom**.
 | Wave | Component | States captured | Verdict |
 |---|---|---|---|
 | 1 | `ff-icon` | 5 registry icons × sm/md/lg, light+dark | ✅ Pass |
-| 2 | `ff-badge` | color × xs/sm, dot, pill/square | ⚠️ Pass with one flagged delta (neutral chip) |
+| 2 | `ff-badge` | color × xs/sm, dot, pill/square | ✅ Pass (neutral chip delta resolved, see FIR-317) |
 | 2 | `ff-avatar` | initials × sm/md/lg | ✅ Pass |
 | 2 | `ff-skeleton` | text/rect/circle | ✅ Pass |
 | 2 | `ff-progress` | 25/60/90, labelled | ✅ Pass |
@@ -52,18 +52,10 @@ zoom**.
 
 Per the gate's contract, components that fail the comparison are **not**
 fixed inside FF-CAT-20 — each perceptible delta generates its own issue.
-Two deltas are flagged; both are borderline-perceptible and pre-documented
-in the equivalence doc:
+One delta is flagged, borderline-perceptible and pre-documented in the
+equivalence doc:
 
-1. **Neutral badge chip runs cool, Flydocs' runs warm.** The design system
-   reuses `--ff-color-neutral-100` (cool grey, `#eef0f5`) for the neutral
-   chip background, while Flydocs' own neutral chip role points at the warm
-   ramp (`--hub-ref-color-warm-50`, `#f6f3ec`). Every *other* consumer of
-   that stop (hover backgrounds, dialog/toast chrome) matches Flydocs with
-   the cool value, so the ramp-position value was kept. Perceptible only
-   with both chips side by side; needs a product-owner call on whether the
-   neutral badge deserves its own component token.
-2. **Input focus ring: solid outline vs translucent halo.** Flydocs models
+1. **Input focus ring: solid outline vs translucent halo.** Flydocs models
    focus as a translucent box-shadow ring (brand blue at 25% alpha);
    `ff-input` consumes `--ff-color-border-focus` as a solid 2px outline on
    the field wrapper (`:focus-within`, after the FIR-289 refactor moved it
@@ -72,6 +64,18 @@ in the equivalence doc:
    (hard edge vs soft glow). Changing it means teaching the component a
    ring-style focus treatment — a component change, out of this gate's
    scope.
+
+## Resolved deltas
+
+- **Neutral badge chip runs cool, Flydocs' runs warm — resolved (FIR-317).**
+  `ff-badge`'s neutral chip background now resolves through its own
+  component token, `--ff-badge-neutral-bg` (falling back to
+  `--ff-color-neutral-100` when unset), and the Flydocs theme pins it to
+  the warm ramp value its own neutral-chip role uses
+  (`--hub-ref-color-warm-50`, `#f6f3ec`). Every other consumer of
+  `--ff-color-neutral-100` (hover backgrounds, dialog/toast chrome) is
+  unaffected. See `docs/flydocs-theme-token-equivalence.md` for the full
+  reasoning.
 
 ## Known gaps (not diffs)
 

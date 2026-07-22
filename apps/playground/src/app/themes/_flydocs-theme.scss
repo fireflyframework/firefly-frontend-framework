@@ -56,6 +56,11 @@
   --ff-color-neutral-700: #363b4e;
   --ff-color-neutral-900: #161826;
 
+  /* Neutral badge-chip background: Flydocs' warm neutral-chip role
+     (`--hub-sys-color-neutral-subtle` → `--hub-ref-color-warm-50`),
+     consumed by ff-badge as `var(--ff-badge-neutral-bg, …)`. */
+  --ff-badge-neutral-bg: #f6f3ec;
+
   /* ---- Primary (brand blue) ----
      -600 is consumed only for accent/indicator roles (never text
      contrast), so it follows Flydocs' own "hover pinned to base"

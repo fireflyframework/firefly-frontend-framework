@@ -57,4 +57,9 @@
   --ff-color-error-50: color-mix(in srgb, #dc2828 22%, #161826);
   --ff-color-warning-50: color-mix(in srgb, #e59a07 22%, #161826);
   --ff-color-info-50: color-mix(in srgb, #3b59f5 22%, #161826);
+
+  /* `initial` is the guaranteed-invalid value on `:root`, so the badge's
+     `var(--ff-badge-neutral-bg, var(--ff-color-neutral-100))` falls through
+     to the dark neutral repin instead of the light warm pin above. */
+  --ff-badge-neutral-bg: initial;
 }
