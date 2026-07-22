@@ -58,13 +58,8 @@
   --ff-color-warning-50: color-mix(in srgb, #e59a07 22%, #161826);
   --ff-color-info-50: color-mix(in srgb, #3b59f5 22%, #161826);
 
-  /* The light block above sets `--ff-badge-neutral-bg` on the brand-only
-     selector `:root[data-brand='flydocs']`, which is NOT scoped to light —
-     it stays in effect here too unless explicitly cancelled. The source
-     product's own dark theme doesn't repin its neutral-chip role, so this
-     resets the property to the guaranteed-invalid value on `:root` (no
-     parent to inherit from), which makes the badge's `var(--ff-badge-neutral-bg,
-     var(--ff-color-neutral-100))` fall through to the dark repin above
-     instead of leaking the light warm value into dark mode. */
+  /* `initial` is the guaranteed-invalid value on `:root`, so the badge's
+     `var(--ff-badge-neutral-bg, var(--ff-color-neutral-100))` falls through
+     to the dark neutral repin instead of the light warm pin above. */
   --ff-badge-neutral-bg: initial;
 }
