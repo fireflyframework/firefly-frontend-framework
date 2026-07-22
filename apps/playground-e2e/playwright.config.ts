@@ -3,11 +3,9 @@ import { nxE2EPreset } from '@nx/playwright/preset';
 import { workspaceRoot } from '@nx/devkit';
 
 /*
- * Dedicated port: 4200 is the default `nx serve playground` port, so a
- * developer's already-running dev server (of this app or any other) would be
- * silently reused and the suite would screenshot the wrong application.
- * 4310 (not 4300) additionally keeps clear of other dev servers commonly
- * left running on 4300 during local work.
+ * Dedicated e2e port, distinct from common local dev-server ports: an
+ * already-running dev server (of this app or any other) would be silently
+ * reused and the suite would screenshot the wrong application.
  */
 const baseURL = process.env['BASE_URL'] || 'http://localhost:4310';
 

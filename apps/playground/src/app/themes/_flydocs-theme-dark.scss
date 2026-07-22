@@ -20,7 +20,8 @@
   --ff-color-surface: #161826;
   --ff-color-border: #363b4e;
   --ff-color-border-focus: #6378ff;
-  /* Dark counterpart of the light halo above, over the lifted dark ring hue. */
+  /* Focus ring, consumed by ff-input as the wrapper's focus box-shadow
+     (translucent brand-blue halo, not a hard-edged outline). */
   --ff-input-focus-ring: rgba(99, 120, 255, 0.3);
 
   --ff-color-on-surface: #f6f7fa;
