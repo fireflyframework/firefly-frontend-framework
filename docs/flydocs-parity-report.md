@@ -44,7 +44,7 @@ zoom**.
 | 4 | `ff-panel` | alert warning/danger, default with heading/footer | ✅ Pass |
 | 4 | `ff-card` | basic, md shadow | ✅ Pass |
 | 4 | `ff-tab-bar` | underline/pills, active not-first, badge+icon tabs | ✅ Pass |
-| 5 | `ff-input` | rest / hover / **focus** / error / disabled | ⚠️ Pass with one flagged delta (focus-ring rendering) |
+| 5 | `ff-input` | rest / hover / **focus** / error / disabled | ✅ Pass (focus-ring delta resolved, see FIR-318) |
 | 5 | `ff-checkbox` | unchecked / checked / disabled-checked | ✅ Pass |
 | 5 | `ff-radio` | group with selected option | ✅ Pass |
 
@@ -52,20 +52,22 @@ zoom**.
 
 Per the gate's contract, components that fail the comparison are **not**
 fixed inside FF-CAT-20 — each perceptible delta generates its own issue.
-One delta is flagged, borderline-perceptible and pre-documented in the
-equivalence doc:
-
-1. **Input focus ring: solid outline vs translucent halo.** Flydocs models
-   focus as a translucent box-shadow ring (brand blue at 25% alpha);
-   `ff-input` consumes `--ff-color-border-focus` as a solid 2px outline on
-   the field wrapper (`:focus-within`, after the FIR-289 refactor moved it
-   off the native control). The hue matches; the rendering mechanism does
-   not. At 100% zoom the difference is visible on direct comparison
-   (hard edge vs soft glow). Changing it means teaching the component a
-   ring-style focus treatment — a component change, out of this gate's
-   scope.
+No delta is currently flagged.
 
 ## Resolved deltas
+
+- **Input focus ring: solid outline vs translucent halo — resolved (FIR-318).**
+  `ff-input`'s field wrapper already rendered its focus indicator through a
+  dedicated component token, `--ff-input-focus-ring` (falling back to
+  `--ff-color-border-focus` when unset). The Flydocs theme now pins that
+  token to the product's own translucent halo value
+  (`--hub-sys-focus-ring-color`, `rgba(59, 89, 245, 0.25)` in light,
+  `rgba(99, 120, 255, 0.3)` in dark), instead of leaving it to fall back to
+  the solid focus border color. The wrapper's `border-color` (driven by
+  `--ff-color-border-focus`) still changes on focus alongside the ring, so
+  the focus indicator carries two independent visual cues (border color
+  step-up + halo), keeping it perceptible at the reduced ring alpha. See
+  `docs/flydocs-theme-token-equivalence.md` for the full reasoning.
 
 - **Neutral badge chip runs cool, Flydocs' runs warm — resolved (FIR-317).**
   `ff-badge`'s neutral chip background now resolves through its own

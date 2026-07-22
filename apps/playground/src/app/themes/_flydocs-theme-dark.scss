@@ -19,8 +19,9 @@
 
   --ff-color-surface: #161826;
   --ff-color-border: #363b4e;
-  /* Same alpha-drop reasoning as the light theme, over the dark ring hue. */
   --ff-color-border-focus: #6378ff;
+  /* Dark counterpart of the light halo above, over the lifted dark ring hue. */
+  --ff-input-focus-ring: rgba(99, 120, 255, 0.3);
 
   --ff-color-on-surface: #f6f7fa;
   --ff-text-primary: #f6f7fa;
