@@ -1,0 +1,37 @@
+@for (section of sections(); track section.id; let i = $index) {
+  <ff-panel class="ff-accordion__item">
+    <button
+      ff-panel-heading
+      type="button"
+      class="ff-accordion__toggle"
+      [id]="headerId(section.id)"
+      [attr.aria-expanded]="isExpanded(section.id)"
+      [attr.aria-controls]="regionId(section.id)"
+      [disabled]="section.disabled || null"
+      (click)="toggle(section)"
+      (keydown)="onKeydown($event)"
+    >
+      <span class="ff-accordion__heading">{{ section.heading }}</span>
+      <ff-icon
+        name="chevron-down"
+        size="sm"
+        class="ff-accordion__chevron"
+        [class.ff-accordion__chevron--expanded]="isExpanded(section.id)"
+      />
+    </button>
+    <div class="ff-accordion__panel" [class.ff-accordion__panel--collapsed]="!isExpanded(section.id)">
+      <div
+        class="ff-accordion__region"
+        role="region"
+        [id]="regionId(section.id)"
+        [attr.aria-labelledby]="headerId(section.id)"
+        [attr.inert]="isExpanded(section.id) ? null : ''"
+      >
+        <ng-container
+          [ngTemplateOutlet]="sectionTemplateMap().get(section.id) ?? null"
+          [ngTemplateOutletContext]="{ $implicit: section, index: i }"
+        />
+      </div>
+    </div>
+  </ff-panel>
+}
