@@ -268,6 +268,14 @@ describe('FfAvatarComponent', () => {
       const hostEl = fixture.nativeElement as HTMLElement;
       expect(hostEl.style.getPropertyValue('--ff-avatar-radius').trim()).toBe('12px');
     });
+
+    it('should keep the round shape when cornerRadius is set but round stays true', () => {
+      fixture.componentRef.setInput('cornerRadius', '12px');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-avatar--square')).toBe(false);
+    });
   });
 
   describe('tone', () => {

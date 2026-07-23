@@ -15,9 +15,7 @@ export type FfAvatarSize = 'sm' | 'md' | 'lg' | number;
 
 /**
  * Decorative background tone of the avatar, independent of image/initials
- * content. Mirrors the semantic palette axis of `ff-badge`'s `color` input
- * (brand + status palettes) so the two primitives read the same "tone
- * vocabulary" across a page.
+ * content. The seven values are the semantic palette of `FfBadgeColor`.
  */
 export type FfAvatarTone =
   | 'primary'
