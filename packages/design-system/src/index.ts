@@ -54,7 +54,7 @@ export type { FfChipVariant, FfChipSize } from './lib/primitives/ff-chip';
 export { FfLinkComponent } from './lib/primitives/ff-link';
 export type { FfLinkVariant, FfLinkTarget } from './lib/primitives/ff-link';
 export { FfAvatarComponent } from './lib/primitives/ff-avatar';
-export type { FfAvatarSize } from './lib/primitives/ff-avatar';
+export type { FfAvatarSize, FfAvatarTone } from './lib/primitives/ff-avatar';
 export { FfTooltipComponent } from './lib/primitives/ff-tooltip';
 export type { FfTooltipPosition } from './lib/primitives/ff-tooltip';
 export { FfIconComponent, FF_ICONS, provideFfIcons } from './lib/primitives/ff-icon';

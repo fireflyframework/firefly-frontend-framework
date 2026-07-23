@@ -138,4 +138,150 @@ describe('FfAvatarComponent', () => {
     expect(initials).toBeTruthy();
     expect(initials.textContent.trim()).toBe('JD');
   });
+
+  describe('name → initials derivation', () => {
+    function initialsText(): string {
+      const el = fixture.nativeElement.querySelector('.ff-avatar__initials');
+      return el.textContent.trim();
+    }
+
+    it('should derive a single initial from a one-word name', () => {
+      fixture.componentRef.setInput('name', 'Madonna');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('M');
+    });
+
+    it('should derive first + last initials from a two-word name', () => {
+      fixture.componentRef.setInput('name', 'Jane Doe');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('JD');
+    });
+
+    it('should derive first + last initials from a compound (3+ word) name, ignoring middle words', () => {
+      fixture.componentRef.setInput('name', 'Maria Garcia Luque');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('ML');
+    });
+
+    it('should collapse extra/irregular whitespace between words', () => {
+      fixture.componentRef.setInput('name', '  Jane    Doe  ');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('JD');
+    });
+
+    it('should uppercase derived initials', () => {
+      fixture.componentRef.setInput('name', 'jane doe');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('JD');
+    });
+
+    it('should derive initials from unicode names', () => {
+      fixture.componentRef.setInput('name', 'Émile Zola');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('ÉZ');
+    });
+
+    it('should render empty initials for an empty name', () => {
+      fixture.componentRef.setInput('name', '');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('');
+    });
+
+    it('should render empty initials for a whitespace-only name', () => {
+      fixture.componentRef.setInput('name', '   ');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('');
+    });
+
+    it('should let the explicit initials input override the name derivation', () => {
+      fixture.componentRef.setInput('name', 'Jane Doe');
+      fixture.componentRef.setInput('initials', 'XX');
+      fixture.detectChanges();
+
+      expect(initialsText()).toBe('XX');
+    });
+  });
+
+  describe('numeric size', () => {
+    it('should apply the "custom" size class for a numeric size', () => {
+      fixture.componentRef.setInput('size', 72);
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-avatar--custom')).toBe(true);
+    });
+
+    it('should set inline width/height for a numeric size', () => {
+      fixture.componentRef.setInput('size', 72);
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.style.width).toBe('72px');
+      expect(hostEl.style.height).toBe('72px');
+    });
+
+    it('should not set inline width/height for a predefined size', () => {
+      fixture.componentRef.setInput('size', 'lg');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.style.width).toBe('');
+      expect(hostEl.style.height).toBe('');
+    });
+
+    it('should set a proportional initials font size for a numeric size', () => {
+      fixture.componentRef.setInput('size', 100);
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.style.getPropertyValue('--ff-avatar-initials-size').trim()).toBe('40px');
+    });
+  });
+
+  describe('round / cornerRadius', () => {
+    it('should default to round (no square modifier class)', () => {
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-avatar--square')).toBe(false);
+    });
+
+    it('should apply the square modifier class when round is false', () => {
+      fixture.componentRef.setInput('round', false);
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-avatar--square')).toBe(true);
+    });
+
+    it('should set the corner radius custom property when provided', () => {
+      fixture.componentRef.setInput('round', false);
+      fixture.componentRef.setInput('cornerRadius', '12px');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.style.getPropertyValue('--ff-avatar-radius').trim()).toBe('12px');
+    });
+  });
+
+  describe('tone', () => {
+    it('should not apply a tone class by default', () => {
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.className).not.toContain('ff-avatar--tone-');
+    });
+
+    it('should apply the matching tone class when set', () => {
+      fixture.componentRef.setInput('tone', 'success');
+      fixture.detectChanges();
+
+      const hostEl = fixture.nativeElement as HTMLElement;
+      expect(hostEl.classList.contains('ff-avatar--tone-success')).toBe(true);
+    });
+  });
 });

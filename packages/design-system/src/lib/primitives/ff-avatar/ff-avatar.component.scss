@@ -53,4 +53,55 @@
   &--lg .ff-avatar__initials {
     font-size: var(--ff-font-size-md);
   }
+
+  // A numeric `size` sets width/height inline on the host; the class only
+  // owns the initials font size, scaled proportionally from the component.
+  &--custom .ff-avatar__initials {
+    font-size: var(--ff-avatar-initials-size, var(--ff-font-size-sm));
+  }
+
+  // --- Shape ---
+
+  // `round="false"`: the corner radius comes from `cornerRadius` (component
+  // token with a fallback, same override pattern as the background/color).
+  &--square {
+    border-radius: var(--ff-avatar-radius, var(--ff-radius-md));
+  }
+
+  // --- Tones (decorative background palette, independent of content) ---
+
+  &--tone-primary {
+    background-color: var(--ff-avatar-tone-primary-bg, var(--ff-color-primary-100));
+    color: var(--ff-avatar-tone-primary-color, var(--ff-color-primary-700));
+  }
+
+  &--tone-secondary {
+    background-color: var(--ff-avatar-tone-secondary-bg, var(--ff-color-secondary-100));
+    color: var(--ff-avatar-tone-secondary-color, var(--ff-color-secondary-700));
+  }
+
+  &--tone-success {
+    background-color: var(--ff-avatar-tone-success-bg, var(--ff-color-success-100));
+    color: var(--ff-avatar-tone-success-color, var(--ff-color-success-700));
+  }
+
+  &--tone-warning {
+    background-color: var(--ff-avatar-tone-warning-bg, var(--ff-color-warning-100));
+    color: var(--ff-avatar-tone-warning-color, var(--ff-color-warning-700));
+  }
+
+  &--tone-error {
+    background-color: var(--ff-avatar-tone-error-bg, var(--ff-color-error-100));
+    color: var(--ff-avatar-tone-error-color, var(--ff-color-error-700));
+  }
+
+  &--tone-info {
+    background-color: var(--ff-avatar-tone-info-bg, var(--ff-color-info-100));
+    color: var(--ff-avatar-tone-info-color, var(--ff-color-info-700));
+  }
+
+  &--tone-neutral {
+    background-color: var(--ff-avatar-tone-neutral-bg, var(--ff-color-neutral-100));
+    color: var(--ff-avatar-tone-neutral-color, var(--ff-color-neutral-700));
+  }
 }
