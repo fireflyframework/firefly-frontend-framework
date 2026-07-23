@@ -42,12 +42,16 @@ export { ToastContract } from './lib/primitives/toast.contract';
 export { TooltipContract } from './lib/primitives/tooltip.contract';
 
 // ---- Pattern contracts ----
+export { AccordionContract } from './lib/patterns/accordion.contract';
 export { DialogContainerContract } from './lib/patterns/dialog-container.contract';
 export { MenuButtonContract } from './lib/patterns/menu-button.contract';
 export { TabBarContract } from './lib/patterns/tab-bar.contract';
 export { ToastContainerContract } from './lib/patterns/toast-container.contract';
 export { DataTableContract } from './lib/patterns/data-table.contract';
 export { ListContract } from './lib/patterns/list.contract';
+
+// ---- Pattern-shared public types (accordion) ----
+export type { FfAccordionMode, FfAccordionSection } from './lib/patterns/accordion.contract';
 
 // ---- Pattern-shared public types (data-table / list) ----
 export type {
@@ -99,6 +103,7 @@ import { SelectContract } from './lib/primitives/select.contract';
 import { SkeletonContract } from './lib/primitives/skeleton.contract';
 import { ToastContract } from './lib/primitives/toast.contract';
 import { TooltipContract } from './lib/primitives/tooltip.contract';
+import { AccordionContract } from './lib/patterns/accordion.contract';
 import { DialogContainerContract } from './lib/patterns/dialog-container.contract';
 import { MenuButtonContract } from './lib/patterns/menu-button.contract';
 import { TabBarContract } from './lib/patterns/tab-bar.contract';
@@ -107,7 +112,7 @@ import { DataTableContract } from './lib/patterns/data-table.contract';
 import { ListContract } from './lib/patterns/list.contract';
 
 /**
- * Every design-system component contract (23 primitives + 6 patterns),
+ * Every design-system component contract (23 primitives + 7 patterns),
  * aggregated for whole-system checks such as {@link verifyDsContracts}.
  */
 export const ALL_CONTRACTS: readonly DsComponentContract[] = [
@@ -136,6 +141,7 @@ export const ALL_CONTRACTS: readonly DsComponentContract[] = [
   ToastContract,
   TooltipContract,
   // patterns
+  AccordionContract,
   DialogContainerContract,
   MenuButtonContract,
   TabBarContract,

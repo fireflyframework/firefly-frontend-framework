@@ -14,10 +14,10 @@ describe('verifyDsContracts', () => {
     expect(verifyDsContracts(ALL_CONTRACTS)).toEqual([]);
   });
 
-  it('covers the full inventory (23 primitives + 6 patterns)', () => {
-    expect(ALL_CONTRACTS).toHaveLength(29);
+  it('covers the full inventory (23 primitives + 7 patterns)', () => {
+    expect(ALL_CONTRACTS).toHaveLength(30);
     expect(ALL_CONTRACTS.filter((c) => c.category === 'primitive')).toHaveLength(23);
-    expect(ALL_CONTRACTS.filter((c) => c.category === 'pattern')).toHaveLength(6);
+    expect(ALL_CONTRACTS.filter((c) => c.category === 'pattern')).toHaveLength(7);
   });
 
   it('flags a primitive that declares composes', () => {
