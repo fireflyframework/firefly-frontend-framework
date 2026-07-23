@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `ff-accordion` pattern (composes `ff-panel` and `ff-icon` only): stacked disclosure sections in `single` (default) or `multiple` expansion mode, fully controlled through `expandedIds`/`expandedIdsChange`; each section header is a native `<button>` with `aria-expanded`/`aria-controls`, its body a `role="region"` with `aria-labelledby` that goes `inert` while collapsed; the collapse height animates via a CSS grid track transition that is skipped under `prefers-reduced-motion: reduce`; new `FfAccordionSectionTemplateDirective` (`[ffAccordionSection]`), `FfAccordionMode`, `FfAccordionSection` and `FfAccordionSectionTemplateContext` types
 - `ff-avatar`: `size` now also accepts a literal pixel number (proportional initials font size); `name` derives initials automatically (first + last word, uppercased) when the explicit `initials` input is unset; `round`/`cornerRadius` for a square shape with a custom corner radius; `tone` decorative background palette mirroring `ff-badge`'s `color` axis; new `FfAvatarTone` type
 
 ## [0.4.0] - 2026-07-21

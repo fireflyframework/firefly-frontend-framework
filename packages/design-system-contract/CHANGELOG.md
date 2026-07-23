@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `AccordionContract`: contract for the `ff-accordion` pattern (composes `ff-panel` and `ff-icon` only) — the aggregate now covers 23 primitives + 7 patterns; new `FfAccordionMode` and `FfAccordionSection` public types
+
 ### Changed
 - `AvatarContract`: `size` type widened to accept a literal pixel number; new `name`, `round`, `cornerRadius` and `tone` inputs; the `aria` clause documents that the resolved initials (explicit `initials`, else derived from `name`) drive the aria-label fallback
 
