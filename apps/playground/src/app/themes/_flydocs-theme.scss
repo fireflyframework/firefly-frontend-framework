@@ -27,10 +27,11 @@
   /* ---- Surfaces / structure ---- */
   --ff-color-surface: #ffffff;
   --ff-color-border: #e1e4ec;
-  /* Focus ring hue only: Flydocs models focus as a translucent ring
-     (rgba brand-blue at 25%); ff consumes it as a solid 2px outline,
-     so the hue is kept and the alpha dropped. */
+  /* Focus border hue, consumed by ff-input as a solid 2px border-color. */
   --ff-color-border-focus: #3b59f5;
+  /* Focus ring, consumed by ff-input as the wrapper's focus box-shadow
+     (translucent brand-blue halo, not a hard-edged outline). */
+  --ff-input-focus-ring: rgba(59, 89, 245, 0.25);
 
   /* ---- Text-on-surface roles ----
      `on-surface` has no named Flydocs counterpart; it plays the same
