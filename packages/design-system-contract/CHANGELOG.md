@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- `AvatarContract`: `size` type widened to accept a literal pixel number; new `name`, `round`, `cornerRadius` and `tone` inputs; the `aria` clause documents that the resolved initials (explicit `initials`, else derived from `name`) drive the aria-label fallback
+
 ## [0.2.0] - 2026-07-21
 
 ### Added
