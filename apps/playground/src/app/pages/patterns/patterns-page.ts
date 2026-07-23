@@ -27,7 +27,7 @@ const PATTERN_BACKLOG = [
       <h2 class="page__title">Patterns</h2>
       <p class="page__lead">
         Patterns are compositions of primitives (and only primitives) solving a recurring
-        UI problem. Three patterns are available today; the rest are on the backlog.
+        UI problem. Four patterns are available today; the rest are on the backlog.
       </p>
 
       <div class="catalog-grid">
