@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FfAvatarComponent,
   FfAvatarSize,
+  FfAvatarTone,
 } from '@fireflyframework/design-system';
 
 import { DemoSection } from '../../shared/demo-section';
@@ -30,6 +31,48 @@ import { DemoSection } from '../../shared/demo-section';
       </app-demo-section>
 
       <app-demo-section
+        heading="Numeric size"
+        description="size also accepts a literal pixel number for an arbitrary size; the initials font size scales proportionally."
+        [code]="snippets.numericSize"
+      >
+        @for (px of numericSizes; track px) {
+          <ff-avatar [size]="px" name="Jane Doe" [alt]="px + 'px avatar'" />
+        }
+      </app-demo-section>
+
+      <app-demo-section
+        heading="Initials from name"
+        description="Without an explicit initials input, initials are derived automatically from name (first + last word, uppercased)."
+        [code]="snippets.name"
+      >
+        <ff-avatar name="Madonna" alt="Madonna" />
+        <ff-avatar name="Jane Doe" alt="Jane Doe" />
+        <ff-avatar name="Maria Garcia Luque" alt="Maria Garcia Luque" />
+        <ff-avatar name="Jane Doe" initials="XX" alt="Explicit initials override" />
+        <span class="demo-label">← the last one keeps "XX": the explicit initials input wins over name</span>
+      </app-demo-section>
+
+      <app-demo-section
+        heading="Round / cornerRadius"
+        description="round defaults to true (fully rounded). Set it to false for a square avatar shaped by cornerRadius (falls back to --ff-radius-md)."
+        [code]="snippets.shape"
+      >
+        <ff-avatar name="Jane Doe" [size]="56" />
+        <ff-avatar name="Jane Doe" [size]="56" [round]="false" />
+        <ff-avatar name="Jane Doe" [size]="56" [round]="false" cornerRadius="20%" />
+      </app-demo-section>
+
+      <app-demo-section
+        heading="Tones"
+        description="All values of FfAvatarTone: decorative background palette, independent of the image/initials content."
+        [code]="snippets.tones"
+      >
+        @for (t of tones; track t) {
+          <ff-avatar [tone]="t" [initials]="t.slice(0, 2)" [alt]="'Tone ' + t" />
+        }
+      </app-demo-section>
+
+      <app-demo-section
         heading="Image error fallback"
         description="A broken src falls back to the initials automatically."
         [code]="snippets.fallback"
@@ -43,9 +86,29 @@ import { DemoSection } from '../../shared/demo-section';
 export class AvatarPage {
   protected readonly sizes: readonly FfAvatarSize[] = ['sm', 'md', 'lg'];
 
+  protected readonly numericSizes: readonly number[] = [24, 48, 72, 96];
+
+  protected readonly tones: readonly FfAvatarTone[] = [
+    'primary',
+    'secondary',
+    'success',
+    'warning',
+    'error',
+    'info',
+    'neutral',
+  ];
+
   protected readonly snippets = {
     sizes: `<ff-avatar initials="JD" size="lg" />
 <ff-avatar src="https://example.com/photo.jpg" alt="Jane Doe" />`,
+    numericSize: `<ff-avatar name="Jane Doe" [size]="72" />`,
+    name: `<ff-avatar name="Jane Doe" />
+<ff-avatar name="Jane Doe" initials="XX" />`,
+    shape: `<ff-avatar name="Jane Doe" [size]="56" />
+<ff-avatar name="Jane Doe" [size]="56" [round]="false" />
+<ff-avatar name="Jane Doe" [size]="56" [round]="false" cornerRadius="20%" />`,
+    tones: `<ff-avatar tone="primary" initials="PR" />
+<ff-avatar tone="success" initials="SU" />`,
     fallback: `<ff-avatar src="broken.png" initials="JD" alt="Jane Doe" />`,
   };
 }
