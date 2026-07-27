@@ -7,7 +7,7 @@ import { Route } from '@angular/router';
  * - `/theming`     — theming cascade + live token inspector
  * - `/catalog`     — one page per primitive (23) + ff-menu-button (pattern, kept here
  *                    alongside its trigger primitive rather than under `/patterns`)
- * - `/patterns`    — composed patterns (ff-tab-bar, ff-data-table, ff-list) + backlog
+ * - `/patterns`    — composed patterns (ff-tab-bar, ff-accordion, ff-data-table, ff-list) + backlog
  */
 export const appRoutes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'catalog' },
@@ -160,6 +160,11 @@ export const appRoutes: Route[] = [
     path: 'patterns/tab-bar',
     title: 'Tab Bar · Firefly DS',
     loadComponent: () => import('./pages/patterns/tab-bar-page').then((m) => m.TabBarPage),
+  },
+  {
+    path: 'patterns/accordion',
+    title: 'Accordion · Firefly DS',
+    loadComponent: () => import('./pages/patterns/accordion-page').then((m) => m.AccordionPage),
   },
   {
     path: 'patterns/data-table',

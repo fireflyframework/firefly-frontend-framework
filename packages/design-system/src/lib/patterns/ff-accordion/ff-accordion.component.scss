@@ -1,0 +1,76 @@
+.ff-accordion {
+  // Component tokens are consumed with a fallback, never declared here: a
+  // declaration on this same selector would always beat a value inherited
+  // from an ancestor, so a container could never retint/resize an accordion.
+  display: flex;
+  flex-direction: column;
+  gap: var(--ff-accordion-gap, var(--ff-spacing-sm));
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ff-spacing-sm);
+    width: 100%;
+    /* Minimum tap-target height for the disclosure control. */
+    min-height: var(--ff-accordion-toggle-min-height, 44px);
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: var(--ff-font-family);
+    text-align: start;
+
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--ff-text-disabled, var(--ff-color-neutral-400));
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ff-color-border-focus, var(--ff-color-primary-500));
+      outline-offset: 2px;
+    }
+  }
+
+  &__heading {
+    font-size: var(--ff-font-size-md);
+    font-weight: var(--ff-font-weight-semibold);
+    color: var(--ff-text-primary);
+  }
+
+  &__chevron {
+    flex: none;
+    transition: transform var(--ff-accordion-transition-duration, 150ms) ease;
+
+    &--expanded {
+      transform: rotate(180deg);
+    }
+  }
+
+  // Height animation: a CSS-only grid track transition (0fr collapsed, 1fr
+  // expanded) avoids measuring pixel heights in script. `overflow: hidden`
+  // on the grid item clips its content as the track shrinks.
+  &__panel {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows var(--ff-accordion-transition-duration, 150ms) ease;
+
+    &--collapsed {
+      grid-template-rows: 0fr;
+    }
+  }
+
+  &__region {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  // Respect user motion preferences: the sections still expand/collapse,
+  // just without the animated transition.
+  @media (prefers-reduced-motion: reduce) {
+    .ff-accordion__panel,
+    .ff-accordion__chevron {
+      transition: none;
+    }
+  }
+}
